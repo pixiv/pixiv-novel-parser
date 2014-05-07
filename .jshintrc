@@ -29,7 +29,8 @@
   "browser": true,
   "jquery": true,
   "devel": true,
-  "node": true
+  "node": true,
+  "esnext": true
 }
 /*
  * Coding rules
