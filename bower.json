@@ -1,0 +1,26 @@
+{
+  "name": "pixiv-novel-parser",
+  "version": "0.0.0",
+  "authors": [
+    "ne_Sachirou <utakata.c4se@gmail.com>"
+  ],
+  "description": "pixiv novel parser (reference impl).",
+  "main": "index.js",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "keywords": [
+    "pixiv"
+  ],
+  "license": "Public Domain",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ]
+}

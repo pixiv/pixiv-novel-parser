@@ -1,0 +1,19 @@
+{
+  "name": "pixiv-novel-parser",
+  "version": "0.0.0",
+  "description": "pixiv novel parser (reference impl).",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "keywords": [
+    "pixiv"
+  ],
+  "author": "ne_Sachirou <utakata.c4se@gmail.com>",
+  "license": "Public Domain",
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "gulp-jshint": "^1.5.5",
+    "jshint-stylish": "^0.2.0"
+  }
+}
