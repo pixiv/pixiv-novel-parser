@@ -1,5 +1,6 @@
 'use strict';
 // pegjs src\parser.pegjs src\parser.peg.js && node test\p.js
+// npm test && node test\p.js
 var Parser = require('../src');
 var p;
 

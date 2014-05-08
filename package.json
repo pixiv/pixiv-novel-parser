@@ -14,7 +14,8 @@
   "devDependencies": {
     "gulp": "^3.6.2",
     "gulp-jshint": "^1.5.5",
-    "jshint-stylish": "^0.2.0"
+    "jshint-stylish": "^0.2.0",
+    "pegjs": "^0.8.0"
   },
   "dependencies": {
     "traceur": "0.0.39"
