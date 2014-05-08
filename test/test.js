@@ -83,11 +83,25 @@ describe('Parser', function () {
 '4 [‌chapter:[‌[jumpuri:章タイトルの中に小説外リンク4 &gt; http://pixiv.me]‌]]',
 '4<p class="chapter">[[jumpuri:章タイトルの中に小説外リンク4 &gt; http://pixiv.me</p>]]',
 '5 [‌[jump‌uri:[chap‌ter:小説外リンクの中に章タイトル] &gt; http://pixiv.me]‌]',
-'5 [[jumpuri:<p class="chapter">小説外リンクの中に章タイトル</p>&gt; http://pixiv.me]]',
+'5<a href="http://pixiv.me">[chapter:小説外リンクの中に章タイトル]</a>',
 '6‌ [‌cha‌pter‌:[‌[jumpuri‌:[‌‌[j‌umpur‌i:[‌chapter‌:章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] &gt; http://pixiv.me]‌] > http://pixiv.me]‌‌]]',
 '6<p class="chapter">[[jumpuri:[‌[jumpuri:[‌‌c‌h‌a‌pter‌‌:章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル</p>&gt; http://pixiv.me]] > http://pixiv.me]]]',
 '7<p class="chapter">をはり</p>',
 ''
+      ]);
+    });
+  });
+
+  describe('jumpuriをちゃんとparseできる', function () {
+    it('正常なURLをちゃんとlinkにできる', function () {
+      var novel = [
+'[[jumpuri:[pixiv] > http://www.pixiv.net/]]'
+          ].join('\n'),
+          parser = new Parser();
+
+      parser.parse(novel);
+      assert.deepEqual(parser.toHTML(), [
+'<a href="http://www.pixiv.net/">[pixiv]</a>'
       ]);
     });
   });

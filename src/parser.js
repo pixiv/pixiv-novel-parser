@@ -41,16 +41,20 @@ function Parser() {
  * @return {Object.<string,Object>[]}
  */
 Parser.parse = function (novel) {
-  return parser.parse(novel).reduce(function (tree, token) {
-    var last = tree[tree.length - 1];
+  try {
+    return parser.parse(novel).reduce(function (tree, token) {
+      var last = tree[tree.length - 1];
 
-    if (token.type === 'text' && last && last.type === 'text') {
-      last.val += token.val;
-    } else {
-      tree.push(token);
-    }
-    return tree;
-  }, []);
+      if (token.type === 'text' && last && last.type === 'text') {
+        last.val += token.val;
+      } else {
+        tree.push(token);
+      }
+      return tree;
+    }, []);
+  } catch (err) {
+    return [novel];
+  }
 };
 
 /**

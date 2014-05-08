@@ -1,5 +1,6 @@
 {
   function string(chars) {
+    if (!chars) { return ''; }
     if (Object.prototype.toString.call(chars) === '[object String]') {
       return chars;
     }
@@ -7,7 +8,7 @@
       if (Object.prototype.toString.call(chr) === '[object Array]') {
         chr = string(chr);
       }
-      return str + chr.toString();
+      return str + (chr || '').toString();
     }, '');
   }
 
@@ -66,17 +67,17 @@ tagPixivimage =
 tagJump = '[jump:' pageNumber:pageNumber ']' { return tagJump(pageNumber); }
 
 tagJumpuri =
-  '[[jumpuri:' jumpuriTitle:jumpuriTitle '>' uri:URI ']]' { return tagJumpuri(jumpuriTitle, uri); }
+  '[[jumpuri:' jumpuriTitle:jumpuriTitle '>' WSP* uri:URI WSP* ']]' { return tagJumpuri(jumpuriTitle, uri); }
 
 tagNone = '[' { return { type: 'text', val: '[' } }
 
-chapterTitle = title:[^\]]* { return string(title); }
+chapterTitle = title:[^\]]* { return string(title).trim(); }
 
 illustId = numeric
 
 pageNumber = integer
 
-jumpuriTitle = title:[^>]* { return string(title); }
+jumpuriTitle = title:[^>]* { return string(title).trim(); }
 
 numeric = digits:DIGIT+ { return string(digits); }
 
