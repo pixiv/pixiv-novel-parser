@@ -8,7 +8,7 @@
   ],
   "dependencies": {},
   "development": {},
-  "license": "Public Domain",
+  "license": "CC0",
   "main": "src/index.js",
   "scripts": [
     "src/index.js"
