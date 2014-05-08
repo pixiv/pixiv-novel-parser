@@ -41,11 +41,12 @@ gulp.task('concat', ['pegjs'], function () {
 
 gulp.task('uglifyjs', ['concat'], function () {
   gulp.src(['build/pixiv-novel-parser.js']).
+    pipe(concat('pixiv-novel-parser.min.js')).
     pipe(uglifyjs({
       outSourceMap: true,
+      output: {},
       compress: { unsafe: true }
     })).
-    pipe(concat('pixiv-novel-parser.min.js')).
     pipe(gulp.dest('build'));
 });
 

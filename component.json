@@ -6,10 +6,10 @@
   "keywords": [
     "pixiv"
   ],
-  "dependencies": {
+  "dependencies": {},
+  "development": {
     "visionmedia/mocha": "*"
   },
-  "development": {},
   "license": "CC0",
   "main": "build/pixiv-novel-parser.js",
   "scripts": [

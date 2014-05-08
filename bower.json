@@ -24,7 +24,8 @@
     "test",
     "tests"
   ],
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "assert": "~0.0.2"
   }
 }
