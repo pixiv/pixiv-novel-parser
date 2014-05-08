@@ -1,7 +1,15 @@
+(function (global) {
 /* global describe, it */
 'use strict';
-var assert = require('assert');
-var Parser = require('../src');
+var _inNode = 'process' in global;
+var assert, Parser;
+if (_inNode) {
+  assert = require('assert');
+  Parser = require('../src');
+} else {
+  assert = global.assert;
+  Parser = global.PixivNovelParser.Parser;
+}
 
 describe('Parser', function () {
   describe('test tadsan\'s novel.', function () {
@@ -84,3 +92,5 @@ describe('Parser', function () {
     });
   });
 });
+
+}((this || 0).self || global));

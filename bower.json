@@ -5,7 +5,7 @@
     "ne_Sachirou <utakata.c4se@gmail.com>"
   ],
   "description": "pixiv novel parser (reference impl).",
-  "main": "build/pixiv_novel_parser.js",
+  "main": "build/pixiv-novel-parser.js",
   "moduleType": [
     "es6",
     "node"
@@ -23,5 +23,8 @@
     "public/bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "assert": "~0.0.2"
+  }
 }
