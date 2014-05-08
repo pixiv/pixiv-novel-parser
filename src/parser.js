@@ -1,5 +1,14 @@
+(function (global) {
+ /* global PixivNovelParser */
+ /* jshint maxstatements: 1000 */
 'use strict';
-var parser = require('./parser.peg.js');
+var _inNode = 'process' in global;
+var parser;
+if (_inNode) {
+  parser = require('./parser.peg.js');
+} else {
+  parser = PixivNovelParser.parser;
+}
 
 function h(str) {
   return str.toString().
@@ -90,4 +99,10 @@ Parser.prototype.toHTML = function () {
   return html;
 };
 
-module.exports = Parser;
+if (_inNode) {
+  module.exports = Parser;
+} else {
+  global.PixivNovelParser = global.PixivNovalPerser || {};
+  global.PixivNovelParser.Parser = Parser;
+}
+}((this || 0).self || global));

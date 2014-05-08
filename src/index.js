@@ -1,8 +1,11 @@
+(function (global) {
+/* jshint maxstatements: 1000 */
 'use strict';
-// var traceur = require('traceur');
-//
-// traceur.require.makeDefault(function(filename) {
-//   return filename.endsWith('.js');
-// });
+var _inNode = 'process' in global;
 
-module.exports = require('./parser');
+if (_inNode) {
+  module.exports = require('./parser');
+} else {
+  global.PixivNovelParser = global.PixivNovelParser || {};
+}
+}((this || 0).self || global));

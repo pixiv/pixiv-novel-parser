@@ -1,10 +1,12 @@
 'use strict';
 var fs = require('fs');
-var gulp = require('gulp'),
+var concat = require('gulp-concat'),
+    gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     jshintStylish = require('jshint-stylish'),
     mocha = require('gulp-mocha'),
-    PEG = require('pegjs');
+    PEG = require('pegjs'),
+    uglifyjs = require('gulp-uglifyjs');
 
 gulp.task('jshint', function () {
   gulp.src(['*.js', 'src/**/*.js', '!src/**/*.peg.js']).
@@ -12,23 +14,37 @@ gulp.task('jshint', function () {
     pipe(jshint.reporter(jshintStylish));
 });
 
-gulp.task('mocha', function () {
+gulp.task('mocha', ['pegjs'], function () {
   gulp.src(['test/**/*.js']).
     pipe(mocha({ reporter: 'nyan' }));
 });
 
 gulp.task('pegjs', function (done) {
   fs.readFile('src/parser.pegjs', { encoding: 'utf8' }, function (err, data) {
+    /* jshint maxlen: 1000 */
     var code = '';
 
     if (err) { return done(err); }
     code = PEG.buildParser(data , { output: 'source' });
-    code = 'module.exports = ' + code + ';\n';
+    code = '(function (global) { var _inNode = \'process\' in global, parser = ' + code + ';\nif (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.parser = parser; }\n}((this || 0).self || global));';
     fs.writeFile('src/parser.peg.js', code, function (err) {
       done(err);
     });
   });
 });
 
-gulp.task('build', ['pegjs']);
+gulp.task('concat', ['pegjs'], function () {
+  gulp.src(['src/parser.peg.js', 'src/parser.js', 'src/index.js']).
+    pipe(concat('pixiv-novel-parser.js')).
+    pipe(gulp.dest('build'));
+});
+
+gulp.task('uglifyjs', ['concat'], function () {
+  gulp.src(['build/pixiv-novel-parser.js']).
+    pipe(uglifyjs({ outSourseMap: true })).
+    pipe(concat('pixiv-novel-parser.min.js')).
+    pipe(gulp.dest('build'));
+});
+
+gulp.task('build', ['pegjs', 'concat', 'uglifyjs']);
 gulp.task('test', ['build', 'jshint', 'mocha']);
