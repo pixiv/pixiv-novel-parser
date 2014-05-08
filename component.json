@@ -1,0 +1,16 @@
+{
+  "name": "pixiv-novel-parser",
+  "repo": "pixiv/pixiv-novel-parser",
+  "description": "pixiv novel parser (reference impl).",
+  "version": "0.0.0",
+  "keywords": [
+    "pixiv"
+  ],
+  "dependencies": {},
+  "development": {},
+  "license": "Public Domain",
+  "main": "src/index.js",
+  "scripts": [
+    "src/index.js"
+  ]
+}
