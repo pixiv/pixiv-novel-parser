@@ -6,11 +6,15 @@
   "scripts": {
     "test": "gulp test"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pixiv/pixiv-novel-parser"
+  },
   "keywords": [
     "pixiv"
   ],
   "author": "ne_Sachirou <utakata.c4se@gmail.com>",
-  "license": "Public Domain",
+  "license": "CC0",
   "devDependencies": {
     "gulp": "^3.6.2",
     "gulp-jshint": "^1.5.5",

@@ -13,7 +13,8 @@
   "keywords": [
     "pixiv"
   ],
-  "license": "Public Domain",
+  "license": "CC0",
+  "homepage": "https://github.com/pixiv/pixiv-novel-parser",
   "private": true,
   "ignore": [
     "**/.*",
