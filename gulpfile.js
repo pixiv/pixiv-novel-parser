@@ -3,12 +3,18 @@ var fs = require('fs');
 var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     jshintStylish = require('jshint-stylish'),
+    mocha = require('gulp-mocha'),
     PEG = require('pegjs');
 
 gulp.task('jshint', function () {
   gulp.src(['*.js', 'src/**/*.js', '!src/**/*.peg.js']).
     pipe(jshint()).
     pipe(jshint.reporter(jshintStylish));
+});
+
+gulp.task('mocha', function () {
+  gulp.src(['test/**/*.js']).
+    pipe(mocha({ reporter: 'nyan' }));
 });
 
 gulp.task('pegjs', function (done) {
@@ -25,4 +31,4 @@ gulp.task('pegjs', function (done) {
 });
 
 gulp.task('build', ['pegjs']);
-gulp.task('test', ['build', 'jshint']);
+gulp.task('test', ['build', 'jshint', 'mocha']);
