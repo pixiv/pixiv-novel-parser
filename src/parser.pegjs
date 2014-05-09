@@ -20,11 +20,11 @@
     return { type: 'tag', name: 'chapter', title: title };
   }
 
-  function tagPixivimage(illustId, pageNumber) {
+  function tagPixivimage(illustID, pageNumber) {
     return {
       type: 'tag',
       name: 'pixivimage',
-      illustId: illustId,
+      illustID: illustID,
       pageNumber: pageNumber
     };
   }
@@ -60,22 +60,20 @@ tagNewpage = '[newpage]' CRLF? { return tagNewpage(); }
 tagChapter = '[chapter:' title:chapterTitle ']' { return tagChapter(title); }
 
 tagPixivimage =
-  '[pixivimage:' illustId:illustId ('-' pageNumber:pageNumber)? ']' {
-    return tagPixivimage(illustId, pageNumber);
+  '[pixivimage:' illustID:numeric pageNumber:('-' integer)? ']' {
+    return tagPixivimage(illustID, pageNumber && pageNumber[1]);
   }
 
-tagJump = '[jump:' pageNumber:pageNumber ']' { return tagJump(pageNumber); }
+tagJump = '[jump:' pageNumber:integer ']' { return tagJump(pageNumber); }
 
 tagJumpuri =
-  '[[jumpuri:' jumpuriTitle:jumpuriTitle '>' WSP* uri:URI WSP* ']]' { return tagJumpuri(jumpuriTitle, uri); }
+  '[[jumpuri:' jumpuriTitle:jumpuriTitle '>' WSP* uri:URI WSP* ']]' {
+    return tagJumpuri(jumpuriTitle, uri);
+  }
 
 tagNone = '[' { return { type: 'text', val: '[' } }
 
 chapterTitle = title:[^\]]* { return string(title).trim(); }
-
-illustId = numeric
-
-pageNumber = integer
 
 jumpuriTitle = title:[^>]* { return string(title).trim(); }
 

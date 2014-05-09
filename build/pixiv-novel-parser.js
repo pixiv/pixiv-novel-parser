@@ -50,8 +50,8 @@
         peg$c15 = { type: "literal", value: "[pixivimage:", description: "\"[pixivimage:\"" },
         peg$c16 = "-",
         peg$c17 = { type: "literal", value: "-", description: "\"-\"" },
-        peg$c18 = function(illustId) {
-            return tagPixivimage(illustId, pageNumber);
+        peg$c18 = function(illustID, pageNumber) {
+            return tagPixivimage(illustID, pageNumber && pageNumber[1]);
           },
         peg$c19 = "[jump:",
         peg$c20 = { type: "literal", value: "[jump:", description: "\"[jump:\"" },
@@ -62,7 +62,9 @@
         peg$c25 = { type: "literal", value: ">", description: "\">\"" },
         peg$c26 = "]]",
         peg$c27 = { type: "literal", value: "]]", description: "\"]]\"" },
-        peg$c28 = function(jumpuriTitle, uri) { return tagJumpuri(jumpuriTitle, uri); },
+        peg$c28 = function(jumpuriTitle, uri) {
+            return tagJumpuri(jumpuriTitle, uri);
+          },
         peg$c29 = "[",
         peg$c30 = { type: "literal", value: "[", description: "\"[\"" },
         peg$c31 = function() { return { type: 'text', val: '[' } },
@@ -546,7 +548,7 @@
             }
             if (s4 !== peg$FAILED) {
               peg$reportedPos = s0;
-              s1 = peg$c18(s2);
+              s1 = peg$c18(s2, s3);
               s0 = s1;
             } else {
               peg$currPos = s0;
@@ -3868,11 +3870,11 @@
         return { type: 'tag', name: 'chapter', title: title };
       }
 
-      function tagPixivimage(illustId, pageNumber) {
+      function tagPixivimage(illustID, pageNumber) {
         return {
           type: 'tag',
           name: 'pixivimage',
-          illustId: illustId,
+          illustID: illustID,
           pageNumber: pageNumber
         };
       }
@@ -3944,10 +3946,14 @@ function a(href, textContent) {
 
 /**
  * [newpage]
- * [chapter:[^\]]*]
+ * [chapter:.*]
  * [pixivimage:\d*(-\d*)?]
  * [jump:\d*]
- * [[jumpuri:\S*\s>\sURL]]
+ * [[jumpuri:.* > URL]]
+ *
+ * [ruby: rb > rt]
+ * [emoji:.*]
+ * [strong:.*]
  */
 function Parser() {
   this.tree = [];
@@ -3970,7 +3976,12 @@ Parser.parse = function (novel) {
       return tree;
     }, []);
   } catch (err) {
-    return [novel];
+    if (_inNode) {
+      process.stderr.write(err.stack + '\n');
+    } else {
+      console.error(err);
+    }
+    return [{ type: 'text', val: novel }];
   }
 };
 
@@ -4018,6 +4029,13 @@ Parser.prototype.toHTML = function () {
   }
   html.push(page);
   return html;
+};
+
+/**
+ * @return {string}
+ */
+Parser.prototype.toJSON = function () {
+  return JSON.stringify(this.tree);
 };
 
 if (_inNode) {

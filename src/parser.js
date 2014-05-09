@@ -27,10 +27,14 @@ function a(href, textContent) {
 
 /**
  * [newpage]
- * [chapter:[^\]]*]
+ * [chapter:.*]
  * [pixivimage:\d*(-\d*)?]
  * [jump:\d*]
- * [[jumpuri:\S*\s>\sURL]]
+ * [[jumpuri:.* > URL]]
+ *
+ * [ruby: rb > rt]
+ * [emoji:.*]
+ * [strong:.*]
  */
 function Parser() {
   this.tree = [];
@@ -53,7 +57,12 @@ Parser.parse = function (novel) {
       return tree;
     }, []);
   } catch (err) {
-    return [novel];
+    if (_inNode) {
+      process.stderr.write(err.stack + '\n');
+    } else {
+      console.error(err);
+    }
+    return [{ type: 'text', val: novel }];
   }
 };
 
@@ -101,6 +110,13 @@ Parser.prototype.toHTML = function () {
   }
   html.push(page);
   return html;
+};
+
+/**
+ * @return {string}
+ */
+Parser.prototype.toJSON = function () {
+  return JSON.stringify(this.tree);
 };
 
 if (_inNode) {
