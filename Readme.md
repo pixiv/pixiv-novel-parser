@@ -8,9 +8,70 @@
 
     $ component install pixiv/pixiv-novel-parser
 
+  With [npm](https://www.npmjs.org):
+
+    $ npm install pixiv-novel-parser --save
+
+  With [bower](http://bower.io):
+
+    $ bower install pixiv-novel-parser --save
+
 ## API
 
+### JavaScript API
 
+```
+// On node.js.
+var Parser = require('pixiv-novel-parser');
+
+// Or on Web browser.
+// <script src="pixiv-novel-parser.min.js"></script>
+var Parser = PixivNovelParser.Parser;
+```
+
+```javascript
+console.log(Parser.parse('[chapter:見出し]本文')); // -> Get AST.
+```
+
+```javascript
+var parser = new Parser();
+parser.parse('[chapter:見出し]本文');
+
+console.log(parser.tree);     // -> Get AST.
+console.log(parser.toHTML()); // -> Output as HTML, array of each pages.
+```
+
+### AST (Abstract Syntax Tree)
+
+  TODO: Write AST document.
+
+## Contribute
+
+### Install dependencies
+
+  We use npm and component. (We favor component more then bower.)
+
+```
+$ npm insatll
+$ component install
+$ bower install
+```
+
+### Build
+
+    $ gulp build
+
+### Testing
+
+  On node.js. [Gulp](http://gulpjs.com) is required.
+
+    $ npm test
+
+  On Web browser. Display `test/test.html`.
+
+### Coding rules
+
+  Coding rules are written in `.editorconfig` and `.jshintrc`.
 
 ## License
 
