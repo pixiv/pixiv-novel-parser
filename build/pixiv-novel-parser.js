@@ -3854,12 +3854,17 @@
         if (Object.prototype.toString.call(chars) === '[object String]') {
           return chars;
         }
-        return chars.reduce(function (str, chr) {
+        chars = chars.reduce(function (str, chr) {
           if (Object.prototype.toString.call(chr) === '[object Array]') {
             chr = string(chr);
           }
           return str + (chr || '').toString();
         }, '');
+        return chars.replace(/\r?\n/g, '\n').
+          replace(/[\s\u200c]/g, function (c) {
+            if (c === '\n' || c === '\u3000') { return c; }
+            return ' ';
+          });
       }
 
       function tagNewpage() {
@@ -3929,20 +3934,20 @@ if (_inNode) {
   parser = PixivNovelParser.parser;
 }
 
-function h(str) {
-  return str.toString().
-    replace('&', '&amp;').
-    replace('<', '&lt;').
-    replace('>', '&gt;').
-    replace('"', '&quot;').
-    replace('\'', '&apos;');
-}
-
-function hs(str) { return h(str).replace(/[\r\n]/g, ' '); }
-
-function a(href, textContent) {
-  return '<a href="' + hs(href) + '">' + h(textContent) + '</a>';
-}
+// function h(str) {
+//   return str.toString().
+//     replace('&', '&amp;').
+//     replace('<', '&lt;').
+//     replace('>', '&gt;').
+//     replace('"', '&quot;').
+//     replace('\'', '&apos;');
+// }
+//
+// function hs(str) { return h(str).replace(/[\r\n]/g, ' '); }
+//
+// function a(href, textContent) {
+//   return '<a href="' + hs(href) + '">' + h(textContent) + '</a>';
+// }
 
 /**
  * [newpage]
@@ -3993,39 +3998,39 @@ Parser.prototype.parse = function (novel) {
 /**
  * @return {string[]}
  */
-Parser.prototype.toHTML = function () {
-  var token, page = '',
-      i = 0,
-      iz = this.tree.length,
-      html = [];
-
-  function pixivimageHTML(token) {
-    return '<a href="' + hs(token.illustId + '/' + token.pageNumber) +  '"></a>';
-  }
-
-  for (; token = this.tree[i], i < iz; ++i) {
-    if (token.type === 'text') {
-      page += h(token.val).trim().replace(/\r?\n/g, '<br/>');
-      continue;
-    }
-    switch (token.name) {
-      case 'newpage':
-        html.push(page);
-        page = '';
-        break;
-      case 'chapter':
-        page += '<p class="chapter">' + h(token.title) + '</p>'; break;
-      case 'pixivimage':
-        page += pixivimageHTML(token); break;
-      case 'jump':
-        page += a('#' + token.pageNumber, token.pageNumber + 'ページへ'); break;
-      case 'jumpuri':
-        page += a(token.uri, token.title); break;
-    }
-  }
-  html.push(page);
-  return html;
-};
+// Parser.prototype.toHTML = function () {
+//   var token, page = '',
+//       i = 0,
+//       iz = this.tree.length,
+//       html = [];
+//
+//   function pixivimageHTML(token) {
+//     return '<a href="' + hs(token.illustId + '/' + token.pageNumber) +  '"></a>';
+//   }
+//
+//   for (; token = this.tree[i], i < iz; ++i) {
+//     if (token.type === 'text') {
+//       page += h(token.val).trim().replace(/\r?\n/g, '<br/>');
+//       continue;
+//     }
+//     switch (token.name) {
+//       case 'newpage':
+//         html.push(page);
+//         page = '';
+//         break;
+//       case 'chapter':
+//         page += '<p class="chapter">' + h(token.title) + '</p>'; break;
+//       case 'pixivimage':
+//         page += pixivimageHTML(token); break;
+//       case 'jump':
+//         page += a('#' + token.pageNumber, token.pageNumber + 'ページへ'); break;
+//       case 'jumpuri':
+//         page += a(token.uri, token.title); break;
+//     }
+//   }
+//   html.push(page);
+//   return html;
+// };
 
 /**
  * @return {string}

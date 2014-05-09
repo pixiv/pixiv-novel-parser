@@ -31,41 +31,50 @@ describe('Parser', function () {
           parser = new Parser();
 
       parser.parse(novel);
-      assert.deepEqual(parser.toHTML(), [
-'1ぺーじ<a href="#4">4ページへ</a>',
-'2ぺーじ<a href="#3">3ページへ</a>',
-'3ぺーじ<br/>[jump:^1]',
-'4ぺーじ<br/>[jump:^1]<a href="#2">2ページへ</a>'
+      assert.deepEqual(parser.tree, [
+        { type: 'text', val: '1ぺーじ\n' },
+        { type: 'tag', name: 'jump', pageNumber: 4 },
+        { type: 'text', val: '\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n2ぺーじ\n' },
+        { type: 'tag', name: 'jump', pageNumber: 3 },
+        { type: 'text', val: '\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n3ぺーじ\n[jump:^1]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n4ぺーじ\n[jump:^1]\n' },
+        { type: 'tag', name: 'jump', pageNumber: 2 }
       ]);
     });
 
     it('Correct in 見出しの冒険', function () {
+      /* jshint maxlen: 1000 */
       var novel = [
-'章タイトルの中に [‌newpage]',
-'1 [‌chapter:[n‌ewpage]]',
+'章タイトルの中に [\u200cnewpage]',
+'1 [\u200cchapter:[n\u200cewpage]]',
 '[newpage]',
 '1 [chapter:[newpage]]',
 '[newpage]',
-'2 [‌chapter‌:ふつうの章タイトル]',
+'2 [\u200cchapter\u200c:ふつうの章タイトル]',
 '[newpage]',
 '2 [chapter:ふつうの章タイトル]',
 '[newpage]',
 '章タイトルの中に小説内リンク',
-'3 [‌chapter:[‌jump:1]]',
+'3 [\u200cchapter:[\u200cjump:1]]',
 '[newpage]',
 '3 [chapter:[jump:1]]',
 '[newpage]',
-'4 [‌chapter:[‌[jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me]‌]]',
+'4 [\u200cchapter:[\u200c[jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me]\u200c]]',
 '[newpage]',
 '4 [chapter:[[jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me]]]',
 '[newpage]',
-'5 [‌[jump‌uri:[chap‌ter:小説外リンクの中に章タイトル] > http://pixiv.me]‌]',
+'5 [\u200c[jump\u200curi:[chap\u200cter:小説外リンクの中に章タイトル] > http://pixiv.me]\u200c]',
 '[newpage]',
 '5 [[jumpuri:[chapter:小説外リンクの中に章タイトル] > http://pixiv.me]]',
 '[newpage]',
-'6‌ [‌cha‌pter‌:[‌[jumpuri‌:[‌‌[j‌umpur‌i:[‌chapter‌:章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me]‌] > http://pixiv.me]‌‌]]',
+'6\u200c [\u200ccha\u200cpter\u200c:[\u200c[jumpuri\u200c:[\u200c\u200c[j\u200cumpur\u200ci:[\u200cchapter\u200c:章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me]\u200c] > http://pixiv.me]\u200c\u200c]]',
 '[newpage]',
-'6 [chapter:[[jumpuri:[‌[jumpuri:[‌‌c‌h‌a‌pter‌‌:章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me]] > http://pixiv.me]]]',
+'6 [chapter:[[jumpuri:[\u200c[jumpuri:[\u200c\u200cc\u200ch\u200ca\u200cpter\u200c\u200c:章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me]] > http://pixiv.me]]]',
 '[newpage]',
 '7 [chapter:をはり]',
 '[newpage]  '
@@ -73,21 +82,49 @@ describe('Parser', function () {
           parser = new Parser();
 
       parser.parse(novel);
-      assert.deepEqual(parser.toHTML(), [
-'章タイトルの中に [‌newpage]<br/>1 [‌chapter:[n‌ewpage]]',
-'1<p class="chapter">[newpage</p>]',
-'2 [‌chapter‌:ふつうの章タイトル]',
-'2<p class="chapter">ふつうの章タイトル</p>',
-'章タイトルの中に小説内リンク<br/>3 [‌chapter:[‌jump:1]]',
-'3<p class="chapter">[jump:1</p>]',
-'4 [‌chapter:[‌[jumpuri:章タイトルの中に小説外リンク4 &gt; http://pixiv.me]‌]]',
-'4<p class="chapter">[[jumpuri:章タイトルの中に小説外リンク4 &gt; http://pixiv.me</p>]]',
-'5 [‌[jump‌uri:[chap‌ter:小説外リンクの中に章タイトル] &gt; http://pixiv.me]‌]',
-'5<a href="http://pixiv.me">[chapter:小説外リンクの中に章タイトル]</a>',
-'6‌ [‌cha‌pter‌:[‌[jumpuri‌:[‌‌[j‌umpur‌i:[‌chapter‌:章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] &gt; http://pixiv.me]‌] > http://pixiv.me]‌‌]]',
-'6<p class="chapter">[[jumpuri:[‌[jumpuri:[‌‌c‌h‌a‌pter‌‌:章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル</p>&gt; http://pixiv.me]] > http://pixiv.me]]]',
-'7<p class="chapter">をはり</p>',
-''
+      assert.deepEqual(parser.tree, [
+        { type: 'text', val: '章タイトルの中に [ newpage]\n1 [ chapter:[n ewpage]]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n1 ' },
+        { type: 'tag', name: 'chapter', title: '[newpage' },
+        { type: 'text', val: ']\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n2 [ chapter :ふつうの章タイトル]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n2 ' },
+        { type: 'tag', name: 'chapter', title: 'ふつうの章タイトル' },
+        { type: 'text', val: '\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n章タイトルの中に小説内リンク\n3 [ chapter:[ jump:1]]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n3 ' },
+        { type: 'tag', name: 'chapter', title: '[jump:1' },
+        { type: 'text', val: ']\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n4 [ chapter:[ [jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me] ]]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n4 ' },
+        { type: 'tag', name: 'chapter', title: '[[jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me' },
+        { type: 'text', val: ']]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n5 [ [jump uri:[chap ter:小説外リンクの中に章タイトル] > http://pixiv.me] ]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n5 ' },
+        { type: 'tag', name: 'jumpuri', title: '[chapter:小説外リンクの中に章タイトル]', uri: 'http://pixiv.me' },
+        { type: 'text', val: '\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n6  [ cha pter :[ [jumpuri :[  [j umpur i:[ chapter :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me] ] > http://pixiv.me]  ]]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n6 ' },
+        { type: 'tag', name: 'chapter', title: '[[jumpuri:[ [jumpuri:[  c h a pter  :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル' },
+        { type: 'text',
+          val: ' > http://pixiv.me]] > http://pixiv.me]]]\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '\n7 ' },
+        { type: 'tag', name: 'chapter', title: 'をはり' },
+        { type: 'text', val: '\n' },
+        { type: 'tag', name: 'newpage' },
+        { type: 'text', val: '  ' }
       ]);
     });
   });

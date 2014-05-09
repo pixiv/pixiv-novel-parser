@@ -33,7 +33,6 @@ describe('Parser specifications.', function () {
       var parser = new Parser(),
           novel = 'テキスト\nテキスト',
           expectedAST = [{ type: 'text', val: 'テキスト\nテキスト' }],
-          expectedHTML = ['テキスト<br/>テキスト'],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
 		        "id": "http://json-schema.org/draft-02/schema#",
@@ -52,7 +51,6 @@ describe('Parser specifications.', function () {
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
       assert.ok(validateJSON(parser.tree[0], schema));
-      assert.deepEqual(parser.toHTML(), expectedHTML);
     });
   });
 
@@ -65,7 +63,6 @@ describe('Parser specifications.', function () {
             { type: 'tag', name: 'newpage' },
             { type: 'text', val: '2ページ目' }
           ],
-          expectedHTML = ['1ページ目', '2ページ目'],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
 		        "id": "http://json-schema.org/draft-02/schema#",
@@ -84,7 +81,6 @@ describe('Parser specifications.', function () {
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
       assert.ok(validateJSON(parser.tree[1], schema));
-      assert.deepEqual(parser.toHTML(), expectedHTML);
     });
   });
 
@@ -97,7 +93,6 @@ describe('Parser specifications.', function () {
             { type: 'tag', name: 'chapter', title: '見出し' },
             { type: 'text', val: '本文' }
           ],
-          expectedHTML = ['前文<p class="chapter">見出し</p>本文'],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
 		        "id": "http://json-schema.org/draft-02/schema#",
@@ -119,7 +114,6 @@ describe('Parser specifications.', function () {
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
       assert.ok(validateJSON(parser.tree[1], schema));
-      assert.deepEqual(parser.toHTML(), expectedHTML);
     });
   });
 
@@ -232,7 +226,6 @@ describe('Parser specifications.', function () {
           expectedAST = [
             { type: 'tag', name: 'jumpuri', title: '[pixiv]', uri: 'http://www.pixiv.net/' }
           ],
-          expectedHTML = ['<a href="http://www.pixiv.net/">[pixiv]</a>'],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
 		        "id": "http://json-schema.org/draft-02/schema#",
@@ -258,7 +251,6 @@ describe('Parser specifications.', function () {
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
       assert.ok(validateJSON(parser.tree[0], schema));
-      assert.deepEqual(parser.toHTML(), expectedHTML);
     });
   });
 });

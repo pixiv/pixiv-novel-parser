@@ -3854,12 +3854,17 @@
         if (Object.prototype.toString.call(chars) === '[object String]') {
           return chars;
         }
-        return chars.reduce(function (str, chr) {
+        chars = chars.reduce(function (str, chr) {
           if (Object.prototype.toString.call(chr) === '[object Array]') {
             chr = string(chr);
           }
           return str + (chr || '').toString();
         }, '');
+        return chars.replace(/\r?\n/g, '\n').
+          replace(/[\s\u200c]/g, function (c) {
+            if (c === '\n' || c === '\u3000') { return c; }
+            return ' ';
+          });
       }
 
       function tagNewpage() {
