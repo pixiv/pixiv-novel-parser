@@ -16,6 +16,7 @@
   "author": "ne_Sachirou <utakata.c4se@gmail.com>",
   "license": "CC0",
   "devDependencies": {
+    "JSV": "^4.0.2",
     "gulp": "^3.6.2",
     "gulp-concat": "^2.2.0",
     "gulp-jshint": "^1.5.5",

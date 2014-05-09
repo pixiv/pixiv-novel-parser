@@ -26,6 +26,7 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "assert": "~0.0.2"
+    "assert": "~0.0.2",
+    "JSV": "~4.0.2"
   }
 }

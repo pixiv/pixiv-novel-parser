@@ -41,9 +41,11 @@ console.log(parser.tree);     // -> Get AST.
 console.log(parser.toHTML()); // -> Output as HTML, array of each pages.
 ```
 
-### AST (Abstract Syntax Tree)
+## AST (Abstract Syntax Tree)
 
-  TODO: Write AST document.
+  tagは決して入れ子になりませんので、ASTをtokenの配列として表します。
+
+  See `test/test.js`. It's written in [JSON Schema](http://json-schema.org).
 
 ## Contribute
 

@@ -3976,11 +3976,7 @@ Parser.parse = function (novel) {
       return tree;
     }, []);
   } catch (err) {
-    if (_inNode) {
-      process.stderr.write(err.stack + '\n');
-    } else {
-      console.error(err);
-    }
+    console.error(err);
     return [{ type: 'text', val: novel }];
   }
 };
