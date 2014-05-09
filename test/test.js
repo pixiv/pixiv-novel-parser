@@ -35,7 +35,7 @@ describe('Parser specifications.', function () {
           expectedAST = [{ type: 'text', val: 'テキスト\nテキスト' }],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
-		        "id": "http://json-schema.org/draft-02/schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
             "type": "object",
             "properties": {
               "type": {
@@ -65,7 +65,7 @@ describe('Parser specifications.', function () {
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
-		        "id": "http://json-schema.org/draft-02/schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
             "type": "object",
             "properties": {
               "type": {
@@ -95,7 +95,7 @@ describe('Parser specifications.', function () {
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
-		        "id": "http://json-schema.org/draft-02/schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
             "type": "object",
             "properties": {
               "type": {
@@ -126,7 +126,7 @@ describe('Parser specifications.', function () {
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
-		        "id": "http://json-schema.org/draft-02/schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
             "type": "object",
             "properties": {
               "type": {
@@ -160,7 +160,7 @@ describe('Parser specifications.', function () {
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
-		        "id": "http://json-schema.org/draft-02/schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
             "type": "object",
             "properties": {
               "type": {
@@ -196,7 +196,7 @@ describe('Parser specifications.', function () {
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
-		        "id": "http://json-schema.org/draft-02/schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
             "type": "object",
             "properties": {
               "type": {
@@ -228,7 +228,7 @@ describe('Parser specifications.', function () {
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
-		        "id": "http://json-schema.org/draft-02/schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
             "type": "object",
             "properties": {
               "type": {
