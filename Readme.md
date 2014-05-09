@@ -38,7 +38,7 @@ var parser = new Parser();
 parser.parse('[chapter:見出し]本文');
 
 console.log(parser.tree);     // -> Get AST.
-console.log(parser.toHTML()); // -> Output as HTML, array of each pages.
+console.log(parser.toJSON()); // -> Output as JSON.
 ```
 
 ## AST (Abstract Syntax Tree)
