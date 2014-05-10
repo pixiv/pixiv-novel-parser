@@ -45,7 +45,7 @@ console.log(parser.toJSON()); // -> Output as JSON.
 
   tagは決して入れ子になりませんので、ASTをtokenの配列として表します。
 
-  See `test/test.js`. It's written in [JSON Schema](http://json-schema.org).
+  See [test/test.js](test/test.js). It's written in [JSON Schema](http://json-schema.org).
 
 ## Contribute
 
@@ -69,7 +69,7 @@ $ bower install
 
     $ npm test
 
-  On Web browser. Display `test/test.html`.
+  On Web browser. Display [test/test.html](test/test.html).
 
 ### Coding rules
 
