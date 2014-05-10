@@ -51,4 +51,4 @@ gulp.task('uglifyjs', ['concat'], function () {
 });
 
 gulp.task('build', ['pegjs', 'concat', 'uglifyjs']);
-gulp.task('test', ['build', 'jshint', 'mocha']);
+gulp.task('test', ['jshint', 'mocha']);

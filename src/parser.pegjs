@@ -1,20 +1,6 @@
 {
-  function string(chars) {
-    if (!chars) { return ''; }
-    if (Object.prototype.toString.call(chars) === '[object String]') {
-      return chars;
-    }
-    chars = chars.reduce(function (str, chr) {
-      if (Object.prototype.toString.call(chr) === '[object Array]') {
-        chr = string(chr);
-      }
-      return str + (chr || '').toString();
-    }, '');
-    return chars.replace(/\r?\n/g, '\n').
-      replace(/[\s\u200c]/g, function (c) {
-        if (c === '\n' || c === '\u3000') { return c; }
-        return ' ';
-      });
+  function text(chars) {
+    return { type: 'text', val: chars };
   }
 
   function tagNewpage() {
@@ -30,7 +16,7 @@
       type: 'tag',
       name: 'pixivimage',
       illustID: illustID,
-      pageNumber: pageNumber
+      pageNumber: pageNumber || null
     };
   }
 
@@ -47,18 +33,18 @@
       type: 'tag',
       name: 'jumpuri',
       title: title,
-      uri: string(uri)
+      uri: uri
     };
   }
 }
 
 start = novel
 
-novel = (tags / text)*
+novel = (tag / text)*
 
-text = chars:[^[]+ { return { type: 'text', val: string(chars) }; }
+text = chars:$(([^[]+ / (&(!tag) '['))+) { return text(chars); }
 
-tags = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri / tagNone
+tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri
 
 tagNewpage = '[newpage]' CRLF? { return tagNewpage(); }
 
@@ -76,17 +62,15 @@ tagJumpuri =
     return tagJumpuri(jumpuriTitle, uri);
   }
 
-tagNone = '[' { return { type: 'text', val: '[' } }
+chapterTitle = title:$([^\]]*) { return title.trim(); }
 
-chapterTitle = title:[^\]]* { return string(title).trim(); }
+jumpuriTitle = title:$([^>]*) { return title.trim(); }
 
-jumpuriTitle = title:[^>]* { return string(title).trim(); }
+numeric = $(DIGIT+)
 
-numeric = digits:DIGIT+ { return string(digits); }
+integer = digits:$(DIGIT+) { return parseInt(digits, 10); }
 
-integer = digits:DIGIT+ { return parseInt(string(digits), 10); }
-
-URI = uri:('http' 's'? '://' uri_chrs*) { return string(uri); }
+URI = uri:$(('http' 's'?)? '://' uri_chrs*) { return uri; }
 
 uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
 
