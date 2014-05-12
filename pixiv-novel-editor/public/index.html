@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+<title>pixiv-novel-parser Sample Editor</title>
+<link rel="stylesheet" href="public/index.css"/>
+<h1>pixiv-novel-parser Sample Editor</h1>
+<div id="editor" class="editor">
+  <div class="editor-input-holder">
+    <div>
+      <label>
+        <input name="which_side" type="radio" value="client" checked/>
+        Client Side
+      </label>
+      <label>
+        <input name="which_side" type="radio" value="server"/>
+        Server Side
+      </label>
+    </div>
+    <textarea class="editor-input"></textarea>
+  </div>
+  <div class="editor-preview-holder">
+    <h2>Preview</h2>
+    <article class="editor-preview"></article>
+  </div>
+</div>
+<script src="public/bower_components/pixiv-novel-parser/build/pixiv-novel-parser.min.js"></script>
+<script src="src/builder.js"></script>
+<script>
+var parser = new PixivNovelParser.Parser(),
+    builder = new PixivNovelParser.Builder();
+
+if (!Array.from) {
+  Array.from = function (obj) {
+    return [].slice.call(obj);
+  };
+}
+
+/**
+ * @param {function(...:any):any} fun
+ * @param {number} wait
+ * @return {function(...:any):any}
+ */
+function throttle(fun, wait) {
+  var isThrottled = false;
+
+  if (!wait || wait <= 0) { wait = 1000 / 30; }
+  return function (/* arguments */) {
+    if (!isThrottled) {
+      setTimeout(function () {
+        isThrottled = false;
+        fun.apply(null, arguments);
+      }, wait);
+      isThrottled = true;
+    }
+  };
+}
+
+function render(srcNode, destNode) {
+  destNode.innerHTML = builder.build(parser.parse(srcNode.value).tree).toHTML();
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  var preNovel = '',
+      inputNode = document.querySelector('#editor .editor-input'),
+      previewNode = document.querySelector('#editor .editor-preview');
+
+  var animate = throttle(function () {
+    var request, form,
+        whichSide;
+
+    if (preNovel === inputNode.value) { return requestAnimationFrame(animate); }
+    preNovel = inputNode.value;
+    whichSide = Array.from(document.querySelectorAll('input[name="which_side"]')).
+      filter(function (node) { return node.checked; })[0].value;
+    switch (whichSide) {
+      case 'client':
+        render(inputNode, previewNode);
+        requestAnimationFrame(animate);
+        break;
+      case 'server':
+        request = new XMLHttpRequest();
+        request.open(
+          'GET',
+          '/api/0.0/build_novel?novel=' + encodeURIComponent(inputNode.value));
+        request.send();
+        request.onreadystatechange = function () {
+          if (request.readyState === 4) {
+            if (request.status !== 200) {
+              console.error(request.responseText);
+              return requestAnimationFrame(animate);
+            }
+            previewNode.innerHTML = request.responseText;
+            requestAnimationFrame(animate);
+          }
+        };
+        break;
+    }
+  }, 180 * 2);
+
+  animate();
+});
+</script>

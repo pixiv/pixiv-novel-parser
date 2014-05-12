@@ -1,0 +1,379 @@
+// vim:set ft=javascript:
+{
+  // Enforcing options
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "forin": true,
+  "immed": true,
+  "indent": 2,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "undef": true,
+  "unused": true,
+  "strict": true,
+  "trailing": true,
+  "maxparams": 7,
+  "maxdepth": 4,
+  "maxstatements": 12,
+  "maxcomplexity": 10,
+  "maxlen": 120,
+
+  // Relaxing options
+  "validthis": true,
+
+  // Environments
+  "browser": true,
+  "jquery": true,
+  "devel": true,
+  "node": true,
+  "esnext": true
+}
+/*
+ * Coding rules
+ * ============
+ * This is our coding rules for node.js.
+ *
+ * Refered coding rules
+ * --------------------
+ * We consider following 3 coding rules.
+ *
+ * - Douglas Crockford's coding style.
+ *
+ *   [Code Conventions for the JavaScript Programming Language](http://javascript.crockford.com/code.html)
+ * - uupaa's Japanese coding style.
+ *
+ *   [CodingStyle - uupaa-js - JavaScript Coding Style Guide - JavaScript Library for Casual Creator](https://code.google.com/p/uupaa-js/wiki/CodingStyle)
+ *
+ *   This refers [The WebKit Open Source Project - WebKit Coding Style Guidelines](http://www.webkit.org/coding/coding-style.html).
+ * - GitHub's Ruby coding style
+ *
+ *   [Ruby ・ Styleguide](https://github.com/styleguide/ruby)
+ *
+ *   [コーディング規約をまとめてみた (Ruby編) - bojovs::blog](http://bojovs.github.io/2012/04/24/ruby-coding-style/)
+ *
+ * - [Airbnb JavaScript Style Guide() { }](https://github.com/airbnb/javascript)
+ *
+ * .jshintrc
+ * ---------
+ * Most rules are written in .jshintrc above.
+ * Renfer [JSHint Documentation](http://www.jshint.com/docs/).
+ *
+ * Line length
+ * -----------
+ * 80 chars per line is a soft-limit. 120 chars is a hard-limit.
+ *
+ * Operators
+ * ---------
+ * Put a space around operators, except
+ *
+ * 1. ++i in for loop
+ * 2. between double negative operators !!
+ * 3. before comma operator ,
+ * 4. before function call operator ()
+ *
+ * ### Right
+ * ```
+ * x + y;
+ * x && y;
+ * x === y;
+ * ! x;
+ * - x;
+ * x = y;
+ * ++ i;
+ * i += 1;
+ * !! x;
+ * func();
+ * [x, y]
+ *
+ * for (i = 0; i < iz; ++i) { short(); }
+ * for (i = 0; i < iz; ++ i) { short(); }
+ * ```
+ *
+ * ### Wrong
+ * ```
+ * !x;
+ * -x;
+ * ++i;
+ * i+=1;
+ * ! ! x;
+ * [x , y];
+ * func ();
+ *
+ * for (i = 0; i < iz; ++i) { // This line is OK.
+ *   ++i; // No space.
+ * }
+ * ```
+ *
+ * Line breaks
+ * -----------
+ * Line break after the operator.
+ *
+ * ### Right
+ * ```
+ * long_long_long_condition &&
+ * condition;
+ *
+ * 'long_long_long_string' +
+ * 'string';
+ *
+ * func().long_long_long_func().
+ *   func().func();
+ *
+ * {
+ *   x: x,
+ *   y: y
+ * };
+ * ```
+ *
+ * ### Wrong
+ * ```
+ * long_long_long_condition
+ * && condition;
+ *
+ * 'long_long_long_string'
+ * + 'string';
+ *
+ * func().long_long_long_func()
+ *   .func().func();
+ *
+ * {
+ *   x: x
+ *  ,y: y
+ * };
+ * ```
+ *
+ * Increment and decrement
+ * -----------------------
+ * We don't recommend ++ and --. You can use += 1 and -= 1 instead. Put ++ and -- before variables is denied.
+ *
+ * ### Right
+ * ```
+ * i += i;
+ * ++ i; // Carefully, this is also OK.
+ * ```
+ *
+ * ### Wrong
+ * ```
+ * i+=1; // No space.
+ * ++i; // No space.
+ * i ++;
+ * i++;
+ * ```
+ *
+ * Braces
+ * ------
+ * ### Right
+ * ```
+ * if (conditions) { short(); }
+ *
+ * if (conditions) {
+ * }
+ *
+ * function func() {
+ * }
+ *
+ * [x, y];
+ *
+ * {x: x, y: y};
+ *
+ * (x && y);
+ *
+ * [ ];
+ *
+ * { };
+ *
+ * { x: x,
+ *   y: y
+ * };
+ *
+ * {
+ *   x: x,
+ *   y: y
+ * };
+ * ```
+ *
+ * ### Wrong
+ * ```
+ * if (conditions)
+ * {
+ * }
+ *
+ * if (condition &&
+ *     condition   ) {
+ * }
+ *
+ * function func()
+ * {
+ * }
+ *
+ * function func()
+ *   {
+ *   }
+ *
+ * [ x, y ];
+ *
+ * { x: x, y: y };
+ *
+ * ( x && y );
+ *
+ * [];
+ *
+ * {};
+ *
+ * [
+ * ];
+ *
+ * {
+ * };
+ * ```
+ *
+ * if expression
+ * -------------
+ * ### Right
+ * ```
+ * if (conditions) {
+ *   sentenses;
+ * } else {
+ *   sentences;
+ * }
+ *
+ * if (conditions) { short_one_sentense(); }
+ * ```
+ *
+ * ### Wrong
+ * ```
+ * if (conditions) // Don't omit braces.
+ *   short();
+ *
+ * if (conditions) short(); // Don't omit braces.
+ *
+ * if(conditions){ // No spaces.
+ *   sentenses;
+ * }
+ *
+ * if (conditions)
+ * {
+ *   sentenses;
+ * }
+ *
+ * if (conditions) { short_one_sentence(); }
+ * else { short_one_sentence(); }
+ *
+ * if (conditions) { short(); short(); }
+ * ```
+ *
+ * Function call and definition
+ * ----------------------------
+ * ### Right
+ * ```
+ * func();
+ *
+ * func(arg1, arg2);
+ *
+ * function func() {
+ * }
+ *
+ * function func(arg1, arg2) {
+ * }
+ *
+ * func = function () { };
+ *
+ * func = function (arg1, arg2) { };
+ *
+ * function func() {
+ *   var i;
+ *
+ *   sentences;
+ *   return v;
+ * }
+ * ```
+ *
+ * ###  Wrong
+ * ```
+ * func ();
+ *
+ * func ( arg1 , arg2 ) ;
+ *
+ * function func () {
+ * }
+ *
+ * function func() {
+ * };
+ *
+ * func = function() { };
+ *
+ * function func() {
+ *   var i;
+ *   sentences;
+ *
+ *   return v; // Don't put empty line before return.
+ * }
+ * ```
+ *
+ * Define variables
+ * ----------------
+ * ```
+ * 'use strict';
+ *
+ * var requires;
+ * var CONSTANTS;
+ * var variables for the module;
+ *
+ * module body;
+ *
+ * exports;
+ * ```
+ *
+ * ### Right
+ * ```
+ * function func() {
+ *   var i = 0, iz = 0; // OK. Define all variables in one var, at top of the function.
+ *
+ *   sentences;
+ * }
+ * ```
+ *
+ * ### Wrong
+ * ```
+ * function func() {
+ *   var i = 0;
+ *   var iz = 0;
+ *   sentences;
+ * }
+ *
+ * function func() {
+ *   sentences;
+ *   var i = 0;
+ *   sentences;
+ * }
+ * ```
+ *
+ * for-in loop
+ * -----------
+ * Do not use slow for-in-if loop. Use [uupaa looper](http://uupaa.hatenablog.com/entry/2012/02/04/145400).
+ *
+ * ### Right
+ * ```
+ * var i = 0, iz = 0, keys;
+ *
+ * keys = Object.keys(obj);
+ * for (i = 0, iz = keys.length; i < iz; ++i) {
+ *   process keys[i];
+ * }
+ * ```
+ *
+ * ### Wrong
+ * ```
+ * var key;
+ *
+ * for (key in obj) {
+ *  if (obj.hasOwnProperty(key)) {
+ *    process key;
+ *  }
+ * }
+ * ```
+ */

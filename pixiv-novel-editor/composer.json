@@ -1,0 +1,15 @@
+{
+    "name": "pixiv/pixiv-novel-editor",
+    "description": "pixiv-novel-parser's demo editor.",
+    "license": "CC0",
+    "authors": [
+        {
+            "name": "Sachirou Inoue",
+            "email": "utakata.c4se@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    }
+}

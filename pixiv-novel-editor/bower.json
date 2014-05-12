@@ -1,0 +1,31 @@
+{
+  "name": "pixiv-novel-editor",
+  "version": "0.0.0",
+  "authors": [
+    "ne_Sachirou <utakata.c4se@gmail.com>"
+  ],
+  "description": "pixiv-novel-parser's demo editor.",
+  "main": "src/builder.js",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "keywords": [
+    "pixiv"
+  ],
+  "license": "CC0",
+  "homepage": "https://github.com/pixiv/pixiv-novel-parser",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pixiv-novel-parser": "..\\#~0.0.1"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,43 @@
+@charset "utf-8";
+
+body, textarea {
+  font: 10pt / 160% "游ゴシック Light", "游ゴシック", "YuGothic", sans-serif;
+}
+
+h1, h2 { text-align: center; }
+
+.editor {
+  display: flex;
+  flex-direction: raw;
+  justify-content: space-around;
+
+
+  .editor-input-holder {
+    width: 47%;
+
+    h2 { margin: 0; }
+  }
+
+  .editor-preview-holder {
+    width: 47%;
+
+    h2 { margin: 0; }
+  }
+
+  .editor-input {
+    width: 100%;
+    height: 40em;
+  }
+
+  .editor-preview {
+    background: #eee;
+    min-height: 40em;
+    padding: 0.5em;
+    width: 100%;
+    word-break: break-all;
+
+    .novel-index {
+      background: white;
+    }
+  }
+}
