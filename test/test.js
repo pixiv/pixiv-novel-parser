@@ -2,28 +2,17 @@
 /* global describe, it */
 'use strict';
 var _inNode = 'process' in global;
-var assert, JSV, Parser;
+var assert, JSV, helper, Parser;
 if (_inNode) {
   assert = require('assert');
   JSV = require('JSV').JSV;
+  helper = require('./test_helper');
   Parser = require('../src').Parser;
 } else {
   assert = global.assert;
   JSV = global.JSV;
+  helper = global.TestHelper;
   Parser = global.PixivNovelParser.Parser;
-}
-
-function validateJSON(json, schema) {
-  if (!_inNode) { return true; }
-  var env = JSV.createEnvironment('json-schema-draft-03'),
-      report = env.validate(json, schema),
-      errors = report.errors;
-
-  if (errors.length > 0) {
-    console.error(errors);
-    return false;
-  }
-  return true;
 }
 
 describe('Parser specifications.', function () {
@@ -50,7 +39,7 @@ describe('Parser specifications.', function () {
 
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(validateJSON(parser.tree[0], schema));
+      assert.ok(helper.validateJSON(parser.tree[0], schema));
     });
   });
 
@@ -80,7 +69,7 @@ describe('Parser specifications.', function () {
 
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(validateJSON(parser.tree[1], schema));
+      assert.ok(helper.validateJSON(parser.tree[1], schema));
     });
   });
 
@@ -113,7 +102,7 @@ describe('Parser specifications.', function () {
 
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(validateJSON(parser.tree[1], schema));
+      assert.ok(helper.validateJSON(parser.tree[1], schema));
     });
   });
 
@@ -149,7 +138,7 @@ describe('Parser specifications.', function () {
 
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(validateJSON(parser.tree[0], schema));
+      assert.ok(helper.validateJSON(parser.tree[0], schema));
     });
 
     it('漫画形式のpixivimageをちゃんと認識できる', function () {
@@ -183,7 +172,7 @@ describe('Parser specifications.', function () {
 
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(validateJSON(parser.tree[0], schema));
+      assert.ok(helper.validateJSON(parser.tree[0], schema));
     });
   });
 
@@ -215,7 +204,7 @@ describe('Parser specifications.', function () {
 
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(validateJSON(parser.tree[0], schema));
+      assert.ok(helper.validateJSON(parser.tree[0], schema));
     });
   });
 
@@ -250,7 +239,7 @@ describe('Parser specifications.', function () {
 
       parser.parse(novel);
       assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(validateJSON(parser.tree[0], schema));
+      assert.ok(helper.validateJSON(parser.tree[0], schema));
     });
   });
 });

@@ -36,6 +36,31 @@
       uri: uri
     };
   }
+
+  function tagRuby(rubyBase, rubyText) {
+    return {
+      type: 'tag',
+      name: 'ruby',
+      rubyBase: rubyBase,
+      rubyText: rubyText
+    };
+  }
+
+  function tagEmoji(emojiName) {
+    return {
+      type: 'tag',
+      name: 'emoji',
+      emojiName: emojiName
+    };
+  }
+
+  function tagStrong(chars) {
+    return {
+      type: 'tag',
+      name: 'strong',
+      val: chars
+    };
+  }
 }
 
 start = novel
@@ -44,7 +69,8 @@ novel = (tag / text)*
 
 text = chars:$(([^[]+ / (&(!tag) '['))+) { return text(chars); }
 
-tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri
+tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri /
+  tagRuby / tagEmoji / tagStrong
 
 tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
 
@@ -63,9 +89,20 @@ tagJumpuri =
     return tagJumpuri(jumpuriTitle, uri);
   }
 
+tagRuby =
+  '[ruby:' rubyBase:$([^>]*) '>' rubyText:$([^\]]*) ']' {
+    return tagRuby(rubyBase.trim(), rubyText.trim());
+  }
+
+tagEmoji = '[emoji:' emojiName:emojiName ']' { return tagEmoji(emojiName); }
+
+tagStrong = '[strong:' chars:$([^\]]*) ']' { return tagStrong(chars.trim()); }
+
 chapterTitle = title:$([^\]]*) { return title.trim(); }
 
 jumpuriTitle = title:$([^>]*) { return title.trim(); }
+
+emojiName = name:$((ALPHA / DIGIT /  '-')+) { return name.trim(); }
 
 numeric = $(DIGIT+)
 
