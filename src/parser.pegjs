@@ -46,9 +46,10 @@ text = chars:$(([^[]+ / (&(!tag) '['))+) { return text(chars); }
 
 tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri
 
-tagNewpage = '[newpage]' CRLF? { return tagNewpage(); }
+tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
 
-tagChapter = '[chapter:' title:chapterTitle ']' { return tagChapter(title); }
+tagChapter =
+  '[chapter:' title:chapterTitle ']' (CR / LF)? { return tagChapter(title); }
 
 tagPixivimage =
   '[pixivimage:' illustID:numeric pageNumber:('-' integer)? ']' {

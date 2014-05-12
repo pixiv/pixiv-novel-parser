@@ -22,7 +22,7 @@
 
 ```
 // On node.js.
-var Parser = require('pixiv-novel-parser');
+var Parser = require('pixiv-novel-parser').Parser;
 
 // Or on Web browser.
 // <script src="pixiv-novel-parser.min.js"></script>

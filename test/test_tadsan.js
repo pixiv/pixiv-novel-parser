@@ -5,7 +5,7 @@ var _inNode = 'process' in global;
 var assert, Parser;
 if (_inNode) {
   assert = require('assert');
-  Parser = require('../src');
+  Parser = require('../src').Parser;
 } else {
   assert = global.assert;
   Parser = global.PixivNovelParser.Parser;
@@ -36,13 +36,13 @@ describe('Parser', function () {
         { type: 'tag', name: 'jump', pageNumber: 4 },
         { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n2ぺーじ\n' },
+        { type: 'text', val: '2ぺーじ\n' },
         { type: 'tag', name: 'jump', pageNumber: 3 },
         { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n3ぺーじ\n[jump:^1]\n' },
+        { type: 'text', val: '3ぺーじ\n[jump:^1]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n4ぺーじ\n[jump:^1]\n' },
+        { type: 'text', val: '4ぺーじ\n[jump:^1]\n' },
         { type: 'tag', name: 'jump', pageNumber: 2 }
       ]);
     });
@@ -85,43 +85,41 @@ describe('Parser', function () {
       assert.deepEqual(parser.tree, [
         { type: 'text', val: '章タイトルの中に [ newpage]\n1 [ chapter:[n ewpage]]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n1 ' },
+        { type: 'text', val: '1 ' },
         { type: 'tag', name: 'chapter', title: '[newpage' },
         { type: 'text', val: ']\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n2 [ chapter :ふつうの章タイトル]\n' },
+        { type: 'text', val: '2 [ chapter :ふつうの章タイトル]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n2 ' },
+        { type: 'text', val: '2 ' },
         { type: 'tag', name: 'chapter', title: 'ふつうの章タイトル' },
-        { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n章タイトルの中に小説内リンク\n3 [ chapter:[ jump:1]]\n' },
+        { type: 'text', val: '章タイトルの中に小説内リンク\n3 [ chapter:[ jump:1]]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n3 ' },
+        { type: 'text', val: '3 ' },
         { type: 'tag', name: 'chapter', title: '[jump:1' },
         { type: 'text', val: ']\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n4 [ chapter:[ [jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me] ]]\n' },
+        { type: 'text', val: '4 [ chapter:[ [jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me] ]]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n4 ' },
+        { type: 'text', val: '4 ' },
         { type: 'tag', name: 'chapter', title: '[[jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me' },
         { type: 'text', val: ']]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n5 [ [jump uri:[chap ter:小説外リンクの中に章タイトル] > http://pixiv.me] ]\n' },
+        { type: 'text', val: '5 [ [jump uri:[chap ter:小説外リンクの中に章タイトル] > http://pixiv.me] ]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n5 ' },
+        { type: 'text', val: '5 ' },
         { type: 'tag', name: 'jumpuri', title: '[chapter:小説外リンクの中に章タイトル]', uri: 'http://pixiv.me' },
         { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n6  [ cha pter :[ [jumpuri :[  [j umpur i:[ chapter :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me] ] > http://pixiv.me]  ]]\n' },
+        { type: 'text', val: '6  [ cha pter :[ [jumpuri :[  [j umpur i:[ chapter :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me] ] > http://pixiv.me]  ]]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n6 ' },
+        { type: 'text', val: '6 ' },
         { type: 'tag', name: 'chapter', title: '[[jumpuri:[ [jumpuri:[  c h a pter  :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル' },
         { type: 'text', val: ' > http://pixiv.me]] > http://pixiv.me]]]\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '\n7 ' },
+        { type: 'text', val: '7 ' },
         { type: 'tag', name: 'chapter', title: 'をはり' },
-        { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '  ' }
       ]);

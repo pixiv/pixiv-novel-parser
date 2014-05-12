@@ -60,7 +60,7 @@ Parser.prototype.toJSON = function () {
 };
 
 if (_inNode) {
-  module.exports = Parser;
+  module.exports = { Parser: Parser };
 } else {
   global.PixivNovelParser = global.PixivNovalPerser || {};
   global.PixivNovelParser.Parser = Parser;

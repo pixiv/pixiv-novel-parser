@@ -6,7 +6,7 @@ var assert, JSV, Parser;
 if (_inNode) {
   assert = require('assert');
   JSV = require('JSV').JSV;
-  Parser = require('../src');
+  Parser = require('../src').Parser;
 } else {
   assert = global.assert;
   JSV = global.JSV;
