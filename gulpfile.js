@@ -9,13 +9,13 @@ var concat = require('gulp-concat'),
     uglifyjs = require('gulp-uglifyjs');
 
 gulp.task('jshint', function () {
-  gulp.src(['*.js', 'src/**/*.js', '!src/**/*.peg.js']).
+  return gulp.src(['*.js', 'src/**/*.js', '!src/**/*.peg.js']).
     pipe(jshint()).
     pipe(jshint.reporter(jshintStylish));
 });
 
 gulp.task('mocha', ['pegjs'], function () {
-  gulp.src(['test/**/*.js']).
+  return gulp.src(['test/**/*.js']).
     pipe(mocha({ reporter: 'nyan' }));
 });
 
@@ -34,13 +34,13 @@ gulp.task('pegjs', function (done) {
 });
 
 gulp.task('concat', ['pegjs'], function () {
-  gulp.src(['src/parser.peg.js', 'src/parser.js', 'src/index.js']).
+  return gulp.src(['src/parser.peg.js', 'src/parser.js', 'src/index.js']).
     pipe(concat('pixiv-novel-parser.js')).
     pipe(gulp.dest('build'));
 });
 
 gulp.task('uglifyjs', ['concat'], function () {
-  gulp.src(['build/pixiv-novel-parser.js']).
+  return gulp.src(['build/pixiv-novel-parser.js']).
     pipe(concat('pixiv-novel-parser.min.js')).
     pipe(uglifyjs({
       outSourceMap: true,
