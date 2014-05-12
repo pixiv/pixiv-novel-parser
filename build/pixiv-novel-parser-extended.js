@@ -1736,18 +1736,20 @@
     parse:       parse
   };
 })();
-if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.parser = parser; }
+if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.extendedParser = parser; }
 }((this || 0).self || global));
 (function (global) {
  /* global PixivNovelParser */
  /* jshint maxstatements: 1000 */
 'use strict';
 var _inNode = 'process' in global;
-var parser;
+var basicParser, extendedParser;
 if (_inNode) {
-  parser = require('./parser-extended.peg.js');
+  basicParser = require('./parser.peg.js');
+  extendedParser = require('./parser-extended.peg.js');
 } else {
-  parser = PixivNovelParser.parser;
+  basicParser = PixivNovelParser.parser;
+  extendedParser = PixivNovelParser.parser;
 }
 
 /**
@@ -1761,22 +1763,35 @@ if (_inNode) {
  * [emoji:.*]
  * [strong:.*]
  */
-function Parser() {
+function Parser(options) {
+  options = options || {};
+  this.syntax = options.syntax || 'basic';
   this.tree = [];
 }
 
 /**
  * @param {string} novel
+ * @param {Object,<string,Object>} options
+ *   { syntex: 'basic' | 'extended' }
  * @return {Object.<string,Object>[]}
  */
-Parser.parse = function (novel) {
+Parser.parse = function (novel, options) {
+  options = options || {};
+  options.syntax = options.syntax || 'basic';
   try {
     novel = novel.replace(/\r?\n/g, '\n').
       replace(/[\s\u200c]/g, function (c) {
         if (c === '\n' || c === '\u3000') { return c; }
         return ' ';
       });
-    return parser.parse(novel);
+    switch (options.syntax) {
+      case 'extended':
+        return extendedParser.parse(novel);
+      case 'basic':
+        /* falls through */
+      default:
+        return basicParser.parse(novel);
+    }
   } catch (err) {
     console.error(err);
     return [{ type: 'text', val: novel }];
@@ -1788,7 +1803,7 @@ Parser.parse = function (novel) {
  * @return {Parser}
  */
 Parser.prototype.parse = function (novel) {
-  this.tree = Parser.parse(novel);
+  this.tree = Parser.parse(novel, { syntax: this.syntax });
   return this;
 };
 

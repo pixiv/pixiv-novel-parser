@@ -1736,5 +1736,5 @@
     parse:       parse
   };
 })();
-if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.parser = parser; }
+if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.extendedParser = parser; }
 }((this || 0).self || global));

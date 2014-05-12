@@ -9,9 +9,9 @@ var concat = require('gulp-concat'),
     PEG = require('pegjs'),
     uglifyjs = require('gulp-uglifyjs');
 
-function packageJs(code) {
+function packageJs(code, output) {
   /* jshint maxlen: 1000 */
-  return '(function (global) { var _inNode = \'process\' in global, parser = ' + code + ';\nif (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.parser = parser; }\n}((this || 0).self || global));';
+  return '(function (global) { var _inNode = \'process\' in global, parser = ' + code + ';\nif (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.' + output + ' = parser; }\n}((this || 0).self || global));';
 }
 
 gulp.task('jshint', function () {
@@ -47,7 +47,7 @@ gulp.task('pegjs-basic', function (done) {
         }
       }
     });
-    code = packageJs(code);
+    code = packageJs(code, 'basicParser');
     fs.writeFile('src/parser.peg.js', code, function (err) {
       done(err);
     });
@@ -60,7 +60,7 @@ gulp.task('pegjs-extended', function (done) {
 
     if (err) { return done(err); }
     code = PEG.buildParser(data , { output: 'source' });
-    code = packageJs(code);
+    code = packageJs(code, 'extendedParser');
     fs.writeFile('src/parser-extended.peg.js', code, function (err) {
       done(err);
     });

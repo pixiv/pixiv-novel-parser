@@ -19,7 +19,7 @@ describe('Parser specifications with extened syntax.', function () {
   /* jshint quotmark: false */
   describe('ルビ', function () {
     it('ルビをちゃんと認識できる', function () {
-      var parser = new Parser(),
+      var parser = new Parser({ syntax: 'extended' }),
           novel = '[ruby: 換言 > かんげん ]すれば[ruby:畢竟>ひっきょう]ももんが',
           expectedAST = [
             { type: 'tag', name: 'ruby', rubyBase: '換言', rubyText: 'かんげん' },
@@ -57,7 +57,7 @@ describe('Parser specifications with extened syntax.', function () {
 
   describe('絵文字', function () {
     it('絵文字はちゃんと絵文字', function () {
-      var parser = new Parser(),
+      var parser = new Parser({ syntax: 'extended' }),
           novel = '[emoji:love2]',
           expectedAST = [
             { type: 'tag', name: 'emoji', emojiName: 'love2' }
@@ -88,7 +88,7 @@ describe('Parser specifications with extened syntax.', function () {
 
   describe('強調', function () {
     it('したければちゃんと強調される', function () {
-      var parser = new Parser(),
+      var parser = new Parser({ syntax: 'extended' }),
           novel = '[strong:ももんが]',
           expectedAST = [
             { type: 'tag', name: 'strong', val: 'ももんが' }
