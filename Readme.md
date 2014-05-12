@@ -16,9 +16,17 @@
 
     $ bower install pixiv-novel-parser --save
 
+## Compatibility
+pixiv-novel-parser will move every where!
+- Opera 21
+- Firefox 29
+- IE 11
+- node.js 0.10.28
+- PECL V8js 0.1.3
+
 ## API
 
-### JavaScript API
+### JavaScript AP
 
 ```
 // On node.js.
