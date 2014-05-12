@@ -37,6 +37,7 @@
     };
   }
 
+  // {{{!Extended
   function tagRuby(rubyBase, rubyText) {
     return {
       type: 'tag',
@@ -61,6 +62,7 @@
       val: chars
     };
   }
+  // }}}!Extended
 }
 
 start = novel
@@ -69,8 +71,10 @@ novel = (tag / text)*
 
 text = chars:$(([^[]+ / (&(!tag) '['))+) { return text(chars); }
 
-tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri /
-  tagRuby / tagEmoji / tagStrong
+tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri
+  /* {{{!Extended */
+  / tagRuby / tagEmoji / tagStrong
+  /* }}}!Extended */
 
 tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
 
@@ -89,6 +93,19 @@ tagJumpuri =
     return tagJumpuri(jumpuriTitle, uri);
   }
 
+chapterTitle = title:$([^\]]*) { return title.trim(); }
+
+jumpuriTitle = title:$([^>]*) { return title.trim(); }
+
+numeric = $(DIGIT+)
+
+integer = digits:$(DIGIT+) { return parseInt(digits, 10); }
+
+URI = uri:$(('http' 's'?)? '://' uri_chrs*) { return uri; }
+
+uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
+
+// {{{!Extended
 tagRuby =
   '[ruby:' rubyBase:$([^>]*) '>' rubyText:$([^\]]*) ']' {
     return tagRuby(rubyBase.trim(), rubyText.trim());
@@ -98,19 +115,8 @@ tagEmoji = '[emoji:' emojiName:emojiName ']' { return tagEmoji(emojiName); }
 
 tagStrong = '[strong:' chars:$([^\]]*) ']' { return tagStrong(chars.trim()); }
 
-chapterTitle = title:$([^\]]*) { return title.trim(); }
-
-jumpuriTitle = title:$([^>]*) { return title.trim(); }
-
 emojiName = name:$((ALPHA / DIGIT /  '-')+) { return name.trim(); }
-
-numeric = $(DIGIT+)
-
-integer = digits:$(DIGIT+) { return parseInt(digits, 10); }
-
-URI = uri:$(('http' 's'?)? '://' uri_chrs*) { return uri; }
-
-uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
+// }}}!Extended
 
 // {{{ https://github.com/for-GET/core-pegjs/blob/master/src/ietf/rfc5234-core-abnf.pegjs
 /*
