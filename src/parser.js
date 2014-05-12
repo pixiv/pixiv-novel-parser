@@ -5,7 +5,7 @@
 var _inNode = 'process' in global;
 var parser;
 if (_inNode) {
-  parser = require('./parser.peg.js');
+  parser = require('./parser-extended.peg.js');
 } else {
   parser = PixivNovelParser.parser;
 }

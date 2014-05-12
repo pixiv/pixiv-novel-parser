@@ -23,7 +23,8 @@
     "gulp-mocha": "^0.4.1",
     "gulp-uglifyjs": "^0.2.0",
     "jshint-stylish": "^0.2.0",
-    "pegjs": "^0.8.0"
+    "pegjs": "^0.8.0",
+    "pegjs-override-action": "0.0.7"
   },
   "dependencies": {}
 }
