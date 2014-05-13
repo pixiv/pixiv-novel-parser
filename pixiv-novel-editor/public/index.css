@@ -38,3 +38,6 @@ h2 {
 .editor .editor-preview .novel-index {
   background: white;
 }
+.editor .editor-preview .page-header {
+  text-align: right;
+}

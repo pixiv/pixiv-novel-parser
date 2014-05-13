@@ -55,6 +55,12 @@ if (_inNode) {
   setImmediate = global.requestAnimationFrame;
 }
 
+emoji = Object.keys(emoji).reduce(function (accm, emojiName) {
+  accm[emojiName] = emoji[emojiName];
+  accm[emoji[emojiName]] = emojiName;
+  return accm;
+}, {});
+
 /**
  * Escape HTML.
  * @param {string} string
@@ -133,7 +139,7 @@ Builder.prototype.toHTML = function () {
       case 'jump':
         return '<a href="#page' + hs(token.pageNumber) + '">' + h(token.pageNumber) + 'ページヘ</a>';
       case 'jumpuri':
-        return '<a href="' + hs(token.uri) + '">' + h(token.title) + '</a>';
+        return '<a href="' + hs(token.uri) + '" target="_blank">' + h(token.title) + '</a>';
       case 'ruby':
         return '<ruby><rb>' + h(token.rubyBase) + '</rb><rp>[</rp><rt>' + h(token.rubyText) + '</rt><rp>]</rp></ruby>';
       case 'emoji':
@@ -147,12 +153,13 @@ Builder.prototype.toHTML = function () {
   }
 
   function pageToHTML(ast, i) {
+    /* jshint maxlen: 1000 */
     var page = '';
 
     page = ast.reduce(function (html, token) {
       return html + tokenToHTML(token, i + 1);
     }, '');
-    return '<a name="page' + (i + 1) + '"></a>' + page;
+    return '<a name="page' + (i + 1) + '"></a><a href="#page' + (i + 1) + '" class="page-header"><div>' + (i + 1) + 'ページ</div></a>' + page;
   }
 
   content = this.pages.map(pageToHTML).join('<hr/>');
