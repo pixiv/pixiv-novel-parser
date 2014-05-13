@@ -17,7 +17,7 @@ if ($_SERVER['PHP_SELF'] === '/api/0.0/build_novel') {
     $novel = preg_replace("/'/", "\\'", $novel);
     $novel = preg_replace('/\n/', '\\n', $novel);
     $js = <<< JS
-var parser = new PixivNovelParser.Parser(),
+var parser = new PixivNovelParser.Parser({ syntax: 'extended' }),
     builder = new PixivNovelParser.Builder();
 
 builder.build(parser.parse('{$novel}').tree).toHTML();

@@ -25,7 +25,7 @@
 <script src="public/bower_components/pixiv-novel-parser/build/pixiv-novel-parser.min.js"></script>
 <script src="src/builder.js"></script>
 <script>
-var parser = new PixivNovelParser.Parser(),
+var parser = new PixivNovelParser.Parser({ syntax: 'extended' }),
     builder = new PixivNovelParser.Builder();
 
 if (!Array.from) {

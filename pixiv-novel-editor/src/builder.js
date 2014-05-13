@@ -2,7 +2,51 @@
 /* jshint maxstatements: 1000 */
 'use strict';
 var _inNode = 'process' in global;
-var Parser;
+var emoji = {
+      // [].slice.call(document.querySelectorAll('.emoji')).map(function(n){
+      // return [n.dataset.name,n.src.match(/(\d+)\.png$/)[1]-0]}).sort(
+      // function(l,r){return l[1]-r[1]}).reduce(function(e,d){e+=d[0]+': '+
+      // d[1]+',\n';return e},'');
+      normal:        101,
+      surprise:      102,
+      serious:       103,
+      heaven:        104,
+      happy:         105,
+      excited:       106,
+      sing:          107,
+      cry:           108,
+      normal2:       201,
+      shame2:        202,
+      love2:         203,
+      interesting2:  204,
+      blush2:        205,
+      fire2:         206,
+      angry2:        207,
+      shine2:        208,
+      panic2:        209,
+      normal3:       301,
+      satisfaction3: 302,
+      surprise3:     303,
+      smile3:        304,
+      shock3:        305,
+      gaze3:         306,
+      wink3:         307,
+      happy3:        308,
+      excited3:      309,
+      love3:         310,
+      normal4:       401,
+      surprise4:     402,
+      serious4:      403,
+      love4:         404,
+      shine4:        405,
+      sweat4:        406,
+      shame4:        407,
+      sleep4:        408,
+      heart:         501,
+      teardrop:      502,
+      star:          503
+    },
+    Parser;
 if (_inNode) {
   Parser = require('pixiv-novel-parser').Parser;
 } else {
@@ -89,6 +133,13 @@ Builder.prototype.toHTML = function () {
         return '<a href="#page' + hs(token.pageNumber) + '">' + h(token.pageNumber) + 'ページヘ</a>';
       case 'jumpuri':
         return '<a href="' + hs(token.uri) + '">' + h(token.title) + '</a>';
+      case 'ruby':
+        return '<ruby><rb>' + h(token.rubyBase) + '</rb><rp>[</rp><rt>' + h(token.rubyText) + '</rt><rp>]</rp></ruby>';
+      case 'emoji':
+        if (!emoji[token.emojiName]) { return '(' + h(token.emojiName) + ')'; }
+        return '<img src="http://source.pixiv.net/common/images/emoji/' + emoji[token.emojiName] +'.png" data-src="http://source.pixiv.net/common/images/emoji/' + emoji[token.emojiName] +'.png" width="42" height="42" class="emoji" data-name="' + hs(token.emojiName) + '">';
+      case 'strong':
+        return '<u>' + h(token.val) + '</u>';
       default:
         return '';
     }

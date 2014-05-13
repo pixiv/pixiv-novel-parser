@@ -8,7 +8,7 @@ var App = require('./src/app'),
     Parser = require('pixiv-novel-parser').Parser;
 var app = new App(),
     builder = new Builder(),
-    parser = new Parser();
+    parser = new Parser({ syntax: 'extended' });
 
 /**
  * @param {string} filename
