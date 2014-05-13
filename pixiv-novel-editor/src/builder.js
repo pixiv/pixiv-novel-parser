@@ -46,11 +46,13 @@ var emoji = {
       teardrop:      502,
       star:          503
     },
-    Parser;
+    Parser, setImmediate;
 if (_inNode) {
   Parser = require('pixiv-novel-parser').Parser;
+  setImmediate = global.setImmediate;
 } else {
   Parser = global.PixivNovelParser.Parser;
+  setImmediate = global.requestAnimationFrame;
 }
 
 /**
@@ -127,8 +129,7 @@ Builder.prototype.toHTML = function () {
       case 'chapter':
         return '<h1><a name="page' + pageNumber + '-chapter' + hs(token.chapterNumber) + '"></a>' + h(token.title) + '</h1>';
       case 'pixivimage':
-        return '<script src="http://source.pixiv.net/source/embed.js" data-id="' + hs(token.illustID) + '_f4d95fc6ba9052e1278a56e5c497ef3e" data-size="medium" data-border="on" charset="utf-8"></script>' +
-          '<noscript><a href="http://p.tl/i/' + hs(token.illustID) + '">' + h(token.illustID) + '</a></noscript>';
+        return '<iframe src="http://embed.pixiv.net/code.php?id=' + hs(token.illustID) + '_eeb992fd7fd9cebcee003101782c2262" width="380" height="168" style="background:transparent" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>';
       case 'jump':
         return '<a href="#page' + hs(token.pageNumber) + '">' + h(token.pageNumber) + 'ページヘ</a>';
       case 'jumpuri':
