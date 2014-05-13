@@ -26,7 +26,7 @@ pixiv-novel-parser will move every where!
 
 ## API
 
-### JavaScript AP
+### JavaScript API
 
 ```
 // On node.js.
