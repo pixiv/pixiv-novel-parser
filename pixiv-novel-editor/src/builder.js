@@ -2,7 +2,8 @@
 /* jshint maxstatements: 1000 */
 'use strict';
 var _inNode = 'process' in global;
-var emoji = {
+var momongaImages = [],
+    emoji = {
       // [].slice.call(document.querySelectorAll('.emoji')).map(function(n){
       // return [n.dataset.name,n.src.match(/(\d+)\.png$/)[1]-0]}).sort(
       // function(l,r){return l[1]-r[1]}).reduce(function(e,d){e+=d[0]+': '+
@@ -60,6 +61,31 @@ emoji = Object.keys(emoji).reduce(function (accm, emojiName) {
   accm[emoji[emojiName]] = emojiName;
   return accm;
 }, {});
+
+(function () {
+  var fs, request;
+
+  try {
+    if (_inNode) {
+      fs = require('fs');
+      fs.readFile('../public/momonga.json', { encoding: 'utf8' }, function (err, data) {
+        if (err) { return; }
+        momongaImages = JSON.parse(data).images;
+      });
+    } else {
+      request = new XMLHttpRequest();
+
+      request.open('GET', 'public/momonga.json');
+      request.send();
+      request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+          momongaImages = JSON.parse(request.responseText).images;
+        }
+      };
+    }
+  } catch (err) {
+  }
+ }());
 
 /**
  * Escape HTML.
@@ -129,7 +155,7 @@ Builder.prototype.toHTML = function () {
       index = '';
 
   function tokenToHTML(token, pageNumber) {
-    /* jshint maxlen: 1000 */
+    /* jshint maxlen: 1000, maxcomplexity: 50 */
     if (token.type === 'text') { return h(token.val).replace(/\n/g, '<br/>'); }
     switch (token.name) {
       case 'chapter':
@@ -147,7 +173,10 @@ Builder.prototype.toHTML = function () {
         return '<img src="http://source.pixiv.net/common/images/emoji/' + emoji[token.emojiName] +'.png" data-src="http://source.pixiv.net/common/images/emoji/' + emoji[token.emojiName] +'.png" width="42" height="42" class="emoji" data-name="' + hs(token.emojiName) + '">';
       case 'strong':
         return '<u>' + h(token.val) + '</u>';
+      case 'momonga':
+        return '<img src="' + momongaImages[Math.floor(Math.random() * momongaImages.length)] + '" alt="ももんが"/>';
       default:
+        console.log(token);
         return '';
     }
   }

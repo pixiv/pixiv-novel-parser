@@ -62,6 +62,13 @@
       val: chars
     };
   }
+
+  function tagMomonga() {
+    return {
+      type: 'tag',
+      name: 'momonga'
+    };
+  }
   // }}}!Extended
 }
 
@@ -73,7 +80,7 @@ text = chars:$(([^[]+ / (&(!tag) '['))+) { return text(chars); }
 
 tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri
   /* {{{!Extended */
-  / tagRuby / tagEmoji / tagStrong
+  / tagRuby / tagEmoji / tagStrong / tagMomonga
   /* }}}!Extended */
 
 tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
@@ -114,6 +121,8 @@ tagRuby =
 tagEmoji = '[emoji:' emojiName:emojiName ']' { return tagEmoji(emojiName); }
 
 tagStrong = '[strong:' chars:$([^\]]*) ']' { return tagStrong(chars.trim()); }
+
+tagMomonga = '[momonga]' { return tagMomonga(); }
 
 emojiName = name:$((ALPHA / DIGIT /  '-')+) { return name.trim(); }
 // }}}!Extended

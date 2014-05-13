@@ -50,7 +50,7 @@ gulp.task('pegjs-basic', function (done) {
         rules: {
           tag: [
             void 0, void 0, void 0, void 0, void 0,
-            'return __$__;', 'return __$__;', 'return __$__;'
+            'return __$__;', 'return __$__;', 'return __$__;', 'return __$__;'
           ]
         }
       }
