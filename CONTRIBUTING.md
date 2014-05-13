@@ -12,7 +12,7 @@ $ bower install
 
 ## Build
 
-    $ gulp build
+    $ gulp
 
 ## Testing
 

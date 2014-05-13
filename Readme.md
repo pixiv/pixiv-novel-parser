@@ -38,12 +38,15 @@ var Parser = PixivNovelParser.Parser;
 ```
 
 ```javascript
-console.log(Parser.parse('[chapter:見出し]本文')); // -> Get AST.
+console.log(
+  Parser.parse(
+    '[chapter:見出し]本文[emoji:love2]',
+    { syntax: 'extended' }));            // -> Get AST.
 ```
 
 ```javascript
 var parser = new Parser();
-parser.parse('[chapter:見出し]本文');
+parser.parse('[chapter:見出し]本文[emoji:love2]', { syntax: 'extended' });
 
 console.log(parser.tree);     // -> Get AST.
 console.log(parser.toJSON()); // -> Output as JSON.
