@@ -8,8 +8,8 @@ if (_inNode) {
   basicParser = require('./parser.peg.js');
   extendedParser = require('./parser-extended.peg.js');
 } else {
-  basicParser = PixivNovelParser.parser;
-  extendedParser = PixivNovelParser.parser;
+  basicParser = PixivNovelParser.basicParser;
+  extendedParser = PixivNovelParser.extendedParser;
 }
 
 /**
