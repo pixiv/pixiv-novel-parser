@@ -1690,7 +1690,7 @@
         };
       }
 
-      // {{{!Extended
+    // {{{!Extended
       function tagRuby(rubyBase, rubyText) {
         return {
           type: 'tag',
@@ -1715,7 +1715,7 @@
           val: chars
         };
       }
-      // }}}!Extended
+    // }}}!Extended
 
 
     peg$result = peg$startRuleFunction();

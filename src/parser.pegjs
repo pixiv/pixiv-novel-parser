@@ -37,7 +37,7 @@
     };
   }
 
-  // {{{!Extended
+// {{{!Extended
   function tagRuby(rubyBase, rubyText) {
     return {
       type: 'tag',
@@ -62,7 +62,7 @@
       val: chars
     };
   }
-  // }}}!Extended
+// }}}!Extended
 }
 
 start = novel
@@ -72,9 +72,9 @@ novel = (tag / text)*
 text = chars:$(([^[]+ / (&(!tag) '['))+) { return text(chars); }
 
 tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri
-  /* {{{!Extended */
+// {{{!Extended
   / tagRuby / tagEmoji / tagStrong
-  /* }}}!Extended */
+// }}}!Extended
 
 tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
 

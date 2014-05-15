@@ -6,7 +6,7 @@ var clean = require('gulp-clean'),
     jshint = require('gulp-jshint'),
     jshintStylish = require('jshint-stylish'),
     mocha = require('gulp-mocha'),
-    overrideAction = require('pegjs-override-action'),
+    // overrideAction = require('pegjs-override-action'),
     PEG = require('pegjs'),
     runSequence = require('run-sequence'),
     uglifyjs = require('gulp-uglifyjs');
@@ -39,22 +39,14 @@ gulp.task('mocha', function () {
 });
 
 gulp.task('pegjs-basic', function (done) {
+  var regex = /^\s*\/\/\s*{{{\s*!Extended[\s\S]*?^\s*\/\/\s*}}}\s*!Extended.*$/igm;
+
   fs.readFile('src/parser.pegjs', { encoding: 'utf8' }, function (err, data) {
     var code = '';
 
     if (err) { return done(err); }
-    code = PEG.buildParser(data , {
-      output: 'source',
-      plugins: [overrideAction],
-      overrideActionPlugin: {
-        rules: {
-          tag: [
-            void 0, void 0, void 0, void 0, void 0,
-            'return __$__;', 'return __$__;', 'return __$__;'
-          ]
-        }
-      }
-    });
+    data = data.replace(regex, '');
+    code = PEG.buildParser(data , { output: 'source' });
     code = packageJs(code, 'basicParser');
     fs.writeFile('src/parser.peg.js', code, function (err) {
       done(err);

@@ -116,6 +116,18 @@ describe('Parser specifications with extened syntax.', function () {
       assert.ok(helper.validateJSON(parser.tree[0], schema));
     });
   });
+
+  it('syntax: basicを指定するとちゃんと拡張文法を認識しない', function () {
+    var parser = new Parser(),
+        novel = '[strong:革新的なももんが][chapter:基礎的な章]',
+        expectedAST = [
+          { type: 'text', val: '[strong:革新的なももんが]' },
+          { type: 'tag', name: 'chapter', title: '基礎的な章' }
+        ];
+
+      parser.parse(novel);
+      assert.deepEqual(parser.tree, expectedAST);
+  });
 });
 
 }((this || 0).self || global));

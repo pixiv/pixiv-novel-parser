@@ -32,7 +32,7 @@ function Parser(options) {
 /**
  * @param {string} novel
  * @param {Object,<string,Object>} options
- *   { syntex: 'basic' | 'extended' }
+ *   { syntax: 'basic' | 'extended' }
  * @return {Object.<string,Object>[]}
  */
 Parser.parse = function (novel, options) {
