@@ -1,4 +1,8 @@
 {
+  function trim(string) {
+    return string.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  }
+
   function text(chars) {
     return { type: 'text', val: chars };
   }
@@ -99,9 +103,9 @@ tagJumpuri =
     return tagJumpuri(jumpuriTitle, uri);
   }
 
-chapterTitle = title:[^\]]* { return title.join('').trim(); }
+chapterTitle = title:[^\]]* { return trim(title.join('')); }
 
-jumpuriTitle = title:[^>]* { return title.join('').trim(); }
+jumpuriTitle = title:[^>]* { return trim(title.join('')); }
 
 numeric = digits:DIGIT+ { return digits.join(''); }
 
@@ -114,14 +118,14 @@ uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
 // {{{!Extended
 tagRuby =
   '[ruby:' rubyBase:[^>]* '>' rubyText:[^\]]* ']' {
-    return tagRuby(rubyBase.join('').trim(), rubyText.join('').trim());
+    return tagRuby(trim(rubyBase.join('')), trim(rubyText.join('')));
   }
 
 tagEmoji = '[emoji:' emojiName:emojiName ']' { return tagEmoji(emojiName); }
 
-tagStrong = '[strong:' chars:[^\]]* ']' { return tagStrong(chars.join('').trim()); }
+tagStrong = '[strong:' chars:[^\]]* ']' { return tagStrong(trim(chars.join(''))); }
 
-emojiName = name:(ALPHA / DIGIT /  '-')+ { return name.join('').trim(); }
+emojiName = name:(ALPHA / DIGIT /  '-')+ { return trim(name.join('')); }
 // }}}!Extended
 
 // {{{ https://github.com/for-GET/core-pegjs/blob/master/src/ietf/rfc5234-core-abnf.pegjs

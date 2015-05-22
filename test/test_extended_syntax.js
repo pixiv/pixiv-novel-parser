@@ -27,7 +27,7 @@ describe('Parser specifications with extened syntax.', function () {
             { type: 'tag', name: 'ruby', rubyBase: '換言', rubyText: 'かんげん' },
             { type: 'text', val: 'すれば' },
             { type: 'tag', name: 'ruby', rubyBase: '畢竟', rubyText: 'ひっきょう' },
-            { type: 'text', val: 'ももんが' },
+            { type: 'text', val: 'ももんが' }
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
