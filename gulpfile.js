@@ -80,8 +80,15 @@ gulp.task('uglifyjs', ['concat'], function () {
     pipe(gulp.dest('build'));
 });
 
+gulp.task('copy', function () {
+  return gulp.src('build/*').pipe(gulp.dest('dist'));
+});
+
 gulp.task('build', ['pegjs', 'concat', 'uglifyjs']);
 gulp.task('test', ['jshint', 'mocha']);
+gulp.task('dist', function () {
+  return runSequence('clean', 'build', 'test', 'copy');
+});
 gulp.task('default', function () {
   return runSequence('clean', 'build', 'test');
 });
