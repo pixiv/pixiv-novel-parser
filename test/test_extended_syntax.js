@@ -19,44 +19,6 @@ if (_inNode) {
 
 describe('Parser specifications with extened syntax.', function () {
   /* jshint quotmark: false */
-  describe('ルビ', function () {
-    it('ルビをちゃんと認識できる', function () {
-      var parser = new Parser({ syntax: 'extended' }),
-          novel = '[ruby: 換言 > かんげん ]すれば[ruby:畢竟>ひっきょう]ももんが',
-          expectedAST = [
-            { type: 'tag', name: 'ruby', rubyBase: '換言', rubyText: 'かんげん' },
-            { type: 'text', val: 'すれば' },
-            { type: 'tag', name: 'ruby', rubyBase: '畢竟', rubyText: 'ひっきょう' },
-            { type: 'text', val: 'ももんが' }
-          ],
-          schema = {
-            "$schema": "http://json-schema.org/draft-02/hyper-schema#",
-            "id": "http://json-schema.org/draft-02/schema#",
-            "type": "object",
-            "properties": {
-              "type": {
-                "enum": ["tag"]
-              },
-              "name": {
-                "enum": ["ruby"]
-              },
-              "rubyBase": {
-                "type": "string"
-              },
-              "rubyText": {
-                "type": "string"
-              }
-            },
-            "required": ["type", "name", "rubyBase", "rubyText"]
-          };
-
-      parser.parse(novel);
-      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
-      expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
-      expect(helper.validateJSON(parser.tree[2], schema)).to.be.ok();
-    });
-  });
-
   describe('絵文字', function () {
     it('絵文字はちゃんと絵文字', function () {
       var parser = new Parser({ syntax: 'extended' }),

@@ -75,6 +75,44 @@ describe('Parser specifications.', function () {
     });
   });
 
+  describe('ルビ', function () {
+    it('ルビをちゃんと認識できる', function () {
+      var parser = new Parser({ syntax: 'basic' }),
+          novel = '[[ruby: 換言 > かんげん ]]すれば[[ruby:畢竟>ひっきょう]]ももんが',
+          expectedAST = [
+            { type: 'tag', name: 'ruby', rubyBase: '換言', rubyText: 'かんげん' },
+            { type: 'text', val: 'すれば' },
+            { type: 'tag', name: 'ruby', rubyBase: '畢竟', rubyText: 'ひっきょう' },
+            { type: 'text', val: 'ももんが' }
+          ],
+          schema = {
+            "$schema": "http://json-schema.org/draft-02/hyper-schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": ["tag"]
+              },
+              "name": {
+                "enum": ["ruby"]
+              },
+              "rubyBase": {
+                "type": "string"
+              },
+              "rubyText": {
+                "type": "string"
+              }
+            },
+            "required": ["type", "name", "rubyBase", "rubyText"]
+          };
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+      expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
+      expect(helper.validateJSON(parser.tree[2], schema)).to.be.ok();
+    });
+  });
+
   describe('chapter', function () {
     it('見出しをちゃんと表示できる', function () {
       var parser = new Parser(),
@@ -88,6 +126,61 @@ describe('Parser specifications.', function () {
               }
             ] },
             { type: 'text', val: '本文' }
+          ],
+          schema = {
+            "$schema": "http://json-schema.org/draft-02/hyper-schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": ["tag"]
+              },
+              "name": {
+                "enum": ["chapter"]
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": ["type", "name", "title"]
+          };
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+      //expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
+    });
+
+    it('見出し内でルビが使用できる', function () {
+      var parser = new Parser(),
+          novel = '[chapter:ルビが[[ruby: 使用 > しよう]]できる[[ruby:見出>みだ]]し]\nルビが使用できます。',
+          expectedAST = [
+            { type: 'tag', name: 'chapter', title: [
+              {
+                type: 'text',
+                val: 'ルビが'
+              },
+              {
+                type: 'tag',
+                name: 'ruby',
+                rubyBase: '使用',
+                rubyText: 'しよう'
+              },
+              {
+                type: 'text',
+                val: 'できる'
+              },
+              {
+                type: 'tag',
+                name: 'ruby',
+                rubyBase: '見出',
+                rubyText: 'みだ'
+              },
+              {
+                type: 'text',
+                val: 'し'
+              }
+            ] },
+            { type: 'text', val: 'ルビが使用できます。' }
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",
@@ -226,6 +319,64 @@ describe('Parser specifications.', function () {
                 val: '[pixiv]'
               }
             ], uri: 'http://www.pixiv.net/' }
+          ],
+          schema = {
+            "$schema": "http://json-schema.org/draft-02/hyper-schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": ["tag"]
+              },
+              "name": {
+                "enum": ["jumpuri"]
+              },
+              "title": {
+                "type": "string"
+              },
+              "uri": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": ["type", "name", "title", "uri"]
+          };
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+      //expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
+    });
+
+    it('外部リンク内でルビが使用できる', function () {
+      var parser = new Parser(),
+          novel = '[[jumpuri:とある[[ruby: 魔術 > まじゅつ]]の[[ruby:禁書目録>インデックス]] > http://www.project-index.net/]]',
+          expectedAST = [
+            { type: 'tag', name: 'jumpuri', title: [
+              {
+                type: 'text',
+                val: 'とある'
+              },
+              {
+                type: 'tag',
+                name: 'ruby',
+                rubyBase: '魔術',
+                rubyText: 'まじゅつ'
+              },
+              {
+                type: 'text',
+                val: 'の'
+              },
+              {
+                type: 'tag',
+                name: 'ruby',
+                rubyBase: '禁書目録',
+                rubyText: 'インデックス'
+              },
+              {
+                type: 'text',
+                val: ''
+              }
+            ], uri: 'http://www.project-index.net/' }
           ],
           schema = {
             "$schema": "http://json-schema.org/draft-02/hyper-schema#",

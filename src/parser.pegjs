@@ -53,7 +53,6 @@
     };
   }
 
-// {{{!Extended
   function tagRuby(rubyBase, rubyText) {
     return {
       type: 'tag',
@@ -62,6 +61,8 @@
       rubyText: rubyText
     };
   }
+
+// {{{!Extended
 
   function tagEmoji(emojiName) {
     return {
@@ -144,7 +145,7 @@ URI = scheme:('http' 's'? '://') chars:uri_chrs* { return scheme.join('') + char
 uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
 
 tagRuby =
-  '[ruby:' rubyBase:[^>]* '>' rubyText:[^\]]* ']' {
+  '[[ruby:' rubyBase:[^>]* '>' rubyText:[^\]]* ']]' {
     return tagRuby(trim(rubyBase.join('')), trim(rubyText.join('')));
   }
 
