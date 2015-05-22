@@ -1,4 +1,20 @@
 {
+  function serialize(array) {
+    var ret = [];
+    for (var i = 0; i < array.length; i++) {
+      if (typeof array[i] === 'object') {
+        ret = ret.concat(serialize(array[i]));
+      } else {
+        ret.push(array[i]);
+      }
+    }
+    return ret;
+  }
+
+  function trim(string) {
+    return string.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+  }
+
   function text(chars) {
     return { type: 'text', val: chars };
   }
@@ -37,7 +53,6 @@
     };
   }
 
-// {{{!Extended
   function tagRuby(rubyBase, rubyText) {
     return {
       type: 'tag',
@@ -46,6 +61,8 @@
       rubyText: rubyText
     };
   }
+
+// {{{!Extended
 
   function tagEmoji(emojiName) {
     return {
@@ -69,17 +86,39 @@ start = novel
 
 novel = (tag / text)*
 
-text = chars:$(([^[]+ / (&(!tag) '['))+) { return text(chars); }
+text = chars:(([^\[]+ / (&(!tag) '['))+) {
+  var ret = '';
+  for (var i = 0; i < chars.length; i++) {
+    ret += chars[i].join('');
+  }
+  return text(ret);
+}
 
-tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri
+inlineText = chars:(([^\[\]]+ / (&(!inlineTag) '['))+) {
+  return text(trim(serialize(chars).join('')));
+}
+
+inlineToken = inlineTag / inlineText
+inlineTokens = inlineToken+
+
+inlineInlineText = chars:(([^\[>]+ &(!']]') / (&(!inlineTag) '['))+) {
+  return text(trim(serialize(chars).join('')));
+}
+
+inlineInlineToken = inlineTag / inlineInlineText
+inlineInlineTokens = inlineInlineToken+
+
+inlineTag = tagRuby
+
+tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri / tagRuby
 // {{{!Extended
-  / tagRuby / tagEmoji / tagStrong
+  / tagEmoji / tagStrong
 // }}}!Extended
 
 tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
 
 tagChapter =
-  '[chapter:' title:chapterTitle ']' (CR / LF)? { return tagChapter(title); }
+  '[chapter:' title:inlineTokens ']' (CR / LF)? { return tagChapter(title); }
 
 tagPixivimage =
   '[pixivimage:' illustID:numeric pageNumber:('-' integer)? ']' {
@@ -89,33 +128,33 @@ tagPixivimage =
 tagJump = '[jump:' pageNumber:integer ']' { return tagJump(pageNumber); }
 
 tagJumpuri =
-  '[[jumpuri:' jumpuriTitle:jumpuriTitle '>' WSP* uri:URI WSP* ']]' {
+  '[[jumpuri:' jumpuriTitle:inlineInlineTokens '>' WSP* uri:URI WSP* ']]' {
     return tagJumpuri(jumpuriTitle, uri);
   }
 
-chapterTitle = title:$([^\]]*) { return title.trim(); }
+chapterTitle = title:[^\]]* { return trim(title.join('')); }
 
-jumpuriTitle = title:$([^>]*) { return title.trim(); }
+jumpuriTitle = title:[^>]* { return trim(title.join('')); }
 
-numeric = $(DIGIT+)
+numeric = digits:DIGIT+ { return digits.join(''); }
 
-integer = digits:$(DIGIT+) { return parseInt(digits, 10); }
+integer = digits:DIGIT+ { return parseInt(digits.join(''), 10); }
 
-URI = uri:$(('http' 's'?)? '://' uri_chrs*) { return uri; }
+URI = scheme:('http' 's'? '://') chars:uri_chrs* { return scheme.join('') + chars.join(''); }
 
 uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
 
-// {{{!Extended
 tagRuby =
-  '[ruby:' rubyBase:$([^>]*) '>' rubyText:$([^\]]*) ']' {
-    return tagRuby(rubyBase.trim(), rubyText.trim());
+  '[[ruby:' rubyBase:[^>]* '>' rubyText:([^\]]+ / ']' &(!']'))* ']]' {
+    return tagRuby(trim(rubyBase.join('')), trim(serialize(rubyText).join('')));
   }
 
+// {{{!Extended
 tagEmoji = '[emoji:' emojiName:emojiName ']' { return tagEmoji(emojiName); }
 
-tagStrong = '[strong:' chars:$([^\]]*) ']' { return tagStrong(chars.trim()); }
+tagStrong = '[strong:' chars:[^\]]* ']' { return tagStrong(trim(chars.join(''))); }
 
-emojiName = name:$((ALPHA / DIGIT /  '-')+) { return name.trim(); }
+emojiName = name:(ALPHA / DIGIT /  '-')+ { return trim(name.join('')); }
 // }}}!Extended
 
 // {{{ https://github.com/for-GET/core-pegjs/blob/master/src/ietf/rfc5234-core-abnf.pegjs
@@ -169,7 +208,7 @@ LF
   = "\x0A"
 
 LWSP
-  = $(WSP / CRLF WSP)*
+  = (WSP / CRLF WSP)*
 
 OCTET
   = [\x00-\xFF]

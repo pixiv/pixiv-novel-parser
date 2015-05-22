@@ -35,7 +35,7 @@ gulp.task('jshint', function () {
 
 gulp.task('mocha', function () {
   return gulp.src(['test/**/*.js']).
-    pipe(mocha({ reporter: 'nyan' }));
+    pipe(mocha({ reporter: 'spec' }));
 });
 
 gulp.task('pegjs-basic', function (done) {
@@ -46,7 +46,7 @@ gulp.task('pegjs-basic', function (done) {
 
     if (err) { return done(err); }
     data = data.replace(regex, '');
-    code = PEG.buildParser(data , { output: 'source' });
+    code = PEG.buildParser(data)._source;
     code = packageJs(code, 'basicParser');
     fs.writeFile('src/parser.peg.js', code, function (err) {
       done(err);
@@ -59,7 +59,7 @@ gulp.task('pegjs-extended', function (done) {
     var code = '';
 
     if (err) { return done(err); }
-    code = PEG.buildParser(data , { output: 'source' });
+    code = PEG.buildParser(data)._source;
     code = packageJs(code, 'extendedParser');
     fs.writeFile('src/parser-extended.peg.js', code, function (err) {
       done(err);
@@ -80,8 +80,15 @@ gulp.task('uglifyjs', ['concat'], function () {
     pipe(gulp.dest('build'));
 });
 
+gulp.task('copy', function () {
+  return gulp.src('build/*').pipe(gulp.dest('dist'));
+});
+
 gulp.task('build', ['pegjs', 'concat', 'uglifyjs']);
 gulp.task('test', ['jshint', 'mocha']);
+gulp.task('dist', function () {
+  return runSequence('clean', 'build', 'test', 'copy');
+});
 gulp.task('default', function () {
   return runSequence('clean', 'build', 'test');
 });

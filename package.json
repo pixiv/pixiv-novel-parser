@@ -17,6 +17,7 @@
   "license": "CC0",
   "devDependencies": {
     "JSV": "^4.0.2",
+    "expect.js": "^0.3.1",
     "gulp": "^3.6.2",
     "gulp-clean": "^0.2.4",
     "gulp-concat": "^2.2.0",
@@ -24,7 +25,8 @@
     "gulp-mocha": "^0.4.1",
     "gulp-uglifyjs": "^0.2.0",
     "jshint-stylish": "^0.2.0",
-    "pegjs": "^0.8.0",
+    "lodash": "^3.9.1",
+    "pegjs": "=0.6.2",
     "pegjs-override-action": "0.0.7",
     "run-sequence": "^0.3.6"
   },
