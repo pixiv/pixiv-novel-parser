@@ -46,7 +46,7 @@ gulp.task('pegjs-basic', function (done) {
 
     if (err) { return done(err); }
     data = data.replace(regex, '');
-    code = PEG.buildParser(data , { output: 'source' });
+    code = PEG.buildParser(data)._source;
     code = packageJs(code, 'basicParser');
     fs.writeFile('src/parser.peg.js', code, function (err) {
       done(err);
@@ -59,7 +59,7 @@ gulp.task('pegjs-extended', function (done) {
     var code = '';
 
     if (err) { return done(err); }
-    code = PEG.buildParser(data , { output: 'source' });
+    code = PEG.buildParser(data)._source;
     code = packageJs(code, 'extendedParser');
     fs.writeFile('src/parser-extended.peg.js', code, function (err) {
       done(err);
