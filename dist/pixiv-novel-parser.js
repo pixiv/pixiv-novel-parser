@@ -1769,13 +1769,13 @@
         
         var savedPos0 = pos;
         var savedPos1 = pos;
-        if (input.substr(pos, 7) === "[[ruby:") {
-          var result3 = "[[ruby:";
-          pos += 7;
+        if (input.substr(pos, 5) === "[[rb:") {
+          var result3 = "[[rb:";
+          pos += 5;
         } else {
           var result3 = null;
           if (reportMatchFailures) {
-            matchFailed("\"[[ruby:\"");
+            matchFailed("\"[[rb:\"");
           }
         }
         if (result3 !== null) {
@@ -2847,7 +2847,7 @@
       
         type: 'tag',
       
-        name: 'ruby',
+        name: 'rb',
       
         rubyBase: rubyBase,
       
@@ -4700,13 +4700,13 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
         
         var savedPos0 = pos;
         var savedPos1 = pos;
-        if (input.substr(pos, 7) === "[[ruby:") {
-          var result3 = "[[ruby:";
-          pos += 7;
+        if (input.substr(pos, 5) === "[[rb:") {
+          var result3 = "[[rb:";
+          pos += 5;
         } else {
           var result3 = null;
           if (reportMatchFailures) {
-            matchFailed("\"[[ruby:\"");
+            matchFailed("\"[[rb:\"");
           }
         }
         if (result3 !== null) {
@@ -6014,7 +6014,7 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
       
         type: 'tag',
       
-        name: 'ruby',
+        name: 'rb',
       
         rubyBase: rubyBase,
       

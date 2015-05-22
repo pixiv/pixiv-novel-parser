@@ -78,11 +78,11 @@ describe('Parser specifications.', function () {
   describe('ルビ', function () {
     it('ルビをちゃんと認識できる', function () {
       var parser = new Parser({ syntax: 'basic' }),
-          novel = '[[ruby: 換言 > かんげん ]]すれば[[ruby:畢竟>ひっきょう]]ももんが',
+          novel = '[[rb: 換言 > かんげん ]]すれば[[rb:畢竟>ひっきょう]]ももんが',
           expectedAST = [
-            { type: 'tag', name: 'ruby', rubyBase: '換言', rubyText: 'かんげん' },
+            { type: 'tag', name: 'rb', rubyBase: '換言', rubyText: 'かんげん' },
             { type: 'text', val: 'すれば' },
-            { type: 'tag', name: 'ruby', rubyBase: '畢竟', rubyText: 'ひっきょう' },
+            { type: 'tag', name: 'rb', rubyBase: '畢竟', rubyText: 'ひっきょう' },
             { type: 'text', val: 'ももんが' }
           ],
           schema = {
@@ -94,7 +94,7 @@ describe('Parser specifications.', function () {
                 "enum": ["tag"]
               },
               "name": {
-                "enum": ["ruby"]
+                "enum": ["rb"]
               },
               "rubyBase": {
                 "type": "string"
@@ -114,11 +114,11 @@ describe('Parser specifications.', function () {
 
     it('ルビ内ではタグは使えない', function () {
       var parser = new Parser({ syntax: 'basic' }),
-          novel = '[[ruby: [chapter:換言] > かんげん ]]すれば[[ruby:[jumpuri:畢竟>https://kotobank.jp/word/%E7%95%A2%E7%AB%9F]>ひっきょう]]ももんが',
+          novel = '[[rb: [chapter:換言] > かんげん ]]すれば[[rb:[jumpuri:畢竟>https://kotobank.jp/word/%E7%95%A2%E7%AB%9F]>ひっきょう]]ももんが',
           expectedAST = [
-            { type: 'tag', name: 'ruby', rubyBase: '[chapter:換言]', rubyText: 'かんげん' },
+            { type: 'tag', name: 'rb', rubyBase: '[chapter:換言]', rubyText: 'かんげん' },
             { type: 'text', val: 'すれば' },
-            { type: 'tag', name: 'ruby', rubyBase: '[jumpuri:畢竟', rubyText: 'https://kotobank.jp/word/%E7%95%A2%E7%AB%9F]>ひっきょう' },
+            { type: 'tag', name: 'rb', rubyBase: '[jumpuri:畢竟', rubyText: 'https://kotobank.jp/word/%E7%95%A2%E7%AB%9F]>ひっきょう' },
             { type: 'text', val: 'ももんが' }
           ],
           schema = {
@@ -130,7 +130,7 @@ describe('Parser specifications.', function () {
                 "enum": ["tag"]
               },
               "name": {
-                "enum": ["ruby"]
+                "enum": ["rb"]
               },
               "rubyBase": {
                 "type": "string"
@@ -188,7 +188,7 @@ describe('Parser specifications.', function () {
 
     it('見出し内でルビが使用できる', function () {
       var parser = new Parser(),
-          novel = '[chapter:ルビが[[ruby: 使用 > しよう]]できる[[ruby:見出>みだ]]し]\nルビが使用できます。',
+          novel = '[chapter:ルビが[[rb: 使用 > しよう]]できる[[rb:見出>みだ]]し]\nルビが使用できます。',
           expectedAST = [
             { type: 'tag', name: 'chapter', title: [
               {
@@ -197,7 +197,7 @@ describe('Parser specifications.', function () {
               },
               {
                 type: 'tag',
-                name: 'ruby',
+                name: 'rb',
                 rubyBase: '使用',
                 rubyText: 'しよう'
               },
@@ -207,7 +207,7 @@ describe('Parser specifications.', function () {
               },
               {
                 type: 'tag',
-                name: 'ruby',
+                name: 'rb',
                 rubyBase: '見出',
                 rubyText: 'みだ'
               },
@@ -385,7 +385,7 @@ describe('Parser specifications.', function () {
 
     it('外部リンク内でルビが使用できる', function () {
       var parser = new Parser(),
-          novel = '[[jumpuri:とある[[ruby: 魔術 > まじゅつ]]の[[ruby:禁書目録>インデックス]] > http://www.project-index.net/]]',
+          novel = '[[jumpuri:とある[[rb: 魔術 > まじゅつ]]の[[rb:禁書目録>インデックス]] > http://www.project-index.net/]]',
           expectedAST = [
             { type: 'tag', name: 'jumpuri', title: [
               {
@@ -394,7 +394,7 @@ describe('Parser specifications.', function () {
               },
               {
                 type: 'tag',
-                name: 'ruby',
+                name: 'rb',
                 rubyBase: '魔術',
                 rubyText: 'まじゅつ'
               },
@@ -404,7 +404,7 @@ describe('Parser specifications.', function () {
               },
               {
                 type: 'tag',
-                name: 'ruby',
+                name: 'rb',
                 rubyBase: '禁書目録',
                 rubyText: 'インデックス'
               },

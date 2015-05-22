@@ -56,7 +56,7 @@
   function tagRuby(rubyBase, rubyText) {
     return {
       type: 'tag',
-      name: 'ruby',
+      name: 'rb',
       rubyBase: rubyBase,
       rubyText: rubyText
     };
@@ -145,7 +145,7 @@ URI = scheme:('http' 's'? '://') chars:uri_chrs* { return scheme.join('') + char
 uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
 
 tagRuby =
-  '[[ruby:' rubyBase:[^>]* '>' rubyText:([^\]]+ / ']' &(!']'))* ']]' {
+  '[[rb:' rubyBase:[^>]* '>' rubyText:([^\]]+ / ']' &(!']'))* ']]' {
     return tagRuby(trim(rubyBase.join('')), trim(serialize(rubyText).join('')));
   }
 
