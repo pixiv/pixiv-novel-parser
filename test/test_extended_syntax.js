@@ -124,7 +124,12 @@ describe('Parser specifications with extened syntax.', function () {
         novel = '[strong:革新的なももんが][chapter:基礎的な章]',
         expectedAST = [
           { type: 'text', val: '[strong:革新的なももんが]' },
-          { type: 'tag', name: 'chapter', title: '基礎的な章' }
+          { type: 'tag', name: 'chapter', title: [
+            {
+              type: 'text',
+              val: '基礎的な章'
+            }
+          ] }
         ];
 
       parser.parse(novel);

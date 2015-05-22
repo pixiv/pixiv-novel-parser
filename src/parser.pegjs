@@ -73,7 +73,7 @@ start = novel
 
 novel = (tag / text)*
 
-text = chars:(([^[]+ / (&(!tag) '['))+) {
+text = chars:(([^\[]+ / (&(!tag) '['))+) {
   var ret = '';
   for (var i = 0; i < chars.length; i++) {
     ret += chars[i].join('');
@@ -81,15 +81,28 @@ text = chars:(([^[]+ / (&(!tag) '['))+) {
   return text(ret);
 }
 
-tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri
+plainText = chars:(([^\[\]]+ / (&(!inlineTag) '['))+) {
+  var ret = '';
+  for (var i = 0; i < chars.length; i++) {
+    ret += chars[i].join('');
+  }
+  return text(ret);
+}
+
+inlineToken = inlineTag / plainText
+inlineText = inlineToken+
+
+inlineTag = tagRuby
+
+tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri / tagRuby
 // {{{!Extended
-  / tagRuby / tagEmoji / tagStrong
+  / tagEmoji / tagStrong
 // }}}!Extended
 
 tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
 
 tagChapter =
-  '[chapter:' title:chapterTitle ']' (CR / LF)? { return tagChapter(title); }
+  '[chapter:' title:inlineText ']' (CR / LF)? { return tagChapter(title); }
 
 tagPixivimage =
   '[pixivimage:' illustID:numeric pageNumber:('-' integer)? ']' {
@@ -115,12 +128,12 @@ URI = scheme:('http' 's'? '://') chars:uri_chrs* { return scheme.join('') + char
 
 uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
 
-// {{{!Extended
 tagRuby =
   '[ruby:' rubyBase:[^>]* '>' rubyText:[^\]]* ']' {
     return tagRuby(trim(rubyBase.join('')), trim(rubyText.join('')));
   }
 
+// {{{!Extended
 tagEmoji = '[emoji:' emojiName:emojiName ']' { return tagEmoji(emojiName); }
 
 tagStrong = '[strong:' chars:[^\]]* ']' { return tagStrong(trim(chars.join(''))); }
