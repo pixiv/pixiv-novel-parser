@@ -28,6 +28,12 @@
         "VCHAR": parse_VCHAR,
         "WSP": parse_WSP,
         "chapterTitle": parse_chapterTitle,
+        "inlineInlineText": parse_inlineInlineText,
+        "inlineInlineToken": parse_inlineInlineToken,
+        "inlineInlineTokens": parse_inlineInlineTokens,
+        "inlineText": parse_inlineText,
+        "inlineToken": parse_inlineToken,
+        "inlineTokens": parse_inlineTokens,
         "integer": parse_integer,
         "jumpuriTitle": parse_jumpuriTitle,
         "novel": parse_novel,
@@ -38,6 +44,7 @@
         "tagJumpuri": parse_tagJumpuri,
         "tagNewpage": parse_tagNewpage,
         "tagPixivimage": parse_tagPixivimage,
+        "tagRuby": parse_tagRuby,
         "text": parse_text,
         "uri_chrs": parse_uri_chrs
       };
@@ -352,6 +359,592 @@
         return result0;
       }
       
+      function parse_inlineText() {
+        var cacheKey = 'inlineText@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var savedPos0 = pos;
+        if (input.substr(pos).match(/^[^[\]]/) !== null) {
+          var result10 = input.charAt(pos);
+          pos++;
+        } else {
+          var result10 = null;
+          if (reportMatchFailures) {
+            matchFailed("[^[\\]]");
+          }
+        }
+        if (result10 !== null) {
+          var result9 = [];
+          while (result10 !== null) {
+            result9.push(result10);
+            if (input.substr(pos).match(/^[^[\]]/) !== null) {
+              var result10 = input.charAt(pos);
+              pos++;
+            } else {
+              var result10 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^[\\]]");
+              }
+            }
+          }
+        } else {
+          var result9 = null;
+        }
+        if (result9 !== null) {
+          var result3 = result9;
+        } else {
+          var savedPos1 = pos;
+          var savedPos2 = pos;
+          var savedReportMatchFailuresVar0 = reportMatchFailures;
+          reportMatchFailures = false;
+          var savedPos3 = pos;
+          var savedReportMatchFailuresVar1 = reportMatchFailures;
+          reportMatchFailures = false;
+          var result8 = parse_tagRuby();
+          reportMatchFailures = savedReportMatchFailuresVar1;
+          if (result8 === null) {
+            var result7 = '';
+          } else {
+            var result7 = null;
+            pos = savedPos3;
+          }
+          reportMatchFailures = savedReportMatchFailuresVar0;
+          if (result7 !== null) {
+            var result5 = '';
+            pos = savedPos2;
+          } else {
+            var result5 = null;
+          }
+          if (result5 !== null) {
+            if (input.substr(pos, 1) === "[") {
+              var result6 = "[";
+              pos += 1;
+            } else {
+              var result6 = null;
+              if (reportMatchFailures) {
+                matchFailed("\"[\"");
+              }
+            }
+            if (result6 !== null) {
+              var result4 = [result5, result6];
+            } else {
+              var result4 = null;
+              pos = savedPos1;
+            }
+          } else {
+            var result4 = null;
+            pos = savedPos1;
+          }
+          if (result4 !== null) {
+            var result3 = result4;
+          } else {
+            var result3 = null;;
+          };
+        }
+        if (result3 !== null) {
+          var result1 = [];
+          while (result3 !== null) {
+            result1.push(result3);
+            if (input.substr(pos).match(/^[^[\]]/) !== null) {
+              var result10 = input.charAt(pos);
+              pos++;
+            } else {
+              var result10 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^[\\]]");
+              }
+            }
+            if (result10 !== null) {
+              var result9 = [];
+              while (result10 !== null) {
+                result9.push(result10);
+                if (input.substr(pos).match(/^[^[\]]/) !== null) {
+                  var result10 = input.charAt(pos);
+                  pos++;
+                } else {
+                  var result10 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("[^[\\]]");
+                  }
+                }
+              }
+            } else {
+              var result9 = null;
+            }
+            if (result9 !== null) {
+              var result3 = result9;
+            } else {
+              var savedPos1 = pos;
+              var savedPos2 = pos;
+              var savedReportMatchFailuresVar0 = reportMatchFailures;
+              reportMatchFailures = false;
+              var savedPos3 = pos;
+              var savedReportMatchFailuresVar1 = reportMatchFailures;
+              reportMatchFailures = false;
+              var result8 = parse_tagRuby();
+              reportMatchFailures = savedReportMatchFailuresVar1;
+              if (result8 === null) {
+                var result7 = '';
+              } else {
+                var result7 = null;
+                pos = savedPos3;
+              }
+              reportMatchFailures = savedReportMatchFailuresVar0;
+              if (result7 !== null) {
+                var result5 = '';
+                pos = savedPos2;
+              } else {
+                var result5 = null;
+              }
+              if (result5 !== null) {
+                if (input.substr(pos, 1) === "[") {
+                  var result6 = "[";
+                  pos += 1;
+                } else {
+                  var result6 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("\"[\"");
+                  }
+                }
+                if (result6 !== null) {
+                  var result4 = [result5, result6];
+                } else {
+                  var result4 = null;
+                  pos = savedPos1;
+                }
+              } else {
+                var result4 = null;
+                pos = savedPos1;
+              }
+              if (result4 !== null) {
+                var result3 = result4;
+              } else {
+                var result3 = null;;
+              };
+            }
+          }
+        } else {
+          var result1 = null;
+        }
+        var result2 = result1 !== null
+          ? (function(chars) {
+            return text(trim(serialize(chars).join('')));
+          })(result1)
+          : null;
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result0 = null;
+          pos = savedPos0;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineToken() {
+        var cacheKey = 'inlineToken@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var result2 = parse_tagRuby();
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result1 = parse_inlineText();
+          if (result1 !== null) {
+            var result0 = result1;
+          } else {
+            var result0 = null;;
+          };
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineTokens() {
+        var cacheKey = 'inlineTokens@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var result1 = parse_inlineToken();
+        if (result1 !== null) {
+          var result0 = [];
+          while (result1 !== null) {
+            result0.push(result1);
+            var result1 = parse_inlineToken();
+          }
+        } else {
+          var result0 = null;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineInlineText() {
+        var cacheKey = 'inlineInlineText@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var savedPos0 = pos;
+        var savedPos4 = pos;
+        if (input.substr(pos).match(/^[^[>]/) !== null) {
+          var result14 = input.charAt(pos);
+          pos++;
+        } else {
+          var result14 = null;
+          if (reportMatchFailures) {
+            matchFailed("[^[>]");
+          }
+        }
+        if (result14 !== null) {
+          var result10 = [];
+          while (result14 !== null) {
+            result10.push(result14);
+            if (input.substr(pos).match(/^[^[>]/) !== null) {
+              var result14 = input.charAt(pos);
+              pos++;
+            } else {
+              var result14 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^[>]");
+              }
+            }
+          }
+        } else {
+          var result10 = null;
+        }
+        if (result10 !== null) {
+          var savedPos5 = pos;
+          var savedReportMatchFailuresVar2 = reportMatchFailures;
+          reportMatchFailures = false;
+          var savedPos6 = pos;
+          var savedReportMatchFailuresVar3 = reportMatchFailures;
+          reportMatchFailures = false;
+          if (input.substr(pos, 2) === "]]") {
+            var result13 = "]]";
+            pos += 2;
+          } else {
+            var result13 = null;
+            if (reportMatchFailures) {
+              matchFailed("\"]]\"");
+            }
+          }
+          reportMatchFailures = savedReportMatchFailuresVar3;
+          if (result13 === null) {
+            var result12 = '';
+          } else {
+            var result12 = null;
+            pos = savedPos6;
+          }
+          reportMatchFailures = savedReportMatchFailuresVar2;
+          if (result12 !== null) {
+            var result11 = '';
+            pos = savedPos5;
+          } else {
+            var result11 = null;
+          }
+          if (result11 !== null) {
+            var result9 = [result10, result11];
+          } else {
+            var result9 = null;
+            pos = savedPos4;
+          }
+        } else {
+          var result9 = null;
+          pos = savedPos4;
+        }
+        if (result9 !== null) {
+          var result3 = result9;
+        } else {
+          var savedPos1 = pos;
+          var savedPos2 = pos;
+          var savedReportMatchFailuresVar0 = reportMatchFailures;
+          reportMatchFailures = false;
+          var savedPos3 = pos;
+          var savedReportMatchFailuresVar1 = reportMatchFailures;
+          reportMatchFailures = false;
+          var result8 = parse_tagRuby();
+          reportMatchFailures = savedReportMatchFailuresVar1;
+          if (result8 === null) {
+            var result7 = '';
+          } else {
+            var result7 = null;
+            pos = savedPos3;
+          }
+          reportMatchFailures = savedReportMatchFailuresVar0;
+          if (result7 !== null) {
+            var result5 = '';
+            pos = savedPos2;
+          } else {
+            var result5 = null;
+          }
+          if (result5 !== null) {
+            if (input.substr(pos, 1) === "[") {
+              var result6 = "[";
+              pos += 1;
+            } else {
+              var result6 = null;
+              if (reportMatchFailures) {
+                matchFailed("\"[\"");
+              }
+            }
+            if (result6 !== null) {
+              var result4 = [result5, result6];
+            } else {
+              var result4 = null;
+              pos = savedPos1;
+            }
+          } else {
+            var result4 = null;
+            pos = savedPos1;
+          }
+          if (result4 !== null) {
+            var result3 = result4;
+          } else {
+            var result3 = null;;
+          };
+        }
+        if (result3 !== null) {
+          var result1 = [];
+          while (result3 !== null) {
+            result1.push(result3);
+            var savedPos4 = pos;
+            if (input.substr(pos).match(/^[^[>]/) !== null) {
+              var result14 = input.charAt(pos);
+              pos++;
+            } else {
+              var result14 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^[>]");
+              }
+            }
+            if (result14 !== null) {
+              var result10 = [];
+              while (result14 !== null) {
+                result10.push(result14);
+                if (input.substr(pos).match(/^[^[>]/) !== null) {
+                  var result14 = input.charAt(pos);
+                  pos++;
+                } else {
+                  var result14 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("[^[>]");
+                  }
+                }
+              }
+            } else {
+              var result10 = null;
+            }
+            if (result10 !== null) {
+              var savedPos5 = pos;
+              var savedReportMatchFailuresVar2 = reportMatchFailures;
+              reportMatchFailures = false;
+              var savedPos6 = pos;
+              var savedReportMatchFailuresVar3 = reportMatchFailures;
+              reportMatchFailures = false;
+              if (input.substr(pos, 2) === "]]") {
+                var result13 = "]]";
+                pos += 2;
+              } else {
+                var result13 = null;
+                if (reportMatchFailures) {
+                  matchFailed("\"]]\"");
+                }
+              }
+              reportMatchFailures = savedReportMatchFailuresVar3;
+              if (result13 === null) {
+                var result12 = '';
+              } else {
+                var result12 = null;
+                pos = savedPos6;
+              }
+              reportMatchFailures = savedReportMatchFailuresVar2;
+              if (result12 !== null) {
+                var result11 = '';
+                pos = savedPos5;
+              } else {
+                var result11 = null;
+              }
+              if (result11 !== null) {
+                var result9 = [result10, result11];
+              } else {
+                var result9 = null;
+                pos = savedPos4;
+              }
+            } else {
+              var result9 = null;
+              pos = savedPos4;
+            }
+            if (result9 !== null) {
+              var result3 = result9;
+            } else {
+              var savedPos1 = pos;
+              var savedPos2 = pos;
+              var savedReportMatchFailuresVar0 = reportMatchFailures;
+              reportMatchFailures = false;
+              var savedPos3 = pos;
+              var savedReportMatchFailuresVar1 = reportMatchFailures;
+              reportMatchFailures = false;
+              var result8 = parse_tagRuby();
+              reportMatchFailures = savedReportMatchFailuresVar1;
+              if (result8 === null) {
+                var result7 = '';
+              } else {
+                var result7 = null;
+                pos = savedPos3;
+              }
+              reportMatchFailures = savedReportMatchFailuresVar0;
+              if (result7 !== null) {
+                var result5 = '';
+                pos = savedPos2;
+              } else {
+                var result5 = null;
+              }
+              if (result5 !== null) {
+                if (input.substr(pos, 1) === "[") {
+                  var result6 = "[";
+                  pos += 1;
+                } else {
+                  var result6 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("\"[\"");
+                  }
+                }
+                if (result6 !== null) {
+                  var result4 = [result5, result6];
+                } else {
+                  var result4 = null;
+                  pos = savedPos1;
+                }
+              } else {
+                var result4 = null;
+                pos = savedPos1;
+              }
+              if (result4 !== null) {
+                var result3 = result4;
+              } else {
+                var result3 = null;;
+              };
+            }
+          }
+        } else {
+          var result1 = null;
+        }
+        var result2 = result1 !== null
+          ? (function(chars) {
+            return text(trim(serialize(chars).join('')));
+          })(result1)
+          : null;
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result0 = null;
+          pos = savedPos0;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineInlineToken() {
+        var cacheKey = 'inlineInlineToken@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var result2 = parse_tagRuby();
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result1 = parse_inlineInlineText();
+          if (result1 !== null) {
+            var result0 = result1;
+          } else {
+            var result0 = null;;
+          };
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineInlineTokens() {
+        var cacheKey = 'inlineInlineTokens@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var result1 = parse_inlineInlineToken();
+        if (result1 !== null) {
+          var result0 = [];
+          while (result1 !== null) {
+            result0.push(result1);
+            var result1 = parse_inlineInlineToken();
+          }
+        } else {
+          var result0 = null;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
       function parse_tag() {
         var cacheKey = 'tag@' + pos;
         var cachedResult = cache[cacheKey];
@@ -361,27 +954,32 @@
         }
         
         
-        var result5 = parse_tagNewpage();
-        if (result5 !== null) {
-          var result0 = result5;
+        var result6 = parse_tagNewpage();
+        if (result6 !== null) {
+          var result0 = result6;
         } else {
-          var result4 = parse_tagChapter();
-          if (result4 !== null) {
-            var result0 = result4;
+          var result5 = parse_tagChapter();
+          if (result5 !== null) {
+            var result0 = result5;
           } else {
-            var result3 = parse_tagPixivimage();
-            if (result3 !== null) {
-              var result0 = result3;
+            var result4 = parse_tagPixivimage();
+            if (result4 !== null) {
+              var result0 = result4;
             } else {
-              var result2 = parse_tagJump();
-              if (result2 !== null) {
-                var result0 = result2;
+              var result3 = parse_tagJump();
+              if (result3 !== null) {
+                var result0 = result3;
               } else {
-                var result1 = parse_tagJumpuri();
-                if (result1 !== null) {
-                  var result0 = result1;
+                var result2 = parse_tagJumpuri();
+                if (result2 !== null) {
+                  var result0 = result2;
                 } else {
-                  var result0 = null;;
+                  var result1 = parse_tagRuby();
+                  if (result1 !== null) {
+                    var result0 = result1;
+                  } else {
+                    var result0 = null;;
+                  };
                 };
               };
             };
@@ -480,7 +1078,7 @@
           }
         }
         if (result3 !== null) {
-          var result4 = parse_chapterTitle();
+          var result4 = parse_inlineTokens();
           if (result4 !== null) {
             if (input.substr(pos, 1) === "]") {
               var result5 = "]";
@@ -722,7 +1320,7 @@
           }
         }
         if (result3 !== null) {
-          var result4 = parse_jumpuriTitle();
+          var result4 = parse_inlineInlineTokens();
           if (result4 !== null) {
             if (input.substr(pos, 1) === ">") {
               var result5 = ">";
@@ -1149,6 +1747,287 @@
               };
             };
           };
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_tagRuby() {
+        var cacheKey = 'tagRuby@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var savedPos0 = pos;
+        var savedPos1 = pos;
+        if (input.substr(pos, 7) === "[[ruby:") {
+          var result3 = "[[ruby:";
+          pos += 7;
+        } else {
+          var result3 = null;
+          if (reportMatchFailures) {
+            matchFailed("\"[[ruby:\"");
+          }
+        }
+        if (result3 !== null) {
+          var result4 = [];
+          if (input.substr(pos).match(/^[^>]/) !== null) {
+            var result16 = input.charAt(pos);
+            pos++;
+          } else {
+            var result16 = null;
+            if (reportMatchFailures) {
+              matchFailed("[^>]");
+            }
+          }
+          while (result16 !== null) {
+            result4.push(result16);
+            if (input.substr(pos).match(/^[^>]/) !== null) {
+              var result16 = input.charAt(pos);
+              pos++;
+            } else {
+              var result16 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^>]");
+              }
+            }
+          }
+          if (result4 !== null) {
+            if (input.substr(pos, 1) === ">") {
+              var result5 = ">";
+              pos += 1;
+            } else {
+              var result5 = null;
+              if (reportMatchFailures) {
+                matchFailed("\">\"");
+              }
+            }
+            if (result5 !== null) {
+              var result6 = [];
+              if (input.substr(pos).match(/^[^\]]/) !== null) {
+                var result15 = input.charAt(pos);
+                pos++;
+              } else {
+                var result15 = null;
+                if (reportMatchFailures) {
+                  matchFailed("[^\\]]");
+                }
+              }
+              if (result15 !== null) {
+                var result14 = [];
+                while (result15 !== null) {
+                  result14.push(result15);
+                  if (input.substr(pos).match(/^[^\]]/) !== null) {
+                    var result15 = input.charAt(pos);
+                    pos++;
+                  } else {
+                    var result15 = null;
+                    if (reportMatchFailures) {
+                      matchFailed("[^\\]]");
+                    }
+                  }
+                }
+              } else {
+                var result14 = null;
+              }
+              if (result14 !== null) {
+                var result8 = result14;
+              } else {
+                var savedPos2 = pos;
+                if (input.substr(pos, 1) === "]") {
+                  var result10 = "]";
+                  pos += 1;
+                } else {
+                  var result10 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("\"]\"");
+                  }
+                }
+                if (result10 !== null) {
+                  var savedPos3 = pos;
+                  var savedReportMatchFailuresVar0 = reportMatchFailures;
+                  reportMatchFailures = false;
+                  var savedPos4 = pos;
+                  var savedReportMatchFailuresVar1 = reportMatchFailures;
+                  reportMatchFailures = false;
+                  if (input.substr(pos, 1) === "]") {
+                    var result13 = "]";
+                    pos += 1;
+                  } else {
+                    var result13 = null;
+                    if (reportMatchFailures) {
+                      matchFailed("\"]\"");
+                    }
+                  }
+                  reportMatchFailures = savedReportMatchFailuresVar1;
+                  if (result13 === null) {
+                    var result12 = '';
+                  } else {
+                    var result12 = null;
+                    pos = savedPos4;
+                  }
+                  reportMatchFailures = savedReportMatchFailuresVar0;
+                  if (result12 !== null) {
+                    var result11 = '';
+                    pos = savedPos3;
+                  } else {
+                    var result11 = null;
+                  }
+                  if (result11 !== null) {
+                    var result9 = [result10, result11];
+                  } else {
+                    var result9 = null;
+                    pos = savedPos2;
+                  }
+                } else {
+                  var result9 = null;
+                  pos = savedPos2;
+                }
+                if (result9 !== null) {
+                  var result8 = result9;
+                } else {
+                  var result8 = null;;
+                };
+              }
+              while (result8 !== null) {
+                result6.push(result8);
+                if (input.substr(pos).match(/^[^\]]/) !== null) {
+                  var result15 = input.charAt(pos);
+                  pos++;
+                } else {
+                  var result15 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("[^\\]]");
+                  }
+                }
+                if (result15 !== null) {
+                  var result14 = [];
+                  while (result15 !== null) {
+                    result14.push(result15);
+                    if (input.substr(pos).match(/^[^\]]/) !== null) {
+                      var result15 = input.charAt(pos);
+                      pos++;
+                    } else {
+                      var result15 = null;
+                      if (reportMatchFailures) {
+                        matchFailed("[^\\]]");
+                      }
+                    }
+                  }
+                } else {
+                  var result14 = null;
+                }
+                if (result14 !== null) {
+                  var result8 = result14;
+                } else {
+                  var savedPos2 = pos;
+                  if (input.substr(pos, 1) === "]") {
+                    var result10 = "]";
+                    pos += 1;
+                  } else {
+                    var result10 = null;
+                    if (reportMatchFailures) {
+                      matchFailed("\"]\"");
+                    }
+                  }
+                  if (result10 !== null) {
+                    var savedPos3 = pos;
+                    var savedReportMatchFailuresVar0 = reportMatchFailures;
+                    reportMatchFailures = false;
+                    var savedPos4 = pos;
+                    var savedReportMatchFailuresVar1 = reportMatchFailures;
+                    reportMatchFailures = false;
+                    if (input.substr(pos, 1) === "]") {
+                      var result13 = "]";
+                      pos += 1;
+                    } else {
+                      var result13 = null;
+                      if (reportMatchFailures) {
+                        matchFailed("\"]\"");
+                      }
+                    }
+                    reportMatchFailures = savedReportMatchFailuresVar1;
+                    if (result13 === null) {
+                      var result12 = '';
+                    } else {
+                      var result12 = null;
+                      pos = savedPos4;
+                    }
+                    reportMatchFailures = savedReportMatchFailuresVar0;
+                    if (result12 !== null) {
+                      var result11 = '';
+                      pos = savedPos3;
+                    } else {
+                      var result11 = null;
+                    }
+                    if (result11 !== null) {
+                      var result9 = [result10, result11];
+                    } else {
+                      var result9 = null;
+                      pos = savedPos2;
+                    }
+                  } else {
+                    var result9 = null;
+                    pos = savedPos2;
+                  }
+                  if (result9 !== null) {
+                    var result8 = result9;
+                  } else {
+                    var result8 = null;;
+                  };
+                }
+              }
+              if (result6 !== null) {
+                if (input.substr(pos, 2) === "]]") {
+                  var result7 = "]]";
+                  pos += 2;
+                } else {
+                  var result7 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("\"]]\"");
+                  }
+                }
+                if (result7 !== null) {
+                  var result1 = [result3, result4, result5, result6, result7];
+                } else {
+                  var result1 = null;
+                  pos = savedPos1;
+                }
+              } else {
+                var result1 = null;
+                pos = savedPos1;
+              }
+            } else {
+              var result1 = null;
+              pos = savedPos1;
+            }
+          } else {
+            var result1 = null;
+            pos = savedPos1;
+          }
+        } else {
+          var result1 = null;
+          pos = savedPos1;
+        }
+        var result2 = result1 !== null
+          ? (function(rubyBase, rubyText) {
+              return tagRuby(trim(rubyBase.join('')), trim(serialize(rubyText).join('')));
+            })(result1[1], result1[3])
+          : null;
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result0 = null;
+          pos = savedPos0;
         }
         
         
@@ -1854,6 +2733,30 @@
       
       
       
+    function serialize(array) {
+      
+      var ret = [];
+      
+      for (var i = 0; i < array.length; i++) {
+      
+        if (typeof array[i] === 'object') {
+      
+          ret = ret.concat(serialize(array[i]));
+      
+        } else {
+      
+          ret.push(array[i]);
+      
+        }
+      
+      }
+      
+      return ret;
+      
+    }
+      
+  
+      
     function trim(string) {
       
       return string.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
@@ -1931,6 +2834,24 @@
         title: title,
       
         uri: uri
+      
+      };
+      
+    }
+      
+  
+      
+    function tagRuby(rubyBase, rubyText) {
+      
+      return {
+      
+        type: 'tag',
+      
+        name: 'ruby',
+      
+        rubyBase: rubyBase,
+      
+        rubyText: rubyText
       
       };
       
@@ -2026,6 +2947,12 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
         "WSP": parse_WSP,
         "chapterTitle": parse_chapterTitle,
         "emojiName": parse_emojiName,
+        "inlineInlineText": parse_inlineInlineText,
+        "inlineInlineToken": parse_inlineInlineToken,
+        "inlineInlineTokens": parse_inlineInlineTokens,
+        "inlineText": parse_inlineText,
+        "inlineToken": parse_inlineToken,
+        "inlineTokens": parse_inlineTokens,
         "integer": parse_integer,
         "jumpuriTitle": parse_jumpuriTitle,
         "novel": parse_novel,
@@ -2353,6 +3280,592 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
         return result0;
       }
       
+      function parse_inlineText() {
+        var cacheKey = 'inlineText@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var savedPos0 = pos;
+        if (input.substr(pos).match(/^[^[\]]/) !== null) {
+          var result10 = input.charAt(pos);
+          pos++;
+        } else {
+          var result10 = null;
+          if (reportMatchFailures) {
+            matchFailed("[^[\\]]");
+          }
+        }
+        if (result10 !== null) {
+          var result9 = [];
+          while (result10 !== null) {
+            result9.push(result10);
+            if (input.substr(pos).match(/^[^[\]]/) !== null) {
+              var result10 = input.charAt(pos);
+              pos++;
+            } else {
+              var result10 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^[\\]]");
+              }
+            }
+          }
+        } else {
+          var result9 = null;
+        }
+        if (result9 !== null) {
+          var result3 = result9;
+        } else {
+          var savedPos1 = pos;
+          var savedPos2 = pos;
+          var savedReportMatchFailuresVar0 = reportMatchFailures;
+          reportMatchFailures = false;
+          var savedPos3 = pos;
+          var savedReportMatchFailuresVar1 = reportMatchFailures;
+          reportMatchFailures = false;
+          var result8 = parse_tagRuby();
+          reportMatchFailures = savedReportMatchFailuresVar1;
+          if (result8 === null) {
+            var result7 = '';
+          } else {
+            var result7 = null;
+            pos = savedPos3;
+          }
+          reportMatchFailures = savedReportMatchFailuresVar0;
+          if (result7 !== null) {
+            var result5 = '';
+            pos = savedPos2;
+          } else {
+            var result5 = null;
+          }
+          if (result5 !== null) {
+            if (input.substr(pos, 1) === "[") {
+              var result6 = "[";
+              pos += 1;
+            } else {
+              var result6 = null;
+              if (reportMatchFailures) {
+                matchFailed("\"[\"");
+              }
+            }
+            if (result6 !== null) {
+              var result4 = [result5, result6];
+            } else {
+              var result4 = null;
+              pos = savedPos1;
+            }
+          } else {
+            var result4 = null;
+            pos = savedPos1;
+          }
+          if (result4 !== null) {
+            var result3 = result4;
+          } else {
+            var result3 = null;;
+          };
+        }
+        if (result3 !== null) {
+          var result1 = [];
+          while (result3 !== null) {
+            result1.push(result3);
+            if (input.substr(pos).match(/^[^[\]]/) !== null) {
+              var result10 = input.charAt(pos);
+              pos++;
+            } else {
+              var result10 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^[\\]]");
+              }
+            }
+            if (result10 !== null) {
+              var result9 = [];
+              while (result10 !== null) {
+                result9.push(result10);
+                if (input.substr(pos).match(/^[^[\]]/) !== null) {
+                  var result10 = input.charAt(pos);
+                  pos++;
+                } else {
+                  var result10 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("[^[\\]]");
+                  }
+                }
+              }
+            } else {
+              var result9 = null;
+            }
+            if (result9 !== null) {
+              var result3 = result9;
+            } else {
+              var savedPos1 = pos;
+              var savedPos2 = pos;
+              var savedReportMatchFailuresVar0 = reportMatchFailures;
+              reportMatchFailures = false;
+              var savedPos3 = pos;
+              var savedReportMatchFailuresVar1 = reportMatchFailures;
+              reportMatchFailures = false;
+              var result8 = parse_tagRuby();
+              reportMatchFailures = savedReportMatchFailuresVar1;
+              if (result8 === null) {
+                var result7 = '';
+              } else {
+                var result7 = null;
+                pos = savedPos3;
+              }
+              reportMatchFailures = savedReportMatchFailuresVar0;
+              if (result7 !== null) {
+                var result5 = '';
+                pos = savedPos2;
+              } else {
+                var result5 = null;
+              }
+              if (result5 !== null) {
+                if (input.substr(pos, 1) === "[") {
+                  var result6 = "[";
+                  pos += 1;
+                } else {
+                  var result6 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("\"[\"");
+                  }
+                }
+                if (result6 !== null) {
+                  var result4 = [result5, result6];
+                } else {
+                  var result4 = null;
+                  pos = savedPos1;
+                }
+              } else {
+                var result4 = null;
+                pos = savedPos1;
+              }
+              if (result4 !== null) {
+                var result3 = result4;
+              } else {
+                var result3 = null;;
+              };
+            }
+          }
+        } else {
+          var result1 = null;
+        }
+        var result2 = result1 !== null
+          ? (function(chars) {
+            return text(trim(serialize(chars).join('')));
+          })(result1)
+          : null;
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result0 = null;
+          pos = savedPos0;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineToken() {
+        var cacheKey = 'inlineToken@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var result2 = parse_tagRuby();
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result1 = parse_inlineText();
+          if (result1 !== null) {
+            var result0 = result1;
+          } else {
+            var result0 = null;;
+          };
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineTokens() {
+        var cacheKey = 'inlineTokens@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var result1 = parse_inlineToken();
+        if (result1 !== null) {
+          var result0 = [];
+          while (result1 !== null) {
+            result0.push(result1);
+            var result1 = parse_inlineToken();
+          }
+        } else {
+          var result0 = null;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineInlineText() {
+        var cacheKey = 'inlineInlineText@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var savedPos0 = pos;
+        var savedPos4 = pos;
+        if (input.substr(pos).match(/^[^[>]/) !== null) {
+          var result14 = input.charAt(pos);
+          pos++;
+        } else {
+          var result14 = null;
+          if (reportMatchFailures) {
+            matchFailed("[^[>]");
+          }
+        }
+        if (result14 !== null) {
+          var result10 = [];
+          while (result14 !== null) {
+            result10.push(result14);
+            if (input.substr(pos).match(/^[^[>]/) !== null) {
+              var result14 = input.charAt(pos);
+              pos++;
+            } else {
+              var result14 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^[>]");
+              }
+            }
+          }
+        } else {
+          var result10 = null;
+        }
+        if (result10 !== null) {
+          var savedPos5 = pos;
+          var savedReportMatchFailuresVar2 = reportMatchFailures;
+          reportMatchFailures = false;
+          var savedPos6 = pos;
+          var savedReportMatchFailuresVar3 = reportMatchFailures;
+          reportMatchFailures = false;
+          if (input.substr(pos, 2) === "]]") {
+            var result13 = "]]";
+            pos += 2;
+          } else {
+            var result13 = null;
+            if (reportMatchFailures) {
+              matchFailed("\"]]\"");
+            }
+          }
+          reportMatchFailures = savedReportMatchFailuresVar3;
+          if (result13 === null) {
+            var result12 = '';
+          } else {
+            var result12 = null;
+            pos = savedPos6;
+          }
+          reportMatchFailures = savedReportMatchFailuresVar2;
+          if (result12 !== null) {
+            var result11 = '';
+            pos = savedPos5;
+          } else {
+            var result11 = null;
+          }
+          if (result11 !== null) {
+            var result9 = [result10, result11];
+          } else {
+            var result9 = null;
+            pos = savedPos4;
+          }
+        } else {
+          var result9 = null;
+          pos = savedPos4;
+        }
+        if (result9 !== null) {
+          var result3 = result9;
+        } else {
+          var savedPos1 = pos;
+          var savedPos2 = pos;
+          var savedReportMatchFailuresVar0 = reportMatchFailures;
+          reportMatchFailures = false;
+          var savedPos3 = pos;
+          var savedReportMatchFailuresVar1 = reportMatchFailures;
+          reportMatchFailures = false;
+          var result8 = parse_tagRuby();
+          reportMatchFailures = savedReportMatchFailuresVar1;
+          if (result8 === null) {
+            var result7 = '';
+          } else {
+            var result7 = null;
+            pos = savedPos3;
+          }
+          reportMatchFailures = savedReportMatchFailuresVar0;
+          if (result7 !== null) {
+            var result5 = '';
+            pos = savedPos2;
+          } else {
+            var result5 = null;
+          }
+          if (result5 !== null) {
+            if (input.substr(pos, 1) === "[") {
+              var result6 = "[";
+              pos += 1;
+            } else {
+              var result6 = null;
+              if (reportMatchFailures) {
+                matchFailed("\"[\"");
+              }
+            }
+            if (result6 !== null) {
+              var result4 = [result5, result6];
+            } else {
+              var result4 = null;
+              pos = savedPos1;
+            }
+          } else {
+            var result4 = null;
+            pos = savedPos1;
+          }
+          if (result4 !== null) {
+            var result3 = result4;
+          } else {
+            var result3 = null;;
+          };
+        }
+        if (result3 !== null) {
+          var result1 = [];
+          while (result3 !== null) {
+            result1.push(result3);
+            var savedPos4 = pos;
+            if (input.substr(pos).match(/^[^[>]/) !== null) {
+              var result14 = input.charAt(pos);
+              pos++;
+            } else {
+              var result14 = null;
+              if (reportMatchFailures) {
+                matchFailed("[^[>]");
+              }
+            }
+            if (result14 !== null) {
+              var result10 = [];
+              while (result14 !== null) {
+                result10.push(result14);
+                if (input.substr(pos).match(/^[^[>]/) !== null) {
+                  var result14 = input.charAt(pos);
+                  pos++;
+                } else {
+                  var result14 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("[^[>]");
+                  }
+                }
+              }
+            } else {
+              var result10 = null;
+            }
+            if (result10 !== null) {
+              var savedPos5 = pos;
+              var savedReportMatchFailuresVar2 = reportMatchFailures;
+              reportMatchFailures = false;
+              var savedPos6 = pos;
+              var savedReportMatchFailuresVar3 = reportMatchFailures;
+              reportMatchFailures = false;
+              if (input.substr(pos, 2) === "]]") {
+                var result13 = "]]";
+                pos += 2;
+              } else {
+                var result13 = null;
+                if (reportMatchFailures) {
+                  matchFailed("\"]]\"");
+                }
+              }
+              reportMatchFailures = savedReportMatchFailuresVar3;
+              if (result13 === null) {
+                var result12 = '';
+              } else {
+                var result12 = null;
+                pos = savedPos6;
+              }
+              reportMatchFailures = savedReportMatchFailuresVar2;
+              if (result12 !== null) {
+                var result11 = '';
+                pos = savedPos5;
+              } else {
+                var result11 = null;
+              }
+              if (result11 !== null) {
+                var result9 = [result10, result11];
+              } else {
+                var result9 = null;
+                pos = savedPos4;
+              }
+            } else {
+              var result9 = null;
+              pos = savedPos4;
+            }
+            if (result9 !== null) {
+              var result3 = result9;
+            } else {
+              var savedPos1 = pos;
+              var savedPos2 = pos;
+              var savedReportMatchFailuresVar0 = reportMatchFailures;
+              reportMatchFailures = false;
+              var savedPos3 = pos;
+              var savedReportMatchFailuresVar1 = reportMatchFailures;
+              reportMatchFailures = false;
+              var result8 = parse_tagRuby();
+              reportMatchFailures = savedReportMatchFailuresVar1;
+              if (result8 === null) {
+                var result7 = '';
+              } else {
+                var result7 = null;
+                pos = savedPos3;
+              }
+              reportMatchFailures = savedReportMatchFailuresVar0;
+              if (result7 !== null) {
+                var result5 = '';
+                pos = savedPos2;
+              } else {
+                var result5 = null;
+              }
+              if (result5 !== null) {
+                if (input.substr(pos, 1) === "[") {
+                  var result6 = "[";
+                  pos += 1;
+                } else {
+                  var result6 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("\"[\"");
+                  }
+                }
+                if (result6 !== null) {
+                  var result4 = [result5, result6];
+                } else {
+                  var result4 = null;
+                  pos = savedPos1;
+                }
+              } else {
+                var result4 = null;
+                pos = savedPos1;
+              }
+              if (result4 !== null) {
+                var result3 = result4;
+              } else {
+                var result3 = null;;
+              };
+            }
+          }
+        } else {
+          var result1 = null;
+        }
+        var result2 = result1 !== null
+          ? (function(chars) {
+            return text(trim(serialize(chars).join('')));
+          })(result1)
+          : null;
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result0 = null;
+          pos = savedPos0;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineInlineToken() {
+        var cacheKey = 'inlineInlineToken@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var result2 = parse_tagRuby();
+        if (result2 !== null) {
+          var result0 = result2;
+        } else {
+          var result1 = parse_inlineInlineText();
+          if (result1 !== null) {
+            var result0 = result1;
+          } else {
+            var result0 = null;;
+          };
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
+      function parse_inlineInlineTokens() {
+        var cacheKey = 'inlineInlineTokens@' + pos;
+        var cachedResult = cache[cacheKey];
+        if (cachedResult) {
+          pos = cachedResult.nextPos;
+          return cachedResult.result;
+        }
+        
+        
+        var result1 = parse_inlineInlineToken();
+        if (result1 !== null) {
+          var result0 = [];
+          while (result1 !== null) {
+            result0.push(result1);
+            var result1 = parse_inlineInlineToken();
+          }
+        } else {
+          var result0 = null;
+        }
+        
+        
+        
+        cache[cacheKey] = {
+          nextPos: pos,
+          result:  result0
+        };
+        return result0;
+      }
+      
       function parse_tag() {
         var cacheKey = 'tag@' + pos;
         var cachedResult = cache[cacheKey];
@@ -2496,7 +4009,7 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
           }
         }
         if (result3 !== null) {
-          var result4 = parse_chapterTitle();
+          var result4 = parse_inlineTokens();
           if (result4 !== null) {
             if (input.substr(pos, 1) === "]") {
               var result5 = "]";
@@ -2738,7 +4251,7 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
           }
         }
         if (result3 !== null) {
-          var result4 = parse_jumpuriTitle();
+          var result4 = parse_inlineInlineTokens();
           if (result4 !== null) {
             if (input.substr(pos, 1) === ">") {
               var result5 = ">";
@@ -3187,33 +4700,33 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
         
         var savedPos0 = pos;
         var savedPos1 = pos;
-        if (input.substr(pos, 6) === "[ruby:") {
-          var result3 = "[ruby:";
-          pos += 6;
+        if (input.substr(pos, 7) === "[[ruby:") {
+          var result3 = "[[ruby:";
+          pos += 7;
         } else {
           var result3 = null;
           if (reportMatchFailures) {
-            matchFailed("\"[ruby:\"");
+            matchFailed("\"[[ruby:\"");
           }
         }
         if (result3 !== null) {
           var result4 = [];
           if (input.substr(pos).match(/^[^>]/) !== null) {
-            var result9 = input.charAt(pos);
+            var result16 = input.charAt(pos);
             pos++;
           } else {
-            var result9 = null;
+            var result16 = null;
             if (reportMatchFailures) {
               matchFailed("[^>]");
             }
           }
-          while (result9 !== null) {
-            result4.push(result9);
+          while (result16 !== null) {
+            result4.push(result16);
             if (input.substr(pos).match(/^[^>]/) !== null) {
-              var result9 = input.charAt(pos);
+              var result16 = input.charAt(pos);
               pos++;
             } else {
-              var result9 = null;
+              var result16 = null;
               if (reportMatchFailures) {
                 matchFailed("[^>]");
               }
@@ -3232,34 +4745,186 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
             if (result5 !== null) {
               var result6 = [];
               if (input.substr(pos).match(/^[^\]]/) !== null) {
-                var result8 = input.charAt(pos);
+                var result15 = input.charAt(pos);
                 pos++;
               } else {
-                var result8 = null;
+                var result15 = null;
                 if (reportMatchFailures) {
                   matchFailed("[^\\]]");
                 }
               }
+              if (result15 !== null) {
+                var result14 = [];
+                while (result15 !== null) {
+                  result14.push(result15);
+                  if (input.substr(pos).match(/^[^\]]/) !== null) {
+                    var result15 = input.charAt(pos);
+                    pos++;
+                  } else {
+                    var result15 = null;
+                    if (reportMatchFailures) {
+                      matchFailed("[^\\]]");
+                    }
+                  }
+                }
+              } else {
+                var result14 = null;
+              }
+              if (result14 !== null) {
+                var result8 = result14;
+              } else {
+                var savedPos2 = pos;
+                if (input.substr(pos, 1) === "]") {
+                  var result10 = "]";
+                  pos += 1;
+                } else {
+                  var result10 = null;
+                  if (reportMatchFailures) {
+                    matchFailed("\"]\"");
+                  }
+                }
+                if (result10 !== null) {
+                  var savedPos3 = pos;
+                  var savedReportMatchFailuresVar0 = reportMatchFailures;
+                  reportMatchFailures = false;
+                  var savedPos4 = pos;
+                  var savedReportMatchFailuresVar1 = reportMatchFailures;
+                  reportMatchFailures = false;
+                  if (input.substr(pos, 1) === "]") {
+                    var result13 = "]";
+                    pos += 1;
+                  } else {
+                    var result13 = null;
+                    if (reportMatchFailures) {
+                      matchFailed("\"]\"");
+                    }
+                  }
+                  reportMatchFailures = savedReportMatchFailuresVar1;
+                  if (result13 === null) {
+                    var result12 = '';
+                  } else {
+                    var result12 = null;
+                    pos = savedPos4;
+                  }
+                  reportMatchFailures = savedReportMatchFailuresVar0;
+                  if (result12 !== null) {
+                    var result11 = '';
+                    pos = savedPos3;
+                  } else {
+                    var result11 = null;
+                  }
+                  if (result11 !== null) {
+                    var result9 = [result10, result11];
+                  } else {
+                    var result9 = null;
+                    pos = savedPos2;
+                  }
+                } else {
+                  var result9 = null;
+                  pos = savedPos2;
+                }
+                if (result9 !== null) {
+                  var result8 = result9;
+                } else {
+                  var result8 = null;;
+                };
+              }
               while (result8 !== null) {
                 result6.push(result8);
                 if (input.substr(pos).match(/^[^\]]/) !== null) {
-                  var result8 = input.charAt(pos);
+                  var result15 = input.charAt(pos);
                   pos++;
                 } else {
-                  var result8 = null;
+                  var result15 = null;
                   if (reportMatchFailures) {
                     matchFailed("[^\\]]");
                   }
                 }
+                if (result15 !== null) {
+                  var result14 = [];
+                  while (result15 !== null) {
+                    result14.push(result15);
+                    if (input.substr(pos).match(/^[^\]]/) !== null) {
+                      var result15 = input.charAt(pos);
+                      pos++;
+                    } else {
+                      var result15 = null;
+                      if (reportMatchFailures) {
+                        matchFailed("[^\\]]");
+                      }
+                    }
+                  }
+                } else {
+                  var result14 = null;
+                }
+                if (result14 !== null) {
+                  var result8 = result14;
+                } else {
+                  var savedPos2 = pos;
+                  if (input.substr(pos, 1) === "]") {
+                    var result10 = "]";
+                    pos += 1;
+                  } else {
+                    var result10 = null;
+                    if (reportMatchFailures) {
+                      matchFailed("\"]\"");
+                    }
+                  }
+                  if (result10 !== null) {
+                    var savedPos3 = pos;
+                    var savedReportMatchFailuresVar0 = reportMatchFailures;
+                    reportMatchFailures = false;
+                    var savedPos4 = pos;
+                    var savedReportMatchFailuresVar1 = reportMatchFailures;
+                    reportMatchFailures = false;
+                    if (input.substr(pos, 1) === "]") {
+                      var result13 = "]";
+                      pos += 1;
+                    } else {
+                      var result13 = null;
+                      if (reportMatchFailures) {
+                        matchFailed("\"]\"");
+                      }
+                    }
+                    reportMatchFailures = savedReportMatchFailuresVar1;
+                    if (result13 === null) {
+                      var result12 = '';
+                    } else {
+                      var result12 = null;
+                      pos = savedPos4;
+                    }
+                    reportMatchFailures = savedReportMatchFailuresVar0;
+                    if (result12 !== null) {
+                      var result11 = '';
+                      pos = savedPos3;
+                    } else {
+                      var result11 = null;
+                    }
+                    if (result11 !== null) {
+                      var result9 = [result10, result11];
+                    } else {
+                      var result9 = null;
+                      pos = savedPos2;
+                    }
+                  } else {
+                    var result9 = null;
+                    pos = savedPos2;
+                  }
+                  if (result9 !== null) {
+                    var result8 = result9;
+                  } else {
+                    var result8 = null;;
+                  };
+                }
               }
               if (result6 !== null) {
-                if (input.substr(pos, 1) === "]") {
-                  var result7 = "]";
-                  pos += 1;
+                if (input.substr(pos, 2) === "]]") {
+                  var result7 = "]]";
+                  pos += 2;
                 } else {
                   var result7 = null;
                   if (reportMatchFailures) {
-                    matchFailed("\"]\"");
+                    matchFailed("\"]]\"");
                   }
                 }
                 if (result7 !== null) {
@@ -3286,7 +4951,7 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
         }
         var result2 = result1 !== null
           ? (function(rubyBase, rubyText) {
-              return tagRuby(trim(rubyBase.join('')), trim(rubyText.join('')));
+              return tagRuby(trim(rubyBase.join('')), trim(serialize(rubyText).join('')));
             })(result1[1], result1[3])
           : null;
         if (result2 !== null) {
@@ -4235,6 +5900,30 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
       
       
       
+    function serialize(array) {
+      
+      var ret = [];
+      
+      for (var i = 0; i < array.length; i++) {
+      
+        if (typeof array[i] === 'object') {
+      
+          ret = ret.concat(serialize(array[i]));
+      
+        } else {
+      
+          ret.push(array[i]);
+      
+        }
+      
+      }
+      
+      return ret;
+      
+    }
+      
+  
+      
     function trim(string) {
       
       return string.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
@@ -4319,8 +6008,6 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
       
   
       
-  // {{{!Extended
-      
     function tagRuby(rubyBase, rubyText) {
       
       return {
@@ -4336,6 +6023,10 @@ if (_inNode) { module.exports = parser; } else { global.PixivNovelParser = globa
       };
       
     }
+      
+  
+      
+  // {{{!Extended
       
   
       
