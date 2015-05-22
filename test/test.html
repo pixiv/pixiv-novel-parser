@@ -1,18 +1,25 @@
 <!DOCTYPE html>
-<meta charset="utf-8"/>
-<link rel="stylesheet" href="../components/visionmedia-mocha/mocha.css"/>
-<div id="mocha"></div>
-<script src="../bower_components/assert/assert.js"></script>
-<script src="../bower_components/JSV/lib/jsv.js"></script>
-<script src="../bower_components/JSV/lib/json-schema-draft-03.js"></script>
-<script src="../components/visionmedia-mocha/mocha.js"></script>
-<script>mocha.setup('bdd')</script>
-<script src="../build/pixiv-novel-parser.min.js"></script>
-<script src="test_helper.js"></script>
-<script src="test.js"></script>
-<script src="test_extended_syntax.js"></script>
-<script src="test_tadsan.js"></script>
-<script>
-  // mocha.checkLeaks();
-  mocha.run();
-</script>
+<html>
+  <head>
+    <title>Test for pixiv-novel-parser</title>
+  </head>
+  <body>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="../components/visionmedia/mocha/2.2.5/mocha.css"/>
+    <div id="mocha"></div>
+    <script src="../bower_components/assert/assert.js"></script>
+    <script src="../bower_components/JSV/lib/jsv.js"></script>
+    <script src="../bower_components/JSV/lib/json-schema-draft-03.js"></script>
+    <script src="../components/visionmedia/mocha/2.2.5/mocha.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <script src="../build/pixiv-novel-parser.min.js"></script>
+    <script src="test_helper.js"></script>
+    <script src="test.js"></script>
+    <script src="test_extended_syntax.js"></script>
+    <script src="test_tadsan.js"></script>
+    <script>
+      // mocha.checkLeaks();
+      mocha.run();
+    </script>
+  </body>
+</html>
