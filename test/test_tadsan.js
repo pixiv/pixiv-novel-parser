@@ -84,8 +84,7 @@ describe('Parser', function () {
           ].join('\n'),
           parser = new Parser();
 
-      parser.parse(novel);
-      expect(_.isEqual(parser.tree, [
+      var expected = [
         { type: 'text', val: '章タイトルの中に [ newpage]\n1 [ chapter:[n ewpage]]\n' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '1 ' },
@@ -132,7 +131,12 @@ describe('Parser', function () {
         { type: 'text', val: '5 [ [jump uri:[chap ter:小説外リンクの中に章タイトル] > http://pixiv.me] ]\n' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '5 ' },
-        { type: 'tag', name: 'jumpuri', title: '[chapter:小説外リンクの中に章タイトル]', uri: 'http://pixiv.me' },
+        { type: 'tag', name: 'jumpuri', title: [
+          {
+            type: 'text',
+            val: '[chapter:小説外リンクの中に章タイトル]'
+          }
+        ], uri: 'http://pixiv.me' },
         { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '6  [ cha pter :[ [jumpuri :[  [j umpur i:[ chapter :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me] ] > http://pixiv.me]  ]]\n' },
@@ -155,7 +159,10 @@ describe('Parser', function () {
         ] },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '  ' }
-      ])).to.be.ok();
+      ];
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expected)).to.be.ok();
     });
   });
 });

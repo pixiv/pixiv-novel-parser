@@ -1,0 +1,444 @@
+[16:51:41] Using gulpfile ~\Documents\GitHub\pixiv-novel-parser\gulpfile.js
+[16:51:41] Starting 'jshint'...
+[16:51:41] Starting 'mocha'...
+[16:51:41] Finished 'jshint' after 171 ms
+
+[0m[0m
+[0m  Parser specifications.[0m
+[0m    テキスト[0m
+    [32m  √[0m[90m ただのテキストはちゃんとただのテキストになる [0m
+[0m    newpage[0m
+    [32m  √[0m[90m ちゃんとページを分割できる [0m
+[0m    chapter[0m
+    [32m  √[0m[90m 見出しをちゃんと表示できる [0m
+[0m    pixivimage[0m
+    [32m  √[0m[90m 画像形式のpixivimageをちゃんと認識できる [0m
+    [32m  √[0m[90m 漫画形式のpixivimageをちゃんと認識できる [0m
+[0m    jump[0m
+    [32m  √[0m[90m ページジャンプをちゃんとlinkにできる [0m
+[0m    jumpuri[0m
+    [32m  √[0m[90m 正常なURLをちゃんとlinkにできる [0m
+
+[0m  Parser specifications with extened syntax.[0m
+  [32m  √[0m[90m syntax: basicを指定するとちゃんと拡張文法を認識しない [0m
+[0m    ルビ[0m
+    [32m  √[0m[90m ルビをちゃんと認識できる [0m
+[0m    絵文字[0m
+    [32m  √[0m[90m 絵文字はちゃんと絵文字 [0m
+[0m    強調[0m
+    [32m  √[0m[90m したければちゃんと強調される [0m
+
+[0m  Parser[0m
+[0m    test tadsan's novel.[0m
+    [32m  √[0m[90m Correct in テストの冒険 [0m
+[
+  {
+    "type": "text",
+    "val": "章タイトルの中に [ newpage]\n1 [ chapter:[n ewpage]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "1 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "[newpage"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "val": "]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "2 [ chapter :ふつうの章タイトル]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "2 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "ふつうの章タイトル"
+      }
+    ]
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "章タイトルの中に小説内リンク\n3 [ chapter:[ jump:1]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "3 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "[jump:1"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "val": "]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "4 [ chapter:[ [jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me] ]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "4 [chapter:"
+  },
+  {
+    "type": "tag",
+    "name": "jumpuri",
+    "title": [
+      {
+        "type": "text",
+        "val": "章タイトルの中に小説外リンク4"
+      }
+    ],
+    "uri": "http://pixiv.me"
+  },
+  {
+    "type": "text",
+    "val": "]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "5 [ [jump uri:[chap ter:小説外リンクの中に章タイトル] > http://pixiv.me] ]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "5 "
+  },
+  {
+    "type": "tag",
+    "name": "jumpuri",
+    "title": [
+      {
+        "type": "text",
+        "val": "[chapter:小説外リンクの中に章タイトル]"
+      }
+    ],
+    "uri": "http://pixiv.me"
+  },
+  {
+    "type": "text",
+    "val": "\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "6  [ cha pter :[ [jumpuri :[  [j umpur i:[ chapter :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me] ] > http://pixiv.me]  ]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "6 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "[[jumpuri:[ [jumpuri:[  c h a pter  :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "val": " > http://pixiv.me]] > http://pixiv.me]]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "7 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "をはり"
+      }
+    ]
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "  "
+  }
+]
+[
+  {
+    "type": "text",
+    "val": "章タイトルの中に [ newpage]\n1 [ chapter:[n ewpage]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "1 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "[newpage"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "val": "]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "2 [ chapter :ふつうの章タイトル]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "2 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "ふつうの章タイトル"
+      }
+    ]
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "章タイトルの中に小説内リンク\n3 [ chapter:[ jump:1]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "3 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "[jump:1"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "val": "]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "4 [ chapter:[ [jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me] ]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "4 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "[[jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "val": "]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "5 [ [jump uri:[chap ter:小説外リンクの中に章タイトル] > http://pixiv.me] ]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "5 "
+  },
+  {
+    "type": "tag",
+    "name": "jumpuri",
+    "title": [
+      {
+        "type": "text",
+        "val": "[chapter:小説外リンクの中に章タイトル]"
+      }
+    ],
+    "uri": "http://pixiv.me"
+  },
+  {
+    "type": "text",
+    "val": "\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "6  [ cha pter :[ [jumpuri :[  [j umpur i:[ chapter :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me] ] > http://pixiv.me]  ]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "6 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "[[jumpuri:[ [jumpuri:[  c h a pter  :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル"
+      }
+    ]
+  },
+  {
+    "type": "text",
+    "val": " > http://pixiv.me]] > http://pixiv.me]]]\n"
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "7 "
+  },
+  {
+    "type": "tag",
+    "name": "chapter",
+    "title": [
+      {
+        "type": "text",
+        "val": "をはり"
+      }
+    ]
+  },
+  {
+    "type": "tag",
+    "name": "newpage"
+  },
+  {
+    "type": "text",
+    "val": "  "
+  }
+]
+    [31m  1) Correct in 見出しの冒険[0m
+
+
+[92m [0m[32m 12 passing[0m[90m (144ms)[0m
+
+[16:51:42] 'mocha' errored after 519 ms
+[16:51:42] Error in plugin 'gulp-mocha'
+1 test failed.

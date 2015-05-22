@@ -1,4 +1,16 @@
 {
+  function serialize(array) {
+    var ret = [];
+    for (var i = 0; i < array.length; i++) {
+      if (typeof array[i] === 'object') {
+        ret = ret.concat(serialize(array[i]));
+      } else {
+        ret.push(array[i]);
+      }
+    }
+    return ret;
+  }
+
   function trim(string) {
     return string.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
   }
@@ -81,16 +93,19 @@ text = chars:(([^\[]+ / (&(!tag) '['))+) {
   return text(ret);
 }
 
-plainText = chars:(([^\[\]]+ / (&(!inlineTag) '['))+) {
-  var ret = '';
-  for (var i = 0; i < chars.length; i++) {
-    ret += chars[i].join('');
-  }
-  return text(ret);
+inlineText = chars:(([^\[\]]+ / (&(!inlineTag) '['))+) {
+  return text(trim(serialize(chars).join('')));
 }
 
-inlineToken = inlineTag / plainText
-inlineText = inlineToken+
+inlineToken = inlineTag / inlineText
+inlineTokens = inlineToken+
+
+inlineInlineText = chars:(([^\[>]+ &(!']]') / (&(!inlineTag) '['))+) {
+  return text(trim(serialize(chars).join('')));
+}
+
+inlineInlineToken = inlineTag / inlineInlineText
+inlineInlineTokens = inlineInlineToken+
 
 inlineTag = tagRuby
 
@@ -102,7 +117,7 @@ tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri / tagRuby
 tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
 
 tagChapter =
-  '[chapter:' title:inlineText ']' (CR / LF)? { return tagChapter(title); }
+  '[chapter:' title:inlineTokens ']' (CR / LF)? { return tagChapter(title); }
 
 tagPixivimage =
   '[pixivimage:' illustID:numeric pageNumber:('-' integer)? ']' {
@@ -112,7 +127,7 @@ tagPixivimage =
 tagJump = '[jump:' pageNumber:integer ']' { return tagJump(pageNumber); }
 
 tagJumpuri =
-  '[[jumpuri:' jumpuriTitle:jumpuriTitle '>' WSP* uri:URI WSP* ']]' {
+  '[[jumpuri:' jumpuriTitle:inlineInlineTokens '>' WSP* uri:URI WSP* ']]' {
     return tagJumpuri(jumpuriTitle, uri);
   }
 
