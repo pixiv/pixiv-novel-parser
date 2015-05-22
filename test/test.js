@@ -111,6 +111,42 @@ describe('Parser specifications.', function () {
       expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
       expect(helper.validateJSON(parser.tree[2], schema)).to.be.ok();
     });
+
+    it('ルビ内ではタグは使えない', function () {
+      var parser = new Parser({ syntax: 'basic' }),
+          novel = '[[ruby: [chapter:換言] > かんげん ]]すれば[[ruby:[jumpuri:畢竟>https://kotobank.jp/word/%E7%95%A2%E7%AB%9F]>ひっきょう]]ももんが',
+          expectedAST = [
+            { type: 'tag', name: 'ruby', rubyBase: '[chapter:換言]', rubyText: 'かんげん' },
+            { type: 'text', val: 'すれば' },
+            { type: 'tag', name: 'ruby', rubyBase: '[jumpuri:畢竟', rubyText: 'https://kotobank.jp/word/%E7%95%A2%E7%AB%9F]>ひっきょう' },
+            { type: 'text', val: 'ももんが' }
+          ],
+          schema = {
+            "$schema": "http://json-schema.org/draft-02/hyper-schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": ["tag"]
+              },
+              "name": {
+                "enum": ["ruby"]
+              },
+              "rubyBase": {
+                "type": "string"
+              },
+              "rubyText": {
+                "type": "string"
+              }
+            },
+            "required": ["type", "name", "rubyBase", "rubyText"]
+          };
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+      expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
+      expect(helper.validateJSON(parser.tree[2], schema)).to.be.ok();
+    });
   });
 
   describe('chapter', function () {

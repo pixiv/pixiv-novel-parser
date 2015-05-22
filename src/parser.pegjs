@@ -145,8 +145,8 @@ URI = scheme:('http' 's'? '://') chars:uri_chrs* { return scheme.join('') + char
 uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
 
 tagRuby =
-  '[[ruby:' rubyBase:[^>]* '>' rubyText:[^\]]* ']]' {
-    return tagRuby(trim(rubyBase.join('')), trim(rubyText.join('')));
+  '[[ruby:' rubyBase:[^>]* '>' rubyText:([^\]]+ / ']' &(!']'))* ']]' {
+    return tagRuby(trim(rubyBase.join('')), trim(serialize(rubyText).join('')));
   }
 
 // {{{!Extended
