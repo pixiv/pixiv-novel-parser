@@ -35,7 +35,7 @@ gulp.task('jshint', function () {
 
 gulp.task('mocha', function () {
   return gulp.src(['test/**/*.js']).
-    pipe(mocha({ reporter: 'nyan' }));
+    pipe(mocha({ reporter: 'spec' }));
 });
 
 gulp.task('pegjs-basic', function (done) {

@@ -2,14 +2,16 @@
 /* global describe, it */
 'use strict';
 var _inNode = 'process' in global;
-var assert, JSV, Parser, helper;
+var expect, _, JSV, helper, Parser;
 if (_inNode) {
-  assert = require('assert');
+  expect = require('expect.js');
+  _ = require('lodash');
   JSV = require('JSV').JSV;
   helper = require('./test_helper');
   Parser = require('../src').Parser;
 } else {
-  assert = global.assert;
+  expect = global.expect;
+  _ = global._;
   JSV = global.JSV;
   helper = global.TestHelper;
   Parser = global.PixivNovelParser.Parser;
@@ -49,9 +51,9 @@ describe('Parser specifications with extened syntax.', function () {
           };
 
       parser.parse(novel);
-      assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(helper.validateJSON(parser.tree[0], schema));
-      assert.ok(helper.validateJSON(parser.tree[2], schema));
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+      expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
+      expect(helper.validateJSON(parser.tree[2], schema)).to.be.ok();
     });
   });
 
@@ -81,8 +83,8 @@ describe('Parser specifications with extened syntax.', function () {
           };
 
       parser.parse(novel);
-      assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(helper.validateJSON(parser.tree[0], schema));
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+      expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
     });
   });
 
@@ -112,8 +114,8 @@ describe('Parser specifications with extened syntax.', function () {
           };
 
       parser.parse(novel);
-      assert.deepEqual(parser.tree, expectedAST);
-      assert.ok(helper.validateJSON(parser.tree[0], schema));
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+      expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
     });
   });
 
@@ -126,7 +128,7 @@ describe('Parser specifications with extened syntax.', function () {
         ];
 
       parser.parse(novel);
-      assert.deepEqual(parser.tree, expectedAST);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
   });
 });
 

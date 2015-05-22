@@ -2,12 +2,15 @@
 /* global describe, it */
 'use strict';
 var _inNode = 'process' in global;
-var assert, Parser;
+
+var expect, _, Parser;
 if (_inNode) {
-  assert = require('assert');
+  expect = require('expect.js');
+  _ = require('lodash');
   Parser = require('../src').Parser;
 } else {
-  assert = global.assert;
+  expect = global.expect;
+  _ = global._;
   Parser = global.PixivNovelParser.Parser;
 }
 
@@ -31,7 +34,7 @@ describe('Parser', function () {
           parser = new Parser();
 
       parser.parse(novel);
-      assert.deepEqual(parser.tree, [
+      expect(_.isEqual(parser.tree, [
         { type: 'text', val: '1ぺーじ\n' },
         { type: 'tag', name: 'jump', pageNumber: 4 },
         { type: 'text', val: '\n' },
@@ -44,7 +47,7 @@ describe('Parser', function () {
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '4ぺーじ\n[jump:^1]\n' },
         { type: 'tag', name: 'jump', pageNumber: 2 }
-      ]);
+      ])).to.be.ok();
     });
 
     it('Correct in 見出しの冒険', function () {
@@ -82,7 +85,7 @@ describe('Parser', function () {
           parser = new Parser();
 
       parser.parse(novel);
-      assert.deepEqual(parser.tree, [
+      expect(_.isEqual(parser.tree, [
         { type: 'text', val: '章タイトルの中に [ newpage]\n1 [ chapter:[n ewpage]]\n' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '1 ' },
@@ -122,7 +125,7 @@ describe('Parser', function () {
         { type: 'tag', name: 'chapter', title: 'をはり' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '  ' }
-      ]);
+      ])).to.be.ok();
     });
   });
 });
