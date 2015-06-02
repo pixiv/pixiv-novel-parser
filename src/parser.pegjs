@@ -142,7 +142,9 @@ integer = digits:DIGIT+ { return parseInt(digits.join(''), 10); }
 
 URI = scheme:('http' 's'? '://') chars:uri_chrs* { return scheme.join('') + chars.join(''); }
 
-uri_chrs = ALPHA / DIGIT / ('%' HEXDIG+) / [-._~!$&'()*+,;=:/@.?#]
+uri_chrs = ALPHA / DIGIT / percent_token / [-._~!$&'()*+,;=:/@.?#]
+
+percent_token = '%' hexdig:HEXDIG+ { return '%' + hexdig.join(''); }
 
 tagRuby =
   '[[rb:' rubyBase:[^>]* '>' rubyText:([^\]]+ / ']' &(!']'))* ']]' {

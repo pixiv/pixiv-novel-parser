@@ -382,6 +382,44 @@ describe('Parser specifications.', function () {
       expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
       //expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
     });
+    
+    it('パーセントエンコーディングに対応', function () {
+      var parser = new Parser(),
+          novel = '[[jumpuri:ティロ・フィナーレ > http://dic.pixiv.net/a/%E3%83%9E%E3%83%9F%E3%82%8B]]',
+          expectedAST = [
+            { type: 'tag', name: 'jumpuri', title: [
+              {
+                type: 'text',
+                val: 'ティロ・フィナーレ'
+              }
+            ], uri: 'http://dic.pixiv.net/a/%E3%83%9E%E3%83%9F%E3%82%8B' }
+          ],
+          schema = {
+            "$schema": "http://json-schema.org/draft-02/hyper-schema#",
+            "id": "http://json-schema.org/draft-02/schema#",
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": ["tag"]
+              },
+              "name": {
+                "enum": ["jumpuri"]
+              },
+              "title": {
+                "type": "string"
+              },
+              "uri": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": ["type", "name", "title", "uri"]
+          };
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+      //expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
+    });
 
     it('外部リンク内でルビが使用できる', function () {
       var parser = new Parser(),
