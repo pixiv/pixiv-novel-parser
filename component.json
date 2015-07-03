@@ -1,8 +1,8 @@
 {
   "name": "pixiv-novel-parser",
   "repo": "pixiv/pixiv-novel-parser",
-  "description": "pixiv novel parser (reference impl).",
-  "version": "0.0.1",
+  "description": "pixiv novel parser.",
+  "version": "0.1.1",
   "keywords": [
     "pixiv"
   ],
@@ -10,7 +10,7 @@
   "development": {
     "visionmedia/mocha": "*"
   },
-  "license": "CC0",
+  "license": "MPL-2.0",
   "main": "build/pixiv-novel-parser.js",
   "scripts": [
     "build/pixiv-novel-parser.js",
