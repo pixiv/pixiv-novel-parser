@@ -1,7 +1,7 @@
 {
     "name": "pixiv/pixiv-novel-editor",
     "description": "pixiv-novel-parser's demo editor.",
-    "license": "CC0",
+    "license": "MPL-2.0",
     "authors": [
         {
             "name": "Sachirou Inoue",

@@ -8,7 +8,7 @@
     "test": "gulp test"
   },
   "author": "ne_Sachirou <utakata.c4se@gmail.com>",
-  "license": "CC0",
+  "license": "MPL-2.0",
   "devDependencies": {},
   "dependencies": {
     "bluebird": "^1.2.3",

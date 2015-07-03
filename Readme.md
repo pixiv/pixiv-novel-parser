@@ -17,7 +17,9 @@
     $ bower install pixiv-novel-parser --save
 
 ## Compatibility
+
 pixiv-novel-parser will move every where!
+
 - Opera 21
 - Firefox 29
 - IE 11
@@ -62,6 +64,20 @@ console.log(parser.toJSON()); // -> Output as JSON.
 
 See [CONTRIBUTING](CONTRIBUTING.md)
 
-## License
+## Copyright
 
-[CC0 1.0 Universal](LICENSE)
+[Mozilla Public License, version 2.0](https://www.mozilla.org/MPL/2.0/)
+
+> Copyright 2015 pixiv Inc., All Right Reserved.
+>
+> This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at [http://mozilla.org/MPL/2.0/](http://mozilla.org/MPL/2.0/).
+
+### pixiv-novel-editor
+
+`pixiv-novel-editor/src/app/index.js` is licensed under GPLv3.
+
+> ```
+> /**
+>  * @license GPLv3 ne_Sachirou <utakata.c4se@gmail.com>
+>  */
+> ```
