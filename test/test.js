@@ -43,6 +43,18 @@ describe('Parser specifications.', function () {
       expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
       expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
     });
+
+    it('改行コードを正規化する', function () {
+      var parser = new Parser(),
+          novel = '\n\n改行\n改行\r\n改行\n\r\n改行\r\n\n改行\r\n\r\n改行\n',
+          expectedAST = [
+            { type: 'text', val: '\n\n改行\n改行\n改行\n\n改行\n\n改行\n\n改行\n' },
+          ];
+
+      parser.parse(novel);
+      console.log(parser.tree);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+    });
   });
 
   describe('newpage', function () {
