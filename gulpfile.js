@@ -9,7 +9,9 @@ var del = require('del'),
     // overrideAction = require('pegjs-override-action'),
     PEG = require('pegjs'),
     runSequence = require('run-sequence'),
-    uglifyjs = require('gulp-uglify');
+    uglifyjs = require('gulp-uglify'),
+    browserify = require('gulp-browserify'),
+    rename = require('gulp-rename');
 
 function packageJs(code) {
   /* jshint maxlen: 1000 */
@@ -24,6 +26,13 @@ gulp.task('concat', ['pegjs'], function () {
   return gulp.src(['src/parser.peg.js', 'src/parser-extended.peg.js', 'src/parser.js', 'src/index.js']).
     pipe(concat('pixiv-novel-parser.js')).
     pipe(gulp.dest('build'));
+});
+
+gulp.task('browserify', function () {
+  return gulp.src('src/global.js')
+    .pipe(browserify())
+    .pipe(rename('pixiv-novel-parser.js'))
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('jshint', function () {
@@ -68,7 +77,7 @@ gulp.task('pegjs-extended', function (done) {
 
 gulp.task('pegjs', ['pegjs-basic', 'pegjs-extended']);
 
-gulp.task('uglifyjs', ['concat'], function () {
+gulp.task('uglifyjs', ['browserify'], function () {
   return gulp.src(['build/pixiv-novel-parser.js']).
     pipe(concat('pixiv-novel-parser.min.js')).
     pipe(uglifyjs({
@@ -83,7 +92,7 @@ gulp.task('copy', function () {
   return gulp.src('build/*').pipe(gulp.dest('dist'));
 });
 
-gulp.task('build', ['pegjs', 'concat', 'uglifyjs']);
+gulp.task('build', ['pegjs', 'browserify', 'uglifyjs']);
 gulp.task('test', ['jshint', 'mocha']);
 gulp.task('dist', function () {
   return runSequence('clean', 'build', 'test', 'copy');
