@@ -174,8 +174,7 @@ emojiName = name:(ALPHA / DIGIT /  '-')+ { return trim(name.join('')); }
 
 newLine
   = LF
-  / CR !LF
-  / CR LF
+  / CR LF?
 
 /* http://tools.ietf.org/html/rfc5234#appendix-B Core ABNF of ABNF */
 ALPHA
