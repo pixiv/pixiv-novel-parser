@@ -48,7 +48,7 @@ describe('Parser specifications.', function () {
       var parser = new Parser(),
           novel = '\n\n改行\n改行\r\n改行\n\r\n改行\r\n\n改行\r\n\r\n改行\n',
           expectedAST = [
-            { type: 'text', val: '\n\n改行\n改行\n改行\n\n改行\n\n改行\n\n改行\n' },
+            { type: 'text', val: '\n\n改行\n改行\n改行\n\n改行\n\n改行\n\n改行\n' }
           ];
 
       parser.parse(novel);
