@@ -37,13 +37,11 @@ describe('Parser', function () {
       expect(_.isEqual(parser.tree, [
         { type: 'text', val: '1ぺーじ\n' },
         { type: 'tag', name: 'jump', pageNumber: 4 },
-        { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '2ぺーじ\n' },
         { type: 'tag', name: 'jump', pageNumber: 3 },
-        { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '3ぺーじ\n[jump:^1]\n' },
+        { type: 'text', val: '3ぺーじ\n[jump:^1]' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '4ぺーじ\n[jump:^1]\n' },
         { type: 'tag', name: 'jump', pageNumber: 2 }
@@ -85,7 +83,7 @@ describe('Parser', function () {
           parser = new Parser();
 
       var expected = [
-        { type: 'text', val: '章タイトルの中に [ newpage]\n1 [ chapter:[n ewpage]]\n' },
+        { type: 'text', val: '章タイトルの中に [ newpage]\n1 [ chapter:[n ewpage]]' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '1 ' },
         { type: 'tag', name: 'chapter', title: [
@@ -94,9 +92,9 @@ describe('Parser', function () {
             val: '[newpage'
           }
         ] },
-        { type: 'text', val: ']\n' },
+        { type: 'text', val: ']' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '2 [ chapter :ふつうの章タイトル]\n' },
+        { type: 'text', val: '2 [ chapter :ふつうの章タイトル]' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '2 ' },
         { type: 'tag', name: 'chapter', title: [
@@ -106,7 +104,7 @@ describe('Parser', function () {
           }
         ] },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '章タイトルの中に小説内リンク\n3 [ chapter:[ jump:1]]\n' },
+        { type: 'text', val: '章タイトルの中に小説内リンク\n3 [ chapter:[ jump:1]]' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '3 ' },
         { type: 'tag', name: 'chapter', title: [
@@ -115,9 +113,9 @@ describe('Parser', function () {
             val: '[jump:1'
           }
         ] },
-        { type: 'text', val: ']\n' },
+        { type: 'text', val: ']' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '4 [ chapter:[ [jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me] ]]\n' },
+        { type: 'text', val: '4 [ chapter:[ [jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me] ]]' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '4 ' },
         { type: 'tag', name: 'chapter', title: [
@@ -126,9 +124,9 @@ describe('Parser', function () {
             val: '[[jumpuri:章タイトルの中に小説外リンク4 > http://pixiv.me'
           }
         ] },
-        { type: 'text', val: ']]\n' },
+        { type: 'text', val: ']]' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '5 [ [jump uri:[chap ter:小説外リンクの中に章タイトル] > http://pixiv.me] ]\n' },
+        { type: 'text', val: '5 [ [jump uri:[chap ter:小説外リンクの中に章タイトル] > http://pixiv.me] ]' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '5 ' },
         { type: 'tag', name: 'jumpuri', title: [
@@ -137,9 +135,8 @@ describe('Parser', function () {
             val: '[chapter:小説外リンクの中に章タイトル]'
           }
         ], uri: 'http://pixiv.me' },
-        { type: 'text', val: '\n' },
         { type: 'tag', name: 'newpage' },
-        { type: 'text', val: '6  [ cha pter :[ [jumpuri :[  [j umpur i:[ chapter :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me] ] > http://pixiv.me]  ]]\n' },
+        { type: 'text', val: '6  [ cha pter :[ [jumpuri :[  [j umpur i:[ chapter :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル] > http://pixiv.me] ] > http://pixiv.me]  ]]' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '6 ' },
         { type: 'tag', name: 'chapter', title: [
@@ -148,7 +145,7 @@ describe('Parser', function () {
             val: '[[jumpuri:[ [jumpuri:[  c h a pter  :章タイトルの中に小説外リンクの中に小説タイトルの中に章タイトル'
           }
         ] },
-        { type: 'text', val: ' > http://pixiv.me]] > http://pixiv.me]]]\n' },
+        { type: 'text', val: ' > http://pixiv.me]] > http://pixiv.me]]]' },
         { type: 'tag', name: 'newpage' },
         { type: 'text', val: '7 ' },
         { type: 'tag', name: 'chapter', title: [
