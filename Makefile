@@ -8,4 +8,7 @@ components: component.json
 clean:
 	rm -fr build components template.js
 
+clobber: clean
+	rm -fr node_modules
+
 .PHONY: clean

@@ -8,7 +8,7 @@
   ],
   "dependencies": {},
   "development": {
-    "visionmedia/mocha": "*"
+    "mochajs/mocha": "*"
   },
   "license": "MPL-2.0",
   "main": "build/pixiv-novel-parser.js",

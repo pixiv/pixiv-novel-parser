@@ -1,6 +1,6 @@
 'use strict';
 var fs = require('fs');
-var clean = require('gulp-clean'),
+var del = require('del'),
     concat = require('gulp-concat'),
     gulp = require('gulp'),
     jshint = require('gulp-jshint'),
@@ -9,16 +9,15 @@ var clean = require('gulp-clean'),
     // overrideAction = require('pegjs-override-action'),
     PEG = require('pegjs'),
     runSequence = require('run-sequence'),
-    uglifyjs = require('gulp-uglifyjs');
+    uglifyjs = require('gulp-uglify');
 
 function packageJs(code, output) {
   /* jshint maxlen: 1000 */
   return '(function (global) { var _inNode = \'process\' in global, parser = ' + code + ';\nif (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.' + output + ' = parser; }\n}((this || 0).self || global));';
 }
 
-gulp.task('clean', function () {
-  return gulp.src(['build/**/**', 'src/**/*.peg.js'], { read: false }).
-    pipe(clean());
+gulp.task('clean', function (cb) {
+  del(['build/**/**', 'src/**/*.peg.js'], cb);
 });
 
 gulp.task('concat', ['pegjs'], function () {
