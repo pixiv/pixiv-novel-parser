@@ -1,6 +1,6 @@
 {
   "name": "pixiv-novel-parser",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "pixiv novel parser (reference impl).",
   "main": "src/index.js",
   "scripts": {
