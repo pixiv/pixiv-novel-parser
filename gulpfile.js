@@ -14,18 +14,11 @@ var del = require('del'),
     rename = require('gulp-rename');
 
 function packageJs(code) {
-  /* jshint maxlen: 1000 */
-  return '(function (global) { var parser = ' + code + ';\nmodule.exports = parser;\n}((this || 0).self || global));';
+  return '(function () { var parser = ' + code + ';\nmodule.exports = parser;\n}());';
 }
 
 gulp.task('clean', function (cb) {
   del(['build/**/**', 'src/**/*.peg.js'], cb);
-});
-
-gulp.task('concat', ['pegjs'], function () {
-  return gulp.src(['src/parser.peg.js', 'src/parser-extended.peg.js', 'src/parser.js', 'src/index.js']).
-    pipe(concat('pixiv-novel-parser.js')).
-    pipe(gulp.dest('build'));
 });
 
 gulp.task('browserify', function () {
