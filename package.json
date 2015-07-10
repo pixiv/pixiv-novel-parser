@@ -1,6 +1,6 @@
 {
   "name": "pixiv-novel-parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "pixiv novel parser (reference impl).",
   "main": "src/index.js",
   "scripts": {
@@ -15,6 +15,15 @@
   ],
   "author": "ne_Sachirou <utakata.c4se@gmail.com>",
   "license": "MPL-2.0",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "History.md",
+    "package.json",
+    "src",
+    "test",
+    "dist"
+  ],
   "devDependencies": {
     "JSV": "^4.0.2",
     "expect.js": "^0.3.1",
