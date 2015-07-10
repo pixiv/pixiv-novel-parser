@@ -212,6 +212,43 @@ describe('Parser specifications.', function () {
       //expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
     });
 
+    it('前後の改行を取り除く', function () {
+      var parser = new Parser(),
+          novel = '初投稿です。\n[chapter:まえがき]\n読まないでください。',
+          expectedAST = [
+            { type: 'text', val: '初投稿です。' },
+            { type: 'tag', name: 'chapter', title: [
+              {
+                type: 'text',
+                val: 'まえがき'
+              }
+            ] },
+            { type: 'text', val: '読まないでください。' }
+          ];
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+    });
+
+    it('2個以上の改行を取り除かない', function () {
+      var parser = new Parser(),
+          novel = '吾輩は猫である。\n\n[chapter:名前は]\n\n\nまだない。',
+          expectedAST = [
+            { type: 'text', val: '吾輩は猫である。\n' },
+            { type: 'tag', name: 'chapter', title: [
+              {
+                type: 'text',
+                val: '名前は'
+              }
+            ] },
+            { type: 'text', val: '\n\nまだない。' }
+          ];
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+    });
+
+
     it('見出し内でルビが使用できる', function () {
       var parser = new Parser(),
           novel = '[chapter:ルビが[[rb: 使用 > しよう]]できる[[rb:見出>みだ]]し]\nルビが使用できます。',
