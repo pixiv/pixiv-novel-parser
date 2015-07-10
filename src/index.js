@@ -1,16 +1,9 @@
-(function (global) {
- /* global PixivNovelParser */
+(function () {
  /* jshint maxstatements: 1000 */
 'use strict';
-var _inNode = 'process' in global;
 var basicParser, extendedParser;
-if (_inNode) {
-  basicParser = require('./parser.peg.js');
-  extendedParser = require('./parser-extended.peg.js');
-} else {
-  basicParser = PixivNovelParser.basicParser;
-  extendedParser = PixivNovelParser.extendedParser;
-}
+basicParser = require('./parser.peg.js');
+extendedParser = require('./parser-extended.peg.js');
 
 /**
  * [newpage]
@@ -74,10 +67,5 @@ Parser.prototype.toJSON = function () {
   return JSON.stringify(this.tree);
 };
 
-if (_inNode) {
-  module.exports = { Parser: Parser };
-} else {
-  global.PixivNovelParser = global.PixivNovalPerser || {};
-  global.PixivNovelParser.Parser = Parser;
-}
-}((this || 0).self || global));
+module.exports = { Parser: Parser };
+}());

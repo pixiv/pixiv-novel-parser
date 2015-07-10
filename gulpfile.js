@@ -11,9 +11,9 @@ var del = require('del'),
     runSequence = require('run-sequence'),
     uglifyjs = require('gulp-uglify');
 
-function packageJs(code, output) {
+function packageJs(code) {
   /* jshint maxlen: 1000 */
-  return '(function (global) { var _inNode = \'process\' in global, parser = ' + code + ';\nif (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.' + output + ' = parser; }\n}((this || 0).self || global));';
+  return '(function (global) { var parser = ' + code + ';\nmodule.exports = parser;\n}((this || 0).self || global));';
 }
 
 gulp.task('clean', function (cb) {
@@ -46,7 +46,7 @@ gulp.task('pegjs-basic', function (done) {
     if (err) { return done(err); }
     data = data.replace(regex, '');
     code = PEG.buildParser(data)._source;
-    code = packageJs(code, 'basicParser');
+    code = packageJs(code);
     fs.writeFile('src/parser.peg.js', code, function (err) {
       done(err);
     });
@@ -59,7 +59,7 @@ gulp.task('pegjs-extended', function (done) {
 
     if (err) { return done(err); }
     code = PEG.buildParser(data)._source;
-    code = packageJs(code, 'extendedParser');
+    code = packageJs(code);
     fs.writeFile('src/parser-extended.peg.js', code, function (err) {
       done(err);
     });
