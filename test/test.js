@@ -52,7 +52,6 @@ describe('Parser specifications.', function () {
           ];
 
       parser.parse(novel);
-      console.log(parser.tree);
       expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
     });
   });

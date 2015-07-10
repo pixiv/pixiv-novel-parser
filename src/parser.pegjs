@@ -86,7 +86,13 @@ start = novel
 
 novel = (tag / text)*
 
-text = chars:(([^\[]+ / (&(!tag) '['))+) {
+text = chars:(
+  (
+    [^\[\r\n]+
+    / (&(!tag) '[')
+    / (&(!(tagNewpage / tagChapter)) newLine)
+  ) +
+) {
   var ret = '';
   for (var i = 0; i < chars.length; i++) {
     ret += chars[i].join('');
@@ -115,10 +121,10 @@ tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri / tagRuby
   / tagEmoji / tagStrong
 // }}}!Extended
 
-tagNewpage = '[newpage]' (CR / LF)? { return tagNewpage(); }
+tagNewpage = newLine? '[newpage]' newLine? { return tagNewpage(); }
 
 tagChapter =
-  '[chapter:' title:inlineTokens ']' (CR / LF)? { return tagChapter(title); }
+  newLine? '[chapter:' title:inlineTokens ']' newLine? { return tagChapter(title); }
 
 tagPixivimage =
   '[pixivimage:' illustID:numeric pageNumber:('-' integer)? ']' {
@@ -165,6 +171,11 @@ emojiName = name:(ALPHA / DIGIT /  '-')+ { return trim(name.join('')); }
  *
  * http://tools.ietf.org/html/rfc5234
  */
+
+newLine
+  = LF
+  / CR !LF
+  / CR LF
 
 /* http://tools.ietf.org/html/rfc5234#appendix-B Core ABNF of ABNF */
 ALPHA
