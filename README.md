@@ -1,6 +1,6 @@
 # pixiv-novel-parser
 
-  pixiv novel parser (reference impl).
+[pixiv novel](http://www.pixiv.net/novel/) tag parser based on [PEG.js](http://pegjs.org/).
 
 ## Installation
 
@@ -30,7 +30,7 @@ pixiv-novel-parser will move every where!
 
 ### JavaScript API
 
-```
+```javascript
 // On node.js.
 var Parser = require('pixiv-novel-parser').Parser;
 
