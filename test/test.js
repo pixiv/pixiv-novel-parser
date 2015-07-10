@@ -73,6 +73,32 @@ describe('Parser specifications.', function () {
       expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
       expect(helper.validateJSON(parser.tree[1], schema)).to.be.ok();
     });
+
+    it('前後の改行を取り除く', function () {
+      var parser = new Parser(),
+          novel = '国境の長いトンネルを抜けると、\n[newpage]\n雪国であった。',
+          expectedAST = [
+            { type: 'text', val: '国境の長いトンネルを抜けると、' },
+            { type: 'tag', name: 'newpage' },
+            { type: 'text', val: '雪国であった。' }
+          ];
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+    });
+
+    it('2個以上の改行を取り除かない', function () {
+      var parser = new Parser(),
+          novel = '注意\nこの小説にはグロテスクな表現が含まれています。\n\n[newpage]\n\n\n嘘です。',
+          expectedAST = [
+            { type: 'text', val: '注意\nこの小説にはグロテスクな表現が含まれています。\n' },
+            { type: 'tag', name: 'newpage' },
+            { type: 'text', val: '\n\n嘘です。' }
+          ];
+
+      parser.parse(novel);
+      expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
+    });
   });
 
   describe('ルビ', function () {
@@ -382,7 +408,7 @@ describe('Parser specifications.', function () {
       expect(_.isEqual(parser.tree, expectedAST)).to.be.ok();
       //expect(helper.validateJSON(parser.tree[0], schema)).to.be.ok();
     });
-    
+
     it('パーセントエンコーディングに対応', function () {
       var parser = new Parser(),
           novel = '[[jumpuri:ティロ・フィナーレ > http://dic.pixiv.net/a/%E3%83%9E%E3%83%9F%E3%82%8B]]',
