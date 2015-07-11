@@ -9,21 +9,23 @@ var del = require('del'),
     // overrideAction = require('pegjs-override-action'),
     PEG = require('pegjs'),
     runSequence = require('run-sequence'),
-    uglifyjs = require('gulp-uglify');
+    uglifyjs = require('gulp-uglify'),
+    browserify = require('gulp-browserify'),
+    rename = require('gulp-rename');
 
-function packageJs(code, output) {
-  /* jshint maxlen: 1000 */
-  return '(function (global) { var _inNode = \'process\' in global, parser = ' + code + ';\nif (_inNode) { module.exports = parser; } else { global.PixivNovelParser = global.PixivNovelParser || {}; global.PixivNovelParser.' + output + ' = parser; }\n}((this || 0).self || global));';
+function packageJs(code) {
+  return '(function () { var parser = ' + code + ';\nmodule.exports = parser;\n}());';
 }
 
 gulp.task('clean', function (cb) {
   del(['build/**/**', 'src/**/*.peg.js'], cb);
 });
 
-gulp.task('concat', ['pegjs'], function () {
-  return gulp.src(['src/parser.peg.js', 'src/parser-extended.peg.js', 'src/parser.js', 'src/index.js']).
-    pipe(concat('pixiv-novel-parser.js')).
-    pipe(gulp.dest('build'));
+gulp.task('browserify', function () {
+  return gulp.src('src/global.js')
+    .pipe(browserify())
+    .pipe(rename('pixiv-novel-parser.js'))
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('jshint', function () {
@@ -46,7 +48,7 @@ gulp.task('pegjs-basic', function (done) {
     if (err) { return done(err); }
     data = data.replace(regex, '');
     code = PEG.buildParser(data)._source;
-    code = packageJs(code, 'basicParser');
+    code = packageJs(code);
     fs.writeFile('src/parser.peg.js', code, function (err) {
       done(err);
     });
@@ -59,7 +61,7 @@ gulp.task('pegjs-extended', function (done) {
 
     if (err) { return done(err); }
     code = PEG.buildParser(data)._source;
-    code = packageJs(code, 'extendedParser');
+    code = packageJs(code);
     fs.writeFile('src/parser-extended.peg.js', code, function (err) {
       done(err);
     });
@@ -68,7 +70,7 @@ gulp.task('pegjs-extended', function (done) {
 
 gulp.task('pegjs', ['pegjs-basic', 'pegjs-extended']);
 
-gulp.task('uglifyjs', ['concat'], function () {
+gulp.task('uglifyjs', ['browserify'], function () {
   return gulp.src(['build/pixiv-novel-parser.js']).
     pipe(concat('pixiv-novel-parser.min.js')).
     pipe(uglifyjs({
@@ -83,7 +85,7 @@ gulp.task('copy', function () {
   return gulp.src('build/*').pipe(gulp.dest('dist'));
 });
 
-gulp.task('build', ['pegjs', 'concat', 'uglifyjs']);
+gulp.task('build', ['pegjs', 'browserify', 'uglifyjs']);
 gulp.task('test', ['jshint', 'mocha']);
 gulp.task('dist', function () {
   return runSequence('clean', 'build', 'test', 'copy');
