@@ -1,64 +1,109 @@
 # pixiv-novel-parser
 
-[pixiv novel](http://www.pixiv.net/novel/) tag parser based on [PEG.js](http://pegjs.org/).
+[pixiv novel](http://www.pixiv.net/novel/) parser powered by [PEG.js](http://pegjs.org/).
 
-## Installation
+## Getting Started
 
-  Install with [component(1)](http://component.io):
+### node.js
 
-    $ component install pixiv/pixiv-novel-parser
-
-  With [npm](https://www.npmjs.org):
+Once you installed [node.js](https://nodejs.org/), install with:
 
     $ npm install pixiv-novel-parser --save
 
-  With [bower](http://bower.io):
+And use it as follows:
+
+```javascript
+var Parser = require('pixiv-novel-parser').Parser;
+Parser.parse('[chapter: pixiv[[rb:小説 > しょうせつ]]]');
+```
+
+### Web Browser
+
+  Download the [ZIP Package][zip], or use [bower](http://bower.io):
 
     $ bower install pixiv-novel-parser --save
 
+[zip]: https://github.com/pixiv/pixiv-novel-parser/archive/master.zip
+
+And include it from HTML:
+
+```html
+<script src="dist/pixiv-novel-parser.min.js"></script>
+<script>
+  var Parser = PixivNovelParser.Parser;
+  Parser.parse('[chapter:pixiv[[rb:小説>しょうせつ]]]');
+</script>
+```
+
 ## Compatibility
 
-pixiv-novel-parser will move every where!
-
-- Opera 21
-- Firefox 29
-- IE 11
-- node.js 0.10.28
+- IE 7+
+- Firefox 29+
+- Google Chrome 42+
+- Opera 21+
+- node.js 0.10+
+- io.js 3
 - PECL V8js 0.1.3
 
 ## API
 
 ### JavaScript API
 
-```javascript
-// On node.js.
-var Parser = require('pixiv-novel-parser').Parser;
+Currently pixiv-novel-parser exports object with only one legal property `Parser`. This is JavaScript Class that can be used statically or dynamically.
 
-// Or on Web browser.
-// <script src="pixiv-novel-parser.min.js"></script>
-var Parser = PixivNovelParser.Parser;
+#### Static Method
+
+##### Parser.parse(text[, options])
+
+Parse text into AST (Abstract Syntax Tree).
+
+* **text**: (`String`) the text to parse
+* **options**:
+  - **syntax**: (`'basic'` or `'extended'`) Syntax used to parse text. `basic` is the only supported syntax and current compatible version with REAL pixiv novel environment.
+* **Return**: [AST Object](#ast)
+
+```javascript
+console.log(Parser.parse('[chapter:見出し]本文[newpage]'));
 ```
 
-```javascript
-console.log(
-  Parser.parse(
-    '[chapter:見出し]本文[emoji:love2]',
-    { syntax: 'extended' }));            // -> Get AST.
+Result:
+
 ```
+[ { type: 'tag', name: 'chapter', title: [ [Object] ] },
+  { type: 'text', val: '本文' },
+  { type: 'tag', name: 'newpage' } ]
+```
+
+#### Dynamic Method / Property
+
+##### parser.parse(text[, options])
+
+Parse text into AST (Abstract Syntax Tree) and store the result into [parser.tree](#parser-tree).
+
+* **text**: (`String`) the text to parse
+* **options**:
+  - **syntax**: (`'basic'` or `'extended'`) Syntax used to parse text. `basic` is the only supported syntax and current compatible version with REAL pixiv novel environment.
+* **Return**: [AST Object](#ast)
 
 ```javascript
 var parser = new Parser();
-parser.parse('[chapter:見出し]本文[emoji:love2]', { syntax: 'extended' });
-
-console.log(parser.tree);     // -> Get AST.
-console.log(parser.toJSON()); // -> Output as JSON.
+parser.parse('[chapter:見出し]本文[newpage]');
+console.log(parser.tree);
 ```
 
-## AST (Abstract Syntax Tree)
+##### parser.tree
 
-  tagは決して入れ子になりませんので、ASTをtokenの配列として表します。
+Parsed AST Object
 
-  See [test/test.js](test/test.js). It's written in [JSON Schema](http://json-schema.org).
+##### parser.toJSON()
+
+Serialize parsed AST into JSON.
+
+* **Return**: JSON string that represents AST
+
+## AST
+
+No docs here but approximately it's just an array of tokens. See [test/test.js](test/test.js).
 
 ## Contribute
 
