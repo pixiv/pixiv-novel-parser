@@ -1,3 +1,13 @@
+0.1.2
+-----
+
+* [Syntax update] Remove a newline before/after [chapter] and [newpage] #10
+
+0.1.1
+-----
+
+* Parser now works
+
 0.1.0
 -----
 
