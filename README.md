@@ -10,7 +10,7 @@ Once you installed [node.js](https://nodejs.org/), install with:
 
     $ npm install pixiv-novel-parser --save
 
-And use it as follows:
+And require it from your project:
 
 ```javascript
 var Parser = require('pixiv-novel-parser').Parser;
