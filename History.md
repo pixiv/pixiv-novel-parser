@@ -1,3 +1,9 @@
+0.2.0
+-----
+
+* Update README and bower.json to work #12
+* Improve modulability (and Browserify friendly) #11
+
 0.1.2
 -----
 
