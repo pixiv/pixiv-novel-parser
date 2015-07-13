@@ -1,28 +1,31 @@
 {
   "name": "pixiv-novel-parser",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "authors": [
-    "ne_Sachirou <utakata.c4se@gmail.com>"
+    "ne_Sachirou <utakata.c4se@gmail.com>",
+    "Koki Takahashi <hakatasiloving@gmail.com> (http://hakatashi.com)"
   ],
   "description": "pixiv novel parser (reference impl).",
-  "main": "build/pixiv-novel-parser.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:pixiv/pixiv-novel-parser.git"
+  },
+  "main": "src/index.js",
   "moduleType": [
-    "es6",
     "node"
   ],
   "keywords": [
-    "pixiv"
+    "pixiv",
+    "pixiv novel"
   ],
   "license": "MPL-2.0",
   "homepage": "https://github.com/pixiv/pixiv-novel-parser",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
     "public/bower_components",
-    "test",
-    "tests"
+    "test"
   ],
   "dependencies": {},
   "devDependencies": {
