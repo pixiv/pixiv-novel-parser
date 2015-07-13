@@ -78,7 +78,7 @@ Result:
 
 ##### parser.parse(text[, options])
 
-Parse text into AST (Abstract Syntax Tree) and store the result into [parser.tree](#parser-tree).
+Parse text into AST (Abstract Syntax Tree) and store the result.
 
 * **text**: (`String`) the text to parse
 * **options**:
