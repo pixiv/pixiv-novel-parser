@@ -2,7 +2,7 @@
   "name": "pixiv-novel-parser",
   "repo": "pixiv/pixiv-novel-parser",
   "description": "pixiv novel parser.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "keywords": [
     "pixiv"
   ],

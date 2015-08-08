@@ -1,11 +1,11 @@
 {
   "name": "pixiv-novel-parser",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "authors": [
     "ne_Sachirou <utakata.c4se@gmail.com>",
     "Koki Takahashi <hakatasiloving@gmail.com> (http://hakatashi.com)"
   ],
-  "description": "pixiv novel parser (reference impl).",
+  "description": "pixiv novel parser.",
   "repository": {
     "type": "git",
     "url": "git@github.com:pixiv/pixiv-novel-parser.git"
