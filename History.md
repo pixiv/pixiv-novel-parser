@@ -1,3 +1,8 @@
+0.3.0
+-----
+
+* `[Syntax update`] Discontinued extended syntax parser #13
+
 0.2.0
 -----
 
@@ -7,7 +12,7 @@
 0.1.2
 -----
 
-* [Syntax update] Remove a newline before/after [chapter] and [newpage] #10
+* `[Syntax update`] Remove a newline before/after `[chapter]` and `[newpage]` #10
 
 0.1.1
 -----
