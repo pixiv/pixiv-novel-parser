@@ -1,8 +1,8 @@
 (function () {
  /* jshint maxstatements: 1000 */
 'use strict';
-var basicParser;
-basicParser = require('./parser.peg.js');
+var pegParser;
+pegParser = require('./parser.peg.js');
 
 /**
  * [newpage]
@@ -30,7 +30,7 @@ Parser.parse = function (novel) {
         if (c === '\n' || c === '\u3000') { return c; }
         return ' ';
       });
-    return basicParser.parse(novel);
+    return pegParser.parse(novel);
   } catch (err) {
     console.error(err);
     return [{ type: 'text', val: novel }];
