@@ -15,33 +15,22 @@ basicParser = require('./parser.peg.js');
  * [emoji:.*]
  * [strong:.*]
  */
-function Parser(options) {
-  options = options || {};
-  this.syntax = options.syntax || 'basic';
+function Parser() {
   this.tree = [];
 }
 
 /**
  * @param {string} novel
- * @param {Object,<string,Object>} options
- *   { syntax: 'basic' | 'extended' }
  * @return {Object.<string,Object>[]}
  */
-Parser.parse = function (novel, options) {
-  options = options || {};
-  options.syntax = options.syntax || 'basic';
+Parser.parse = function (novel) {
   try {
     novel = novel.replace(/\r?\n/g, '\n').
       replace(/[\s\u200c]/g, function (c) {
         if (c === '\n' || c === '\u3000') { return c; }
         return ' ';
       });
-    switch (options.syntax) {
-      case 'basic':
-        /* falls through */
-      default:
-        return basicParser.parse(novel);
-    }
+    return basicParser.parse(novel);
   } catch (err) {
     console.error(err);
     return [{ type: 'text', val: novel }];
@@ -53,7 +42,7 @@ Parser.parse = function (novel, options) {
  * @return {Parser}
  */
 Parser.prototype.parse = function (novel) {
-  this.tree = Parser.parse(novel, { syntax: this.syntax });
+  this.tree = Parser.parse(novel);
   return this;
 };
 
