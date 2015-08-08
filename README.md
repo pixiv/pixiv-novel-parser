@@ -53,13 +53,11 @@ Currently pixiv-novel-parser exports object with only one legal property `Parser
 
 #### Static Method
 
-##### Parser.parse(text[, options])
+##### Parser.parse(text)
 
 Parse text into AST (Abstract Syntax Tree).
 
 * **text**: (`String`) the text to parse
-* **options**:
-  - **syntax**: (`'basic'` or `'extended'`) Syntax used to parse text. `basic` is the only supported syntax and current compatible version with REAL pixiv novel environment.
 * **Return**: [AST Object](#ast)
 
 ```javascript
@@ -76,13 +74,11 @@ Result:
 
 #### Dynamic Method / Property
 
-##### parser.parse(text[, options])
+##### parser.parse(text)
 
 Parse text into AST (Abstract Syntax Tree) and store the result.
 
 * **text**: (`String`) the text to parse
-* **options**:
-  - **syntax**: (`'basic'` or `'extended'`) Syntax used to parse text. `basic` is the only supported syntax and current compatible version with REAL pixiv novel environment.
 * **Return**: [AST Object](#ast)
 
 ```javascript

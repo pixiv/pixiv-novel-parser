@@ -55,20 +55,7 @@ gulp.task('pegjs-basic', function (done) {
   });
 });
 
-gulp.task('pegjs-extended', function (done) {
-  return fs.readFile('src/parser.pegjs', { encoding: 'utf8' }, function (err, data) {
-    var code = '';
-
-    if (err) { return done(err); }
-    code = PEG.buildParser(data)._source;
-    code = packageJs(code);
-    fs.writeFile('src/parser-extended.peg.js', code, function (err) {
-      done(err);
-    });
-  });
-});
-
-gulp.task('pegjs', ['pegjs-basic', 'pegjs-extended']);
+gulp.task('pegjs', ['pegjs-basic']);
 
 gulp.task('uglifyjs', ['browserify'], function () {
   return gulp.src(['build/pixiv-novel-parser.js']).
