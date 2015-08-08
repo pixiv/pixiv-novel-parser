@@ -61,25 +61,6 @@
       rubyText: rubyText
     };
   }
-
-// {{{!Extended
-
-  function tagEmoji(emojiName) {
-    return {
-      type: 'tag',
-      name: 'emoji',
-      emojiName: emojiName
-    };
-  }
-
-  function tagStrong(chars) {
-    return {
-      type: 'tag',
-      name: 'strong',
-      val: chars
-    };
-  }
-// }}}!Extended
 }
 
 start = novel
@@ -117,9 +98,6 @@ inlineInlineTokens = inlineInlineToken+
 inlineTag = tagRuby
 
 tag = tagNewpage / tagChapter / tagPixivimage / tagJump / tagJumpuri / tagRuby
-// {{{!Extended
-  / tagEmoji / tagStrong
-// }}}!Extended
 
 tagNewpage = newLine? '[newpage]' newLine? { return tagNewpage(); }
 
@@ -156,14 +134,6 @@ tagRuby =
   '[[rb:' rubyBase:[^>]* '>' rubyText:([^\]]+ / ']' &(!']'))* ']]' {
     return tagRuby(trim(rubyBase.join('')), trim(serialize(rubyText).join('')));
   }
-
-// {{{!Extended
-tagEmoji = '[emoji:' emojiName:emojiName ']' { return tagEmoji(emojiName); }
-
-tagStrong = '[strong:' chars:[^\]]* ']' { return tagStrong(trim(chars.join(''))); }
-
-emojiName = name:(ALPHA / DIGIT /  '-')+ { return trim(name.join('')); }
-// }}}!Extended
 
 // {{{ https://github.com/for-GET/core-pegjs/blob/master/src/ietf/rfc5234-core-abnf.pegjs
 /*

@@ -1,9 +1,8 @@
 (function () {
  /* jshint maxstatements: 1000 */
 'use strict';
-var basicParser, extendedParser;
+var basicParser;
 basicParser = require('./parser.peg.js');
-extendedParser = require('./parser-extended.peg.js');
 
 /**
  * [newpage]
@@ -38,8 +37,6 @@ Parser.parse = function (novel, options) {
         return ' ';
       });
     switch (options.syntax) {
-      case 'extended':
-        return extendedParser.parse(novel);
       case 'basic':
         /* falls through */
       default:
