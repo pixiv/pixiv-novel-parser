@@ -10,10 +10,7 @@ pegParser = require('./parser.peg.js');
  * [pixivimage:\d*(-\d*)?]
  * [jump:\d*]
  * [[jumpuri:.* > URL]]
- *
- * [ruby: rb > rt]
- * [emoji:.*]
- * [strong:.*]
+ * [[rb: base > ruby_text]]
  */
 function Parser() {
   this.tree = [];
